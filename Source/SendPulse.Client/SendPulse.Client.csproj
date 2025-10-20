@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <PackageId>SendPulse.Net</PackageId>
+        <Version>1.0.0</Version>
+        <Authors>Gany Berikov</Authors>
+        <RepositoryUrl>https://github.com/gberikov/SendPulse.Net</RepositoryUrl>
+        <Description>Modern async .NET client for SendPulse REST API (templates, address books, campaigns)</Description>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="System.Net.Http" Version="4.3.4"/>
+        <PackageReference Include="System.Text.Json" Version="7.0.0"/>
+    </ItemGroup>
+
+</Project>

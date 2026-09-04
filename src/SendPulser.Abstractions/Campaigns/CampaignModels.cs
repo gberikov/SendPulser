@@ -16,22 +16,21 @@ public sealed class Campaign
     [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    /// <summary>
-    /// Campaign status code. <c>3</c> means sent, <c>26</c> a draft; see the SendPulse documentation for
-    /// the full table.
-    /// </summary>
+    /// <summary>Campaign status code, see <see cref="CampaignStatus"/>.</summary>
     [JsonPropertyName("status")]
     public int Status { get; set; }
 
     /// <summary>Whether the campaign is an SMS campaign.</summary>
     [JsonPropertyName("is_sms")]
+    [JsonConverter(typeof(FlexibleBooleanConverter))]
     public bool IsSms { get; set; }
 
     /// <summary>Whether the campaign is a Viber campaign.</summary>
     [JsonPropertyName("is_viber")]
+    [JsonConverter(typeof(FlexibleBooleanConverter))]
     public bool IsViber { get; set; }
 
-    /// <summary>Date the campaign was or will be sent.</summary>
+    /// <summary>Date the campaign was or will be sent, in the time zone of the SendPulse account.</summary>
     [JsonPropertyName("send_date")]
     [JsonConverter(typeof(SendPulseDateTimeConverter))]
     public DateTime? SendDate { get; set; }
@@ -48,11 +47,15 @@ public sealed class Campaign
     [JsonPropertyName("paid_email_qty")]
     public int PaidEmailCount { get; set; }
 
+    /// <summary>Price per email above the plan limit.</summary>
+    [JsonPropertyName("overdraft_price")]
+    public decimal? OverdraftPrice { get; set; }
+
     /// <summary>Campaign price.</summary>
     [JsonPropertyName("company_price")]
-    public string? Price { get; set; }
+    public decimal? Price { get; set; }
 
-    /// <summary>Currency of the price.</summary>
+    /// <summary>Currency of the prices.</summary>
     [JsonPropertyName("overdraft_currency")]
     public string? Currency { get; set; }
 
@@ -89,6 +92,11 @@ public sealed class CampaignMessage
     /// <summary>Preheader text.</summary>
     [JsonPropertyName("preheader")]
     public string? Preheader { get; set; }
+
+    /// <summary>Attachments, as SendPulse describes them.</summary>
+    [JsonPropertyName("attachments")]
+    [JsonConverter(typeof(FlexibleStringConverter))]
+    public string? Attachments { get; set; }
 
     /// <summary>Mailing list the campaign was sent to.</summary>
     [JsonPropertyName("list_id")]
@@ -138,15 +146,29 @@ public sealed class CampaignInfo
     [JsonPropertyName("name")]
     public string? Name { get; set; }
 
-    /// <summary>Campaign status code.</summary>
+    /// <summary>Campaign status code, see <see cref="CampaignStatus"/>.</summary>
     [JsonPropertyName("status")]
     public int Status { get; set; }
+
+    /// <summary>Whether the campaign is an SMS campaign.</summary>
+    [JsonPropertyName("is_sms")]
+    [JsonConverter(typeof(FlexibleBooleanConverter))]
+    public bool IsSms { get; set; }
+
+    /// <summary>Whether the campaign is a Viber campaign.</summary>
+    [JsonPropertyName("is_viber")]
+    [JsonConverter(typeof(FlexibleBooleanConverter))]
+    public bool IsViber { get; set; }
 
     /// <summary>Sender, subject and body.</summary>
     [JsonPropertyName("message")]
     public CampaignMessage? Message { get; set; }
 
-    /// <summary>Date the campaign was or will be sent.</summary>
+    /// <summary>Which tracking features are enabled.</summary>
+    [JsonPropertyName("external_stat")]
+    public CampaignTracking? Tracking { get; set; }
+
+    /// <summary>Date the campaign was or will be sent, in the time zone of the SendPulse account.</summary>
     [JsonPropertyName("send_date")]
     [JsonConverter(typeof(SendPulseDateTimeConverter))]
     public DateTime? SendDate { get; set; }
@@ -154,6 +176,26 @@ public sealed class CampaignInfo
     /// <summary>Total number of recipient addresses.</summary>
     [JsonPropertyName("all_email_qty")]
     public int AllEmailCount { get; set; }
+
+    /// <summary>Number of emails charged against the plan.</summary>
+    [JsonPropertyName("tariff_email_qty")]
+    public int TariffEmailCount { get; set; }
+
+    /// <summary>Number of emails paid from the balance on top of the plan.</summary>
+    [JsonPropertyName("paid_email_qty")]
+    public int PaidEmailCount { get; set; }
+
+    /// <summary>Price per email above the plan limit.</summary>
+    [JsonPropertyName("overdraft_price")]
+    public decimal? OverdraftPrice { get; set; }
+
+    /// <summary>Campaign price.</summary>
+    [JsonPropertyName("company_price")]
+    public decimal? Price { get; set; }
+
+    /// <summary>Currency of the prices.</summary>
+    [JsonPropertyName("overdraft_currency")]
+    public string? Currency { get; set; }
 
     /// <summary>Public archive link to the campaign.</summary>
     [JsonPropertyName("permalink")]
@@ -165,11 +207,27 @@ public sealed class CampaignInfo
 }
 
 /// <summary>
+/// Tracking features of a campaign.
+/// </summary>
+public sealed class CampaignTracking
+{
+    /// <summary>Whether opens are tracked.</summary>
+    [JsonPropertyName("check_open_email")]
+    [JsonConverter(typeof(FlexibleBooleanConverter))]
+    public bool TracksOpens { get; set; }
+
+    /// <summary>Whether link clicks are tracked.</summary>
+    [JsonPropertyName("check_redirect_link")]
+    [JsonConverter(typeof(FlexibleBooleanConverter))]
+    public bool TracksClicks { get; set; }
+}
+
+/// <summary>
 /// Per status statistics of a campaign.
 /// </summary>
 public sealed class CampaignStatistics
 {
-    /// <summary>Counters per delivery status code.</summary>
+    /// <summary>Counters per delivery status code, see <see cref="DeliveryStatus"/>.</summary>
     [JsonPropertyName("general")]
     public IReadOnlyList<CampaignStatusCount> General { get; set; } = [];
 
@@ -183,7 +241,7 @@ public sealed class CampaignStatistics
 /// </summary>
 public sealed class CampaignStatusCount
 {
-    /// <summary>Delivery status code.</summary>
+    /// <summary>Delivery status code, see <see cref="DeliveryStatus"/>.</summary>
     [JsonPropertyName("code")]
     public int Code { get; set; }
 
@@ -208,6 +266,47 @@ public sealed class CampaignLinkClicks
     /// <summary>Number of clicks.</summary>
     [JsonPropertyName("count")]
     public int Count { get; set; }
+}
+
+/// <summary>
+/// Click counter for a single link, as returned by the referral statistics.
+/// </summary>
+public sealed class CampaignReferral
+{
+    /// <summary>Link URL.</summary>
+    [JsonPropertyName("link")]
+    public string? Link { get; set; }
+
+    /// <summary>Number of clicks.</summary>
+    [JsonPropertyName("count")]
+    public int Count { get; set; }
+}
+
+/// <summary>
+/// Delivery status of one recipient of a campaign.
+/// </summary>
+public sealed class CampaignRecipient
+{
+    /// <summary>When the email was sent, in the time zone of the SendPulse account.</summary>
+    [JsonPropertyName("sent_date")]
+    [JsonConverter(typeof(SendPulseDateTimeConverter))]
+    public DateTime? SentAt { get; set; }
+
+    /// <summary>Global status code, see <see cref="DeliveryStatus"/>.</summary>
+    [JsonPropertyName("global_status")]
+    public int GlobalStatus { get; set; }
+
+    /// <summary>Human readable global status.</summary>
+    [JsonPropertyName("global_status_explain")]
+    public string? GlobalStatusExplanation { get; set; }
+
+    /// <summary>Detailed status code, see <see cref="DeliveryStatus"/>.</summary>
+    [JsonPropertyName("detail_status")]
+    public int DetailStatus { get; set; }
+
+    /// <summary>Human readable detailed status.</summary>
+    [JsonPropertyName("detail_status_explain")]
+    public string? DetailStatusExplanation { get; set; }
 }
 
 /// <summary>
@@ -262,7 +361,10 @@ public sealed class CreateCampaignRequest
     [JsonPropertyName("is_test")]
     public bool? IsTest { get; set; }
 
-    /// <summary>Schedules the campaign. Must not be in the past.</summary>
+    /// <summary>
+    /// Schedules the campaign. SendPulse interprets the value in the time zone of the account, not in
+    /// UTC, and rejects dates in the past with error code 799.
+    /// </summary>
     [JsonPropertyName("send_date")]
     [JsonConverter(typeof(SendPulseDateTimeConverter))]
     public DateTime? SendDate { get; set; }
@@ -289,7 +391,7 @@ public sealed class CreateCampaignResult
     [JsonPropertyName("id")]
     public int Id { get; set; }
 
-    /// <summary>Task status: <c>13</c> while addresses are being copied, <c>26</c> for a draft.</summary>
+    /// <summary>Initial status, see <see cref="CampaignStatus"/>: 13 while addresses are being copied, 26 for a draft.</summary>
     [JsonPropertyName("status")]
     public int Status { get; set; }
 
@@ -303,7 +405,7 @@ public sealed class CreateCampaignResult
 
     /// <summary>Price per email above the plan limit.</summary>
     [JsonPropertyName("overdraft_price")]
-    public string? OverdraftPrice { get; set; }
+    public decimal? OverdraftPrice { get; set; }
 
     /// <summary>Currency of the overdraft price. The misspelling matches the SendPulse payload.</summary>
     [JsonPropertyName("ovedraft_currency")]
@@ -340,7 +442,7 @@ public sealed class UpdateCampaignRequest
     [JsonPropertyName("template_id")]
     public string? TemplateId { get; set; }
 
-    /// <summary>New scheduled date.</summary>
+    /// <summary>New scheduled date, interpreted in the time zone of the SendPulse account.</summary>
     [JsonPropertyName("send_date")]
     [JsonConverter(typeof(SendPulseDateTimeConverter))]
     public DateTime? SendDate { get; set; }

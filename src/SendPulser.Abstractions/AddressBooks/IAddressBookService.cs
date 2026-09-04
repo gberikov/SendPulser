@@ -6,7 +6,8 @@ namespace SendPulser.AddressBooks;
 /// <remarks>
 /// Wraps <see href="https://sendpulse.com/integrations/api/bulk-email">the bulk email service API</see>.
 /// Listing methods map <c>limit</c> and <c>offset</c> straight through; SendPulse returns at most
-/// 100 contacts per call.
+/// 100 contacts per call. Operations that look up an address across every mailing list live on
+/// <see cref="EmailAddresses.IEmailAddressService"/>.
 /// </remarks>
 public interface IAddressBookService
 {
@@ -52,16 +53,61 @@ public interface IAddressBookService
         int addressBookId,
         CancellationToken cancellationToken = default);
 
+    /// <summary>Estimates what sending one campaign to the mailing list costs.</summary>
+    /// <param name="addressBookId">Mailing list ID.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The estimate.</returns>
+    Task<CampaignCost> GetCampaignCostAsync(int addressBookId, CancellationToken cancellationToken = default);
+
+    /// <summary>Lists the campaigns that were sent to a mailing list.</summary>
+    /// <param name="addressBookId">Mailing list ID.</param>
+    /// <param name="limit">Maximum number of records to return.</param>
+    /// <param name="offset">Index of the first record to return.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The campaigns.</returns>
+    Task<IReadOnlyList<AddressBookCampaign>> GetCampaignsAsync(
+        int addressBookId,
+        int? limit = null,
+        int? offset = null,
+        CancellationToken cancellationToken = default);
+
     /// <summary>Lists the contacts of a mailing list.</summary>
     /// <param name="addressBookId">Mailing list ID.</param>
     /// <param name="limit">Maximum number of records to return; SendPulse caps this at 100.</param>
     /// <param name="offset">Index of the first record to return.</param>
+    /// <param name="active">When <see langword="true"/>, returns only contacts in the New and Active statuses.</param>
+    /// <param name="notActive">When <see langword="true"/>, returns only inactive contacts.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The contacts of the mailing list.</returns>
     Task<IReadOnlyList<Contact>> GetContactsAsync(
         int addressBookId,
         int? limit = null,
         int? offset = null,
+        bool? active = null,
+        bool? notActive = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>Gets one contact of a mailing list, including its typed variables.</summary>
+    /// <param name="addressBookId">Mailing list ID.</param>
+    /// <param name="email">Email address.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The contact.</returns>
+    /// <exception cref="SendPulserApiException">The contact is not in the mailing list.</exception>
+    Task<ContactDetails> GetContactAsync(
+        int addressBookId,
+        string email,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>Finds the contacts of a mailing list whose variable has a given value.</summary>
+    /// <param name="addressBookId">Mailing list ID.</param>
+    /// <param name="variableName">Variable name.</param>
+    /// <param name="value">Value to match.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The matching contacts, without their variables.</returns>
+    Task<IReadOnlyList<Contact>> FindContactsByVariableAsync(
+        int addressBookId,
+        string variableName,
+        string value,
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets the total number of contacts in a mailing list.</summary>
@@ -90,6 +136,37 @@ public interface IAddressBookService
         int addressBookId,
         IReadOnlyList<NewContact> contacts,
         DoubleOptInSettings settings,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>Replaces variable values of one contact. SendPulse accepts a single contact per call.</summary>
+    /// <param name="addressBookId">Mailing list ID.</param>
+    /// <param name="email">Email address of the contact.</param>
+    /// <param name="variables">Variables to set.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    Task UpdateVariablesAsync(
+        int addressBookId,
+        string email,
+        IReadOnlyList<VariableUpdate> variables,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>Sets or replaces the phone number of a contact.</summary>
+    /// <param name="addressBookId">Mailing list ID.</param>
+    /// <param name="email">Email address of the contact.</param>
+    /// <param name="phone">Phone number.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    Task SetPhoneAsync(
+        int addressBookId,
+        string email,
+        string phone,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>Marks contacts as unsubscribed in a mailing list without deleting them.</summary>
+    /// <param name="addressBookId">Mailing list ID.</param>
+    /// <param name="emails">Addresses to unsubscribe.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    Task UnsubscribeContactsAsync(
+        int addressBookId,
+        IReadOnlyList<string> emails,
         CancellationToken cancellationToken = default);
 
     /// <summary>Removes contacts from a mailing list.</summary>

@@ -24,6 +24,13 @@ public interface ITemplateService
     /// <exception cref="SendPulserApiException">The template does not exist.</exception>
     Task<Template> GetAsync(string templateId, CancellationToken cancellationToken = default);
 
+    /// <summary>Gets a template by its URL friendly name.</summary>
+    /// <param name="slug">Value of <see cref="Template.NameSlug"/>.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The template.</returns>
+    /// <exception cref="SendPulserApiException">The template does not exist.</exception>
+    Task<Template> GetBySlugAsync(string slug, CancellationToken cancellationToken = default);
+
     /// <summary>Creates a template.</summary>
     /// <param name="request">Template name, body and language.</param>
     /// <param name="cancellationToken">Cancellation token.</param>

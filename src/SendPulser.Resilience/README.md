@@ -12,4 +12,7 @@ builder.Services
 
 Writes are never retried: sending a campaign or a transactional email is not idempotent, so only `GET`
 and `DELETE` are replayed on transient failures. HTTP 429 is retried for every method, honouring
-`Retry-After`.
+`Retry-After`. When the pipeline gives up, the failure surfaces as `SendPulserTransportException`.
+
+Documentation:
+[Errors and resilience](https://github.com/gberikov/SendPulser/blob/master/docs/errors-and-resilience.md).

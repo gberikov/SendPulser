@@ -14,18 +14,42 @@ if (string.IsNullOrWhiteSpace(clientId) || string.IsNullOrWhiteSpace(clientSecre
 
 using var client = new SendPulserClient(clientId, clientSecret);
 
-var books = await client.AddressBooks.GetAllAsync(limit: 10);
-Console.WriteLine($"Mailing lists: {books.Count}");
-foreach (var book in books)
+try
 {
-    Console.WriteLine($"  {book.Id,10}  {book.Name} ({book.AllEmailCount} contacts, {book.StatusExplanation})");
-}
+    var balance = await client.Balance.GetAsync();
+    Console.WriteLine($"Balance: {balance.Amount} {balance.Currency}");
 
-var templates = await client.Templates.GetAllAsync(owner: "me");
-Console.WriteLine($"Own templates: {templates.Count}");
-foreach (var template in templates.Take(10))
+    var senders = await client.Senders.GetAllAsync();
+    Console.WriteLine($"Senders: {senders.Count}");
+    foreach (var sender in senders)
+    {
+        Console.WriteLine($"  {sender.Email,-40} {sender.Status} (SMTP: {sender.IsAllowedForSmtp})");
+    }
+
+    var books = await client.AddressBooks.GetAllAsync(limit: 10);
+    Console.WriteLine($"Mailing lists: {books.Count}");
+    foreach (var book in books)
+    {
+        Console.WriteLine($"  {book.Id,10}  {book.Name} ({book.AllEmailCount} contacts, {book.StatusExplanation})");
+    }
+
+    var templates = await client.Templates.GetAllAsync(owner: "me");
+    Console.WriteLine($"Own templates: {templates.Count}");
+    foreach (var template in templates.Take(10))
+    {
+        Console.WriteLine($"  {template.RealId,10}  {template.Name}");
+    }
+}
+catch (SendPulserAuthenticationException exception)
 {
-    Console.WriteLine($"  {template.RealId,10}  {template.Name}");
+    Console.Error.WriteLine($"SendPulse refused the credentials: {exception.Message}");
+    return 2;
+}
+catch (SendPulserException exception)
+{
+    // Covers API failures (SendPulserApiException) and transport failures (SendPulserTransportException).
+    Console.Error.WriteLine(exception.Message);
+    return 3;
 }
 
 return 0;

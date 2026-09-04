@@ -43,9 +43,12 @@ public sealed class SendPulserAuthenticationHandler : DelegatingHandler
             return response;
         }
 
-        Log.TokenRejected(_logger, request.Method, request.RequestUri);
+        // The query string is left out on purpose: SendPulse query strings carry email addresses, which do
+        // not belong in logs. HttpClient has already resolved the URI against the base address here.
+        Log.TokenRejected(_logger, request.Method, request.RequestUri?.AbsolutePath);
+
         response.Dispose();
-        _tokenProvider.Invalidate();
+        _tokenProvider.Invalidate(token);
 
         var refreshed = await _tokenProvider.GetTokenAsync(cancellationToken).ConfigureAwait(false);
         using var retry = await CloneAsync(request, cancellationToken).ConfigureAwait(false);

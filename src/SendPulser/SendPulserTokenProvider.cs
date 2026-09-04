@@ -84,8 +84,17 @@ public sealed class SendPulserTokenProvider : IDisposable
     /// <summary>
     /// Drops the cached token so the next call requests a fresh one.
     /// </summary>
-    public void Invalidate()
+    /// <param name="rejectedToken">
+    /// The token SendPulse rejected. When another caller has already replaced it, the fresh token is kept;
+    /// pass <see langword="null"/> to drop the cached token unconditionally.
+    /// </param>
+    public void Invalidate(string? rejectedToken = null)
     {
+        if (rejectedToken is not null && !string.Equals(_accessToken, rejectedToken, StringComparison.Ordinal))
+        {
+            return;
+        }
+
         _accessToken = null;
         _expiresAt = default;
     }

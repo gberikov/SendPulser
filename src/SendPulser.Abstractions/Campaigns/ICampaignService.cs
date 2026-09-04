@@ -9,14 +9,20 @@ namespace SendPulser.Campaigns;
 /// </remarks>
 public interface ICampaignService
 {
-    /// <summary>Lists campaigns, newest first.</summary>
+    /// <summary>Lists campaigns.</summary>
     /// <param name="limit">Maximum number of records to return.</param>
     /// <param name="offset">Index of the first record to return.</param>
+    /// <param name="order">Sort order, <c>asc</c> or <c>desc</c>.</param>
+    /// <param name="statuses">Restricts the result to campaigns in these statuses, see <see cref="CampaignStatus"/>.</param>
+    /// <param name="scheduled">When <see langword="true"/>, includes scheduled campaigns.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The campaigns of the account.</returns>
     Task<IReadOnlyList<Campaign>> GetAllAsync(
         int? limit = null,
         int? offset = null,
+        string? order = null,
+        IReadOnlyList<int>? statuses = null,
+        bool? scheduled = null,
         CancellationToken cancellationToken = default);
 
     /// <summary>Gets a campaign together with its per status statistics.</summary>
@@ -25,6 +31,32 @@ public interface ICampaignService
     /// <returns>The campaign.</returns>
     /// <exception cref="SendPulserApiException">The campaign does not exist.</exception>
     Task<CampaignInfo> GetAsync(int campaignId, CancellationToken cancellationToken = default);
+
+    /// <summary>Gets the number of opens per country.</summary>
+    /// <param name="campaignId">Campaign ID.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>Opens keyed by ISO country code.</returns>
+    Task<IReadOnlyDictionary<string, int>> GetCountryStatisticsAsync(
+        int campaignId,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>Gets the number of clicks per link.</summary>
+    /// <param name="campaignId">Campaign ID.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>Clicks per link.</returns>
+    Task<IReadOnlyList<CampaignReferral>> GetReferralStatisticsAsync(
+        int campaignId,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>Gets the delivery status of one recipient of a campaign.</summary>
+    /// <param name="campaignId">Campaign ID.</param>
+    /// <param name="email">Recipient address.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The status.</returns>
+    Task<CampaignRecipient> GetRecipientAsync(
+        int campaignId,
+        string email,
+        CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Creates a campaign. Unless <see cref="CreateCampaignRequest.Type"/> is <c>draft</c> or

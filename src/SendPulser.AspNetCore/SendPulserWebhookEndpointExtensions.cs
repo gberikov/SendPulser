@@ -1,8 +1,8 @@
-using System.Net;
 using System.Security.Cryptography;
 using System.Text;
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -34,7 +34,8 @@ public static class SendPulserWebhookEndpointExtensions
     /// <returns>The mapped endpoint, so further metadata can be added.</returns>
     /// <remarks>
     /// The endpoint answers 204 when the callback returns, 500 when it throws, 400 when the body is not
-    /// JSON and 404 when the secret does not match.
+    /// JSON, 413 when it exceeds <see cref="SendPulserWebhookOptions.MaxRequestBodySize"/> and 404 when
+    /// the secret does not match.
     /// </remarks>
     public static IEndpointConventionBuilder MapSendPulserEmailWebhook(
         this IEndpointRouteBuilder endpoints,
@@ -42,22 +43,30 @@ public static class SendPulserWebhookEndpointExtensions
         Func<IReadOnlyList<EmailWebhookEvent>, CancellationToken, Task> handler,
         Action<SendPulserWebhookOptions>? configure = null)
     {
-        ArgumentNullException.ThrowIfNull(endpoints);
         ArgumentNullException.ThrowIfNull(handler);
 
-        var options = CreateOptions(configure);
-
-        // A RequestDelegate is used rather than a route handler lambda: minimal API parameter binding
-        // reflects over the delegate, which would make the package unusable under Native AOT.
-        RequestDelegate endpoint = context => HandleAsync(
-            context,
-            options,
-            WebhookEventParser.ParseEmailEvents,
-            handler,
-            "email");
-
-        return endpoints.MapPost(pattern, endpoint);
+        return endpoints.MapSendPulserEmailWebhook(
+            pattern,
+            (events, _, cancellationToken) => handler(events, cancellationToken),
+            configure);
     }
+
+    /// <summary>
+    /// Maps an endpoint that receives bulk email service events and hands the callback the
+    /// <see cref="HttpContext"/>, so scoped services can be resolved from
+    /// <see cref="HttpContext.RequestServices"/>.
+    /// </summary>
+    /// <param name="endpoints">Endpoint route builder.</param>
+    /// <param name="pattern">Route pattern, see <see cref="MapSendPulserEmailWebhook(IEndpointRouteBuilder, string, Func{IReadOnlyList{EmailWebhookEvent}, CancellationToken, Task}, Action{SendPulserWebhookOptions}?)"/>.</param>
+    /// <param name="handler">Callback receiving one batch of events, the request context and its cancellation token.</param>
+    /// <param name="configure">Callback that sets the secret and the address allowlist.</param>
+    /// <returns>The mapped endpoint, so further metadata can be added.</returns>
+    public static IEndpointConventionBuilder MapSendPulserEmailWebhook(
+        this IEndpointRouteBuilder endpoints,
+        string pattern,
+        Func<IReadOnlyList<EmailWebhookEvent>, HttpContext, CancellationToken, Task> handler,
+        Action<SendPulserWebhookOptions>? configure = null) =>
+        Map(endpoints, pattern, WebhookEventParser.ParseEmailEvents, handler, configure, "email");
 
     /// <summary>
     /// Maps an endpoint that receives SMTP service events.
@@ -78,33 +87,57 @@ public static class SendPulserWebhookEndpointExtensions
         Func<IReadOnlyList<SmtpWebhookEvent>, CancellationToken, Task> handler,
         Action<SendPulserWebhookOptions>? configure = null)
     {
+        ArgumentNullException.ThrowIfNull(handler);
+
+        return endpoints.MapSendPulserSmtpWebhook(
+            pattern,
+            (events, _, cancellationToken) => handler(events, cancellationToken),
+            configure);
+    }
+
+    /// <summary>
+    /// Maps an endpoint that receives SMTP service events and hands the callback the
+    /// <see cref="HttpContext"/>, so scoped services can be resolved from
+    /// <see cref="HttpContext.RequestServices"/>.
+    /// </summary>
+    /// <param name="endpoints">Endpoint route builder.</param>
+    /// <param name="pattern">Route pattern, see <see cref="MapSendPulserSmtpWebhook(IEndpointRouteBuilder, string, Func{IReadOnlyList{SmtpWebhookEvent}, CancellationToken, Task}, Action{SendPulserWebhookOptions}?)"/>.</param>
+    /// <param name="handler">Callback receiving one batch of events, the request context and its cancellation token.</param>
+    /// <param name="configure">Callback that sets the secret and the address allowlist.</param>
+    /// <returns>The mapped endpoint, so further metadata can be added.</returns>
+    public static IEndpointConventionBuilder MapSendPulserSmtpWebhook(
+        this IEndpointRouteBuilder endpoints,
+        string pattern,
+        Func<IReadOnlyList<SmtpWebhookEvent>, HttpContext, CancellationToken, Task> handler,
+        Action<SendPulserWebhookOptions>? configure = null) =>
+        Map(endpoints, pattern, WebhookEventParser.ParseSmtpEvents, handler, configure, "smtp");
+
+    private static IEndpointConventionBuilder Map<TEvent>(
+        IEndpointRouteBuilder endpoints,
+        string pattern,
+        Func<JsonDocument, List<TEvent>> parse,
+        Func<IReadOnlyList<TEvent>, HttpContext, CancellationToken, Task> handler,
+        Action<SendPulserWebhookOptions>? configure,
+        string family)
+    {
         ArgumentNullException.ThrowIfNull(endpoints);
         ArgumentNullException.ThrowIfNull(handler);
 
-        var options = CreateOptions(configure);
-
-        RequestDelegate endpoint = context => HandleAsync(
-            context,
-            options,
-            WebhookEventParser.ParseSmtpEvents,
-            handler,
-            "smtp");
-
-        return endpoints.MapPost(pattern, endpoint);
-    }
-
-    private static SendPulserWebhookOptions CreateOptions(Action<SendPulserWebhookOptions>? configure)
-    {
         var options = new SendPulserWebhookOptions();
         configure?.Invoke(options);
-        return options;
+
+        // A RequestDelegate is used rather than a route handler lambda: minimal API parameter binding
+        // reflects over the delegate, which would make the package unusable under Native AOT.
+        RequestDelegate endpoint = context => HandleAsync(context, options, parse, handler, family);
+
+        return endpoints.MapPost(pattern, endpoint);
     }
 
     private static async Task HandleAsync<TEvent>(
         HttpContext context,
         SendPulserWebhookOptions options,
         Func<JsonDocument, List<TEvent>> parse,
-        Func<IReadOnlyList<TEvent>, CancellationToken, Task> handler,
+        Func<IReadOnlyList<TEvent>, HttpContext, CancellationToken, Task> handler,
         string family)
     {
         var logger = context.RequestServices.GetService<ILoggerFactory>()
@@ -115,6 +148,21 @@ public static class SendPulserWebhookEndpointExtensions
             WebhookLog.Rejected(logger, family, context.Connection.RemoteIpAddress);
             context.Response.StatusCode = StatusCodes.Status404NotFound;
             return;
+        }
+
+        if (options.MaxRequestBodySize is { } limit)
+        {
+            if (context.Request.ContentLength > limit)
+            {
+                context.Response.StatusCode = StatusCodes.Status413PayloadTooLarge;
+                return;
+            }
+
+            var sizeFeature = context.Features.Get<IHttpMaxRequestBodySizeFeature>();
+            if (sizeFeature is { IsReadOnly: false })
+            {
+                sizeFeature.MaxRequestBodySize = limit;
+            }
         }
 
         JsonDocument document;
@@ -130,6 +178,11 @@ public static class SendPulserWebhookEndpointExtensions
             context.Response.StatusCode = StatusCodes.Status400BadRequest;
             return;
         }
+        catch (BadHttpRequestException exception) when (exception.StatusCode == StatusCodes.Status413PayloadTooLarge)
+        {
+            context.Response.StatusCode = StatusCodes.Status413PayloadTooLarge;
+            return;
+        }
 
         using (document)
         {
@@ -137,7 +190,7 @@ public static class SendPulserWebhookEndpointExtensions
 
             try
             {
-                await handler(events, context.RequestAborted).ConfigureAwait(false);
+                await handler(events, context, context.RequestAborted).ConfigureAwait(false);
             }
 #pragma warning disable CA1031 // The handler is caller supplied: any failure has to become a 500 rather than an unhandled exception.
             catch (Exception exception)

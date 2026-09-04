@@ -5,6 +5,8 @@ namespace SendPulser.Services;
 
 internal sealed class SmtpService(SendPulserApi api) : ISmtpService
 {
+    private const string SenderDomainsPath = "v2/email-service/smtp/sender_domains";
+
     private readonly SendPulserApi _api = api;
 
     public async Task<SendEmailResult> SendAsync(
@@ -48,13 +50,25 @@ internal sealed class SmtpService(SendPulserApi api) : ISmtpService
             .ConfigureAwait(false);
     }
 
-    public async Task<SmtpEmail> GetEmailAsync(string messageId, CancellationToken cancellationToken = default)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(messageId);
+    public Task<SmtpEmail> GetEmailAsync(string messageId, CancellationToken cancellationToken = default) =>
+        _api.GetAsync(
+            "smtp/emails/" + SendPulserApi.Segment(messageId),
+            SendPulserJsonContext.Default.SmtpEmail,
+            cancellationToken);
 
-        return await _api.GetAsync(
-                $"smtp/emails/{Uri.EscapeDataString(messageId)}",
-                SendPulserJsonContext.Default.SmtpEmail,
+    public async Task<IReadOnlyList<SmtpEmail>> GetEmailsAsync(
+        IReadOnlyList<string> messageIds,
+        CancellationToken cancellationToken = default)
+    {
+        using var content = SendPulserApi.Json(
+            new EmailListRequest { Emails = messageIds },
+            SendPulserJsonContext.Default.EmailListRequest);
+
+        return await _api.SendAsync(
+                HttpMethod.Post,
+                "smtp/emails/info",
+                content,
+                SendPulserJsonContext.Default.ListSmtpEmail,
                 cancellationToken)
             .ConfigureAwait(false);
     }
@@ -63,6 +77,29 @@ internal sealed class SmtpService(SendPulserApi api) : ISmtpService
     {
         var total = await _api
             .GetAsync("smtp/emails/total", SendPulserJsonContext.Default.TotalResponse, cancellationToken)
+            .ConfigureAwait(false);
+
+        return total.Total;
+    }
+
+    public Task<SmtpBouncePage> GetBouncesAsync(
+        DateOnly? onDate = null,
+        int? limit = null,
+        int? offset = null,
+        CancellationToken cancellationToken = default)
+    {
+        var query = SendPulserApi.BuildQuery(
+            ("date", SendPulserApi.Date(onDate)),
+            ("limit", SendPulserApi.Number(limit)),
+            ("offset", SendPulserApi.Number(offset)));
+
+        return _api.GetAsync("smtp/bounces/day" + query, SendPulserJsonContext.Default.SmtpBouncePage, cancellationToken);
+    }
+
+    public async Task<int> GetBounceCountAsync(CancellationToken cancellationToken = default)
+    {
+        var total = await _api
+            .GetAsync("smtp/bounces/day/total", SendPulserJsonContext.Default.TotalResponse, cancellationToken)
             .ConfigureAwait(false);
 
         return total.Total;
@@ -110,8 +147,62 @@ internal sealed class SmtpService(SendPulserApi api) : ISmtpService
             .ConfigureAwait(false);
     }
 
+    public async Task<bool> IsUnsubscribedAsync(string email, CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(email);
+
+        // The answer is {"result": false} for a subscribed address, which is data here, not a failure.
+        var result = await _api.GetAsync(
+                "smtp/unsubscribe/search" + SendPulserApi.BuildQuery(("email", email)),
+                SendPulserJsonContext.Default.ResultResponse,
+                cancellationToken)
+            .ConfigureAwait(false);
+
+        return result.Result;
+    }
+
+    public async Task<SendEmailResult> ResubscribeAsync(
+        string email,
+        string sender,
+        string? language = null,
+        CancellationToken cancellationToken = default)
+    {
+        using var content = SendPulserApi.Json(
+            new ResubscribeRequest { Email = email, Sender = sender, Language = language },
+            SendPulserJsonContext.Default.ResubscribeRequest);
+
+        return await _api.SendAsync(
+                HttpMethod.Post,
+                "smtp/resubscribe",
+                content,
+                SendPulserJsonContext.Default.SendEmailResult,
+                cancellationToken)
+            .ConfigureAwait(false);
+    }
+
     public async Task<IReadOnlyList<string>> GetSendersAsync(CancellationToken cancellationToken = default) =>
         await _api
             .GetAsync("smtp/senders", SendPulserJsonContext.Default.ListString, cancellationToken)
             .ConfigureAwait(false);
+
+    public async Task<IReadOnlyList<string>> GetIpAddressesAsync(CancellationToken cancellationToken = default) =>
+        await _api
+            .GetAsync("smtp/ips", SendPulserJsonContext.Default.ListString, cancellationToken)
+            .ConfigureAwait(false);
+
+    public async Task<IReadOnlyList<SenderDomain>> GetSenderDomainsAsync(CancellationToken cancellationToken = default) =>
+        await _api.SendEnvelopedAsync(
+                HttpMethod.Get,
+                SenderDomainsPath,
+                content: null,
+                SendPulserJsonContext.Default.ListSenderDomain,
+                cancellationToken)
+            .ConfigureAwait(false);
+
+    public Task AddSenderDomainAsync(string domain, CancellationToken cancellationToken = default) =>
+        _api.SendAsync(
+            HttpMethod.Post,
+            SenderDomainsPath + "/" + SendPulserApi.Segment(domain),
+            content: null,
+            cancellationToken);
 }

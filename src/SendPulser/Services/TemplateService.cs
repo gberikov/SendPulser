@@ -18,21 +18,24 @@ internal sealed class TemplateService(SendPulserApi api) : ITemplateService
             .ConfigureAwait(false);
     }
 
-    public async Task<Template> GetAsync(string templateId, CancellationToken cancellationToken = default)
-    {
-        ArgumentException.ThrowIfNullOrWhiteSpace(templateId);
+    public Task<Template> GetAsync(string templateId, CancellationToken cancellationToken = default) =>
+        _api.GetAsync(
+            "template/" + SendPulserApi.Segment(templateId),
+            SendPulserJsonContext.Default.Template,
+            cancellationToken);
 
-        return await _api.GetAsync(
-                $"template/{Uri.EscapeDataString(templateId)}",
-                SendPulserJsonContext.Default.Template,
-                cancellationToken)
-            .ConfigureAwait(false);
-    }
+    public Task<Template> GetBySlugAsync(string slug, CancellationToken cancellationToken = default) =>
+        _api.GetAsync(
+            "template/slug/" + SendPulserApi.Segment(slug),
+            SendPulserJsonContext.Default.Template,
+            cancellationToken);
 
     public async Task<CreateTemplateResult> CreateAsync(
         CreateTemplateRequest request,
         CancellationToken cancellationToken = default)
     {
+        ArgumentNullException.ThrowIfNull(request);
+
         using var content = SendPulserApi.Json(request, SendPulserJsonContext.Default.CreateTemplateRequest);
 
         return await _api.SendAsync(
@@ -49,14 +52,14 @@ internal sealed class TemplateService(SendPulserApi api) : ITemplateService
         UpdateTemplateRequest request,
         CancellationToken cancellationToken = default)
     {
-        ArgumentException.ThrowIfNullOrWhiteSpace(templateId);
+        ArgumentNullException.ThrowIfNull(request);
 
         using var content = SendPulserApi.Json(request, SendPulserJsonContext.Default.UpdateTemplateRequest);
 
         // Editing is a POST to template/edit/{id}, not a PUT to template/{id}.
         await _api.SendAsync(
                 HttpMethod.Post,
-                $"template/edit/{Uri.EscapeDataString(templateId)}",
+                "template/edit/" + SendPulserApi.Segment(templateId),
                 content,
                 cancellationToken)
             .ConfigureAwait(false);

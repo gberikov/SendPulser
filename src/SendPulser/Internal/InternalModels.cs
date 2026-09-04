@@ -1,6 +1,7 @@
 using System.Text.Json.Serialization;
 using SendPulser.AddressBooks;
 using SendPulser.Smtp;
+using SendPulser.Tags;
 
 namespace SendPulser.Internal;
 
@@ -110,10 +111,40 @@ internal sealed class EmailListRequest
     public IReadOnlyList<string> Emails { get; set; } = [];
 }
 
+internal sealed class UpdateVariablesRequest
+{
+    [JsonPropertyName("email")]
+    public string Email { get; set; } = string.Empty;
+
+    [JsonPropertyName("variables")]
+    public IReadOnlyList<VariableUpdate> Variables { get; set; } = [];
+}
+
+internal sealed class SetPhoneRequest
+{
+    [JsonPropertyName("email")]
+    public string Email { get; set; } = string.Empty;
+
+    [JsonPropertyName("phone")]
+    public string Phone { get; set; } = string.Empty;
+}
+
 internal sealed class UnsubscribeListRequest
 {
     [JsonPropertyName("emails")]
     public IReadOnlyList<UnsubscribeRequest> Emails { get; set; } = [];
+}
+
+internal sealed class ResubscribeRequest
+{
+    [JsonPropertyName("email")]
+    public string Email { get; set; } = string.Empty;
+
+    [JsonPropertyName("sender")]
+    public string Sender { get; set; } = string.Empty;
+
+    [JsonPropertyName("lang")]
+    public string? Language { get; set; }
 }
 
 internal sealed class SendEmailEnvelope
@@ -135,4 +166,64 @@ internal sealed class UpdateWebhookRequest
 {
     [JsonPropertyName("url")]
     public string Url { get; set; } = string.Empty;
+}
+
+internal sealed class SenderRequest
+{
+    [JsonPropertyName("email")]
+    public string Email { get; set; } = string.Empty;
+
+    [JsonPropertyName("name")]
+    public string? Name { get; set; }
+}
+
+internal sealed class ActivationCodeRequest
+{
+    [JsonPropertyName("code")]
+    public string Code { get; set; } = string.Empty;
+}
+
+/// <summary>
+/// The blacklist endpoints take the addresses as one comma separated string, Base64 encoded.
+/// </summary>
+internal sealed class BlacklistRequest
+{
+    [JsonPropertyName("emails")]
+    public string Emails { get; set; } = string.Empty;
+
+    [JsonPropertyName("comment")]
+    public string? Comment { get; set; }
+}
+
+internal sealed class TagRequest
+{
+    [JsonPropertyName("name")]
+    public string Name { get; set; } = string.Empty;
+
+    [JsonPropertyName("color")]
+    public string Color { get; set; } = string.Empty;
+}
+
+internal sealed class TagEmailRequest
+{
+    [JsonPropertyName("email")]
+    public string Email { get; set; } = string.Empty;
+
+    [JsonPropertyName("tags")]
+    public IReadOnlyList<int> Tags { get; set; } = [];
+}
+
+internal sealed class TagPhoneRequest
+{
+    [JsonPropertyName("phone")]
+    public string Phone { get; set; } = string.Empty;
+
+    [JsonPropertyName("tags")]
+    public IReadOnlyList<int> Tags { get; set; } = [];
+}
+
+internal sealed class TagListResponse
+{
+    [JsonPropertyName("tags")]
+    public List<Tag> Tags { get; set; } = [];
 }

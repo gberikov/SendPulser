@@ -9,7 +9,7 @@ namespace SendPulser.Tests.Infrastructure;
 /// </summary>
 internal sealed class FakeHttpMessageHandler : HttpMessageHandler
 {
-    private readonly Queue<Func<HttpRequestMessage, HttpResponseMessage>> _responses = new();
+    private readonly Queue<Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>>> _responses = new();
 
     public List<RecordedRequest> Requests { get; } = [];
 
@@ -20,15 +20,21 @@ internal sealed class FakeHttpMessageHandler : HttpMessageHandler
         HttpStatusCode statusCode = HttpStatusCode.OK,
         string contentType = "application/json")
     {
-        _responses.Enqueue(_ => new HttpResponseMessage(statusCode)
+        _responses.Enqueue((_, _) => Task.FromResult(new HttpResponseMessage(statusCode)
         {
             Content = new StringContent(json, Encoding.UTF8, contentType),
-        });
+        }));
 
         return this;
     }
 
     public FakeHttpMessageHandler Respond(Func<HttpRequestMessage, HttpResponseMessage> responder)
+    {
+        _responses.Enqueue((request, _) => Task.FromResult(responder(request)));
+        return this;
+    }
+
+    public FakeHttpMessageHandler RespondAsync(Func<HttpRequestMessage, CancellationToken, Task<HttpResponseMessage>> responder)
     {
         _responses.Enqueue(responder);
         return this;
@@ -53,7 +59,7 @@ internal sealed class FakeHttpMessageHandler : HttpMessageHandler
             throw new InvalidOperationException($"No response was queued for {request.Method} {request.RequestUri}.");
         }
 
-        return _responses.Dequeue()(request);
+        return await _responses.Dequeue()(request, cancellationToken);
     }
 }
 

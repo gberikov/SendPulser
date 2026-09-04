@@ -4,6 +4,7 @@ using Microsoft.Extensions.Http.Resilience;
 using Polly;
 using Polly.RateLimiting;
 using Polly.Retry;
+using Polly.Timeout;
 using SendPulser.Resilience;
 
 namespace Microsoft.Extensions.DependencyInjection;
@@ -24,7 +25,8 @@ public static class SendPulserResilienceHttpClientBuilderExtensions
     /// idempotent, so a retried <c>POST</c> can deliver the same email twice; only <c>GET</c> and
     /// <c>DELETE</c> are replayed on transient failures. HTTP 429 is the exception: the request was
     /// rejected rather than processed, so it is retried for every method, waiting for the interval named
-    /// in the <c>Retry-After</c> header.
+    /// in the <c>Retry-After</c> header. When the pipeline gives up, the failure surfaces as a
+    /// <see cref="SendPulser.SendPulserTransportException"/> rather than a Polly exception.
     /// </remarks>
     public static IHttpClientBuilder AddSendPulserResilience(
         this IHttpClientBuilder builder,
@@ -34,6 +36,9 @@ public static class SendPulserResilienceHttpClientBuilderExtensions
 
         var options = new SendPulserResilienceOptions();
         configure?.Invoke(options);
+
+        // Registered before the resilience handler so it sits outside it and sees what the pipeline throws.
+        builder.AddHttpMessageHandler(() => new PollyExceptionTranslatingHandler());
 
         builder.AddResilienceHandler("sendpulser", pipeline =>
         {
@@ -86,7 +91,8 @@ public static class SendPulserResilienceHttpClientBuilderExtensions
             return false;
         }
 
-        return arguments.Outcome.Exception is HttpRequestException or TimeoutException
+        // The attempt timeout surfaces as TimeoutRejectedException, which is not a TimeoutException.
+        return arguments.Outcome.Exception is HttpRequestException or TimeoutException or TimeoutRejectedException
             || arguments.Outcome.Result is { StatusCode: >= HttpStatusCode.InternalServerError }
             || arguments.Outcome.Result is { StatusCode: HttpStatusCode.RequestTimeout };
     }

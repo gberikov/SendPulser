@@ -29,6 +29,11 @@ public static class SendPulserServiceCollectionExtensions
     /// <param name="services">Service collection.</param>
     /// <param name="configure">Callback that fills in credentials and endpoint settings.</param>
     /// <returns>The builder of the API <see cref="HttpClient"/>, so policies can be added to it.</returns>
+    /// <remarks>
+    /// The client is registered as a singleton: it holds no per-request state and its
+    /// <see cref="HttpClient"/> sits on a <see cref="SocketsHttpHandler"/> that recycles connections itself,
+    /// so it is safe to inject into hosted services and other singletons.
+    /// </remarks>
     public static IHttpClientBuilder AddSendPulser(
         this IServiceCollection services,
         Action<SendPulserOptions> configure)
@@ -45,8 +50,9 @@ public static class SendPulserServiceCollectionExtensions
     /// </summary>
     /// <param name="services">Service collection.</param>
     /// <param name="configuration">
-    /// Section holding <c>ClientId</c>, <c>ClientSecret</c> and optionally <c>BaseUrl</c> and
-    /// <c>Timeout</c>, by convention the section named <see cref="SendPulserOptions.SectionName"/>.
+    /// Section holding <c>ClientId</c> and <c>ClientSecret</c>, and optionally <c>BaseAddress</c>,
+    /// <c>Timeout</c> and <c>TokenRefreshMargin</c>; by convention the section named
+    /// <see cref="SendPulserOptions.SectionName"/>. <c>BaseUrl</c> is accepted as an alias of <c>BaseAddress</c>.
     /// </param>
     /// <returns>The builder of the API <see cref="HttpClient"/>, so policies can be added to it.</returns>
     /// <remarks>
@@ -72,14 +78,20 @@ public static class SendPulserServiceCollectionExtensions
                 options.ClientSecret = clientSecret;
             }
 
-            if (configuration["BaseUrl"] is { Length: > 0 } baseUrl)
+            var baseAddress = configuration[nameof(SendPulserOptions.BaseAddress)] ?? configuration["BaseUrl"];
+            if (baseAddress is { Length: > 0 })
             {
-                options.BaseAddress = new Uri(baseUrl);
+                options.BaseAddress = new Uri(baseAddress, UriKind.Absolute);
             }
 
             if (TimeSpan.TryParse(configuration[nameof(SendPulserOptions.Timeout)], out var timeout))
             {
                 options.Timeout = timeout;
+            }
+
+            if (TimeSpan.TryParse(configuration[nameof(SendPulserOptions.TokenRefreshMargin)], out var margin))
+            {
+                options.TokenRefreshMargin = margin;
             }
         });
     }
@@ -88,14 +100,12 @@ public static class SendPulserServiceCollectionExtensions
     {
         services.PostConfigure<SendPulserOptions>(options => options.Validate());
 
-        // Both clients are long lived on purpose: the token provider is a singleton and the handler is
-        // therefore never rotated, so connection recycling is delegated to PooledConnectionLifetime.
+        // Both clients are long lived on purpose: the token provider and the API client are singletons, so
+        // the handlers are never rotated by the factory and connection recycling is delegated to
+        // PooledConnectionLifetime instead.
         services.AddHttpClient(TokenHttpClientName, ConfigureHttpClient)
             .SetHandlerLifetime(Timeout.InfiniteTimeSpan)
-            .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
-            {
-                PooledConnectionLifetime = TimeSpan.FromMinutes(5),
-            });
+            .ConfigurePrimaryHttpMessageHandler(CreatePrimaryHandler);
 
         services.TryAddSingleton(provider => new SendPulserTokenProvider(
             provider.GetRequiredService<IHttpClientFactory>().CreateClient(TokenHttpClientName),
@@ -107,12 +117,17 @@ public static class SendPulserServiceCollectionExtensions
             provider.GetRequiredService<SendPulserTokenProvider>(),
             provider.GetService<ILogger<SendPulserAuthenticationHandler>>()));
 
-        services.TryAddTransient<ISendPulserClient>(provider => new SendPulserClient(
+        services.TryAddSingleton<ISendPulserClient>(provider => new SendPulserClient(
             provider.GetRequiredService<IHttpClientFactory>().CreateClient(HttpClientName)));
 
         return services.AddHttpClient(HttpClientName, ConfigureHttpClient)
+            .SetHandlerLifetime(Timeout.InfiniteTimeSpan)
+            .ConfigurePrimaryHttpMessageHandler(CreatePrimaryHandler)
             .AddHttpMessageHandler<SendPulserAuthenticationHandler>();
     }
+
+    private static HttpMessageHandler CreatePrimaryHandler() =>
+        new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(5) };
 
     private static void ConfigureHttpClient(IServiceProvider provider, HttpClient client)
     {

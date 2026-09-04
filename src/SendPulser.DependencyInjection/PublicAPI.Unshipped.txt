@@ -1,6 +1,1 @@
 #nullable enable
-Microsoft.Extensions.DependencyInjection.SendPulserServiceCollectionExtensions
-const Microsoft.Extensions.DependencyInjection.SendPulserServiceCollectionExtensions.HttpClientName = "SendPulser" -> string!
-const Microsoft.Extensions.DependencyInjection.SendPulserServiceCollectionExtensions.TokenHttpClientName = "SendPulser.Token" -> string!
-static Microsoft.Extensions.DependencyInjection.SendPulserServiceCollectionExtensions.AddSendPulser(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, Microsoft.Extensions.Configuration.IConfiguration! configuration) -> Microsoft.Extensions.DependencyInjection.IHttpClientBuilder!
-static Microsoft.Extensions.DependencyInjection.SendPulserServiceCollectionExtensions.AddSendPulser(this Microsoft.Extensions.DependencyInjection.IServiceCollection! services, System.Action<SendPulser.SendPulserOptions!>! configure) -> Microsoft.Extensions.DependencyInjection.IHttpClientBuilder!

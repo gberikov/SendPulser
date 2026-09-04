@@ -1,0 +1,37 @@
+{
+  "id": "pzkic9-0afezp-fc",
+  "sender": "JohnDoe@test.com",
+  "total_size": "1128",
+  "sender_ip": "127.0.0.1",
+  "smtp_answer_code": "250",
+  "smtp_answer_subcode": "0",
+  "smtp_answer_data": "Bad recipients",
+  "used_ip": "5.104.224.87",
+  "recipient": null,
+  "subject": "SendPulse :: Email confirmation",
+  "send_date": "2013-12-17 10:33:53",
+  "tracking": {
+    "click": 1,
+    "open": 1,
+    "link": [
+      {
+        "url": "http://some-url.com",
+        "browser": "Chrome 29.0.1547.57",
+        "os": "Linux",
+        "screen_resolution": "1920x1080",
+        "ip": "46.149.83.86",
+        "country": "Ukraine",
+        "action_date": "2013-09-30 11:27:40"
+      }
+    ],
+    "client_info": [
+      {
+        "browser": "Thunderbird 17.0.8",
+        "os": "Linux",
+        "ip": "46.149.83.86",
+        "country": "USA",
+        "action_date": "2013-09-30 11:27:49"
+      }
+    ]
+  }
+}

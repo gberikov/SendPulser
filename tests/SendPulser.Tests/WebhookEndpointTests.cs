@@ -29,7 +29,7 @@ public class WebhookEndpointTests
         using var response = await PostFixtureAsync(client, $"/hooks/{Secret}", "email-webhook-batch.json");
 
         Assert.Equal(HttpStatusCode.NoContent, response.StatusCode);
-        Assert.Equal(5, received.Count);
+        Assert.Equal(9, received.Count);
 
         var opened = Assert.IsType<EmailOpenedEvent>(received[0]);
         Assert.Equal("Firefox", opened.BrowserName);
@@ -40,7 +40,7 @@ public class WebhookEndpointTests
         Assert.Equal("http://google.com", clicked.LinkUrl);
 
         var unsubscribed = Assert.IsType<EmailUnsubscribedEvent>(received[2]);
-        Assert.Equal(1, unsubscribed.FromAll);
+        Assert.True(unsubscribed.FromAll);
         Assert.Equal(490686, unsubscribed.BookId);
 
         Assert.IsType<EmailDeliveredEvent>(received[3]);

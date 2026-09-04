@@ -22,7 +22,8 @@ public sealed class SendPulserOptions
     public string ClientSecret { get; set; } = string.Empty;
 
     /// <summary>
-    /// Base address of the API. Defaults to <see cref="DefaultBaseUrl"/>.
+    /// Base address of the API. Defaults to <see cref="DefaultBaseUrl"/>. Must use HTTPS unless it points
+    /// at the local machine, because the client secret travels in the token request body.
     /// </summary>
     public Uri BaseAddress { get; set; } = new(DefaultBaseUrl);
 
@@ -33,8 +34,7 @@ public sealed class SendPulserOptions
     public TimeSpan TokenRefreshMargin { get; set; } = TimeSpan.FromSeconds(60);
 
     /// <summary>
-    /// Timeout applied to the underlying <see cref="System.Net.Http.HttpClient"/> when the client
-    /// creates one itself. Ignored when the client is built through <c>IHttpClientFactory</c>.
+    /// Timeout applied to the underlying <see cref="System.Net.Http.HttpClient"/>. Defaults to 100 seconds.
     /// </summary>
     public TimeSpan Timeout { get; set; } = TimeSpan.FromSeconds(100);
 
@@ -54,14 +54,26 @@ public sealed class SendPulserOptions
             throw new ArgumentException("SendPulser: ClientSecret is required.", nameof(ClientSecret));
         }
 
-        if (!BaseAddress.IsAbsoluteUri)
+        if (BaseAddress is null || !BaseAddress.IsAbsoluteUri)
         {
             throw new ArgumentException("SendPulser: BaseAddress must be an absolute URI.", nameof(BaseAddress));
+        }
+
+        if (BaseAddress.Scheme != Uri.UriSchemeHttps && !BaseAddress.IsLoopback)
+        {
+            throw new ArgumentException(
+                "SendPulser: BaseAddress must use https, the client secret is sent in the token request.",
+                nameof(BaseAddress));
         }
 
         if (TokenRefreshMargin < TimeSpan.Zero)
         {
             throw new ArgumentException("SendPulser: TokenRefreshMargin cannot be negative.", nameof(TokenRefreshMargin));
+        }
+
+        if (Timeout <= TimeSpan.Zero && Timeout != System.Threading.Timeout.InfiniteTimeSpan)
+        {
+            throw new ArgumentException("SendPulser: Timeout must be positive.", nameof(Timeout));
         }
     }
 

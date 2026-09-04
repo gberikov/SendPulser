@@ -42,6 +42,6 @@ public sealed class Base64BodyConverter : JsonConverter<string?>
             return;
         }
 
-        writer.WriteStringValue(Convert.ToBase64String(Encoding.UTF8.GetBytes(value)));
+        writer.WriteBase64StringValue(Encoding.UTF8.GetBytes(value));
     }
 }

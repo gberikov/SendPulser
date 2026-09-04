@@ -39,5 +39,37 @@
     "task_id": 9333331,
     "email": "test@e.cn.ua",
     "some_new_field": "value"
+  },
+  {
+    "timestamp": "1496827625",
+    "variables": { "name": "John", "age": 42 },
+    "email": "john.doe@sendpulse.com",
+    "source": "subscription form",
+    "book_id": "490686",
+    "event": "new_emails",
+    "brand_new_field": "kept"
+  },
+  {
+    "timestamp": "1496827422",
+    "event": "delete",
+    "book_id": "490686",
+    "email": "john.doe@sendpulse.com"
+  },
+  {
+    "status": "approve",
+    "status_explain": "Approved and will be sent",
+    "task_id": "3668138",
+    "timestamp": "1496827843",
+    "book_id": "490686",
+    "event": "task_status_update"
+  },
+  {
+    "smtp_server_response_code": 550,
+    "smtp_server_response_subcode": "5.1.0",
+    "task_id": 17076325,
+    "smtp_server_response": " vch15@i.ua MX: mx23.i.ua RESP: Mailbox over quota.",
+    "timestamp": 1658998170,
+    "event": "soft_bounces",
+    "email": "example@example.com"
   }
 ]

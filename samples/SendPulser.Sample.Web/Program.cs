@@ -4,12 +4,12 @@ using SendPulser.Webhooks;
 var builder = WebApplication.CreateBuilder(args);
 
 // Configuration lives under the "SendPulser" section; in development put it in user secrets.
+// See appsettings.example.json for the keys.
 builder.Services
     .AddSendPulser(builder.Configuration.GetSection(SendPulserOptions.SectionName))
     .AddSendPulserResilience();
 
 var app = builder.Build();
-var logger = app.Logger;
 
 app.MapGet("/mailing-lists", async (ISendPulserClient sendPulse, CancellationToken cancellationToken) =>
     await sendPulse.AddressBooks.GetAllAsync(limit: 20, cancellationToken: cancellationToken));
@@ -19,17 +19,23 @@ var webhookSecret = builder.Configuration["SendPulser:WebhookSecret"] ?? "change
 
 app.MapSendPulserEmailWebhook(
     "/hooks/sendpulse/email/{secret}",
-    (events, _) =>
+    (events, context, _) =>
     {
-        if (logger.IsEnabled(LogLevel.Information))
+        // The HttpContext overload gives access to scoped services through context.RequestServices.
+        var logger = context.RequestServices.GetRequiredService<ILogger<Program>>();
+        foreach (var received in events)
         {
-            foreach (var received in events)
+            switch (received)
             {
-                logger.LogInformation(
-                    "{Event} for {Email} at {Timestamp}",
-                    received.Event,
-                    received.Email,
-                    received.Timestamp);
+                case EmailHardBounceEvent bounce:
+                    Log.HardBounce(logger, bounce.Email, bounce.Response);
+                    break;
+                case UnknownEmailEvent unknown:
+                    Log.UnknownEvent(logger, unknown.Event, unknown.Raw);
+                    break;
+                default:
+                    Log.EmailEvent(logger, received.Event, received.Email, received.Timestamp);
+                    break;
             }
         }
 
@@ -41,16 +47,9 @@ app.MapSendPulserSmtpWebhook(
     "/hooks/sendpulse/smtp/{secret}",
     (events, _) =>
     {
-        if (logger.IsEnabled(LogLevel.Information))
+        foreach (var received in events.OfType<SmtpDeliveryResultEvent>())
         {
-            foreach (var received in events.OfType<SmtpDeliveredEvent>())
-            {
-                logger.LogInformation(
-                    "Message {MessageId} to {Recipient} answered {Code}",
-                    received.MessageId,
-                    received.Recipient,
-                    received.ResponseCode);
-            }
+            Log.SmtpDelivery(app.Logger, received.MessageId, received.Recipient, received.Event, received.ResponseCode);
         }
 
         return Task.CompletedTask;
@@ -58,3 +57,18 @@ app.MapSendPulserSmtpWebhook(
     options => options.Secret = webhookSecret);
 
 await app.RunAsync();
+
+internal static partial class Log
+{
+    [LoggerMessage(Level = LogLevel.Warning, Message = "Hard bounce for {Email}: {Response}")]
+    public static partial void HardBounce(ILogger logger, string? email, string? response);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "Unknown event {EventName}: {Raw}")]
+    public static partial void UnknownEvent(ILogger logger, string eventName, System.Text.Json.JsonElement raw);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "{EventName} for {Email} at {Timestamp}")]
+    public static partial void EmailEvent(ILogger logger, string eventName, string? email, DateTimeOffset? timestamp);
+
+    [LoggerMessage(Level = LogLevel.Information, Message = "Message {MessageId} to {Recipient}: {EventName} {Code}")]
+    public static partial void SmtpDelivery(ILogger logger, string? messageId, string? recipient, string eventName, int? code);
+}

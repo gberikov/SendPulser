@@ -64,8 +64,8 @@ public class ConverterTests
     {
         var contacts = JsonSerializer.Deserialize(TestClient.Fixture("contacts.json"), Json.ListContact)!;
 
-        Assert.Equal("John", contacts[0].Variables!["name"].GetString());
-        Assert.Equal(42, contacts[0].Variables!["code"].GetInt32());
+        Assert.Equal("John", contacts[0].Variables!["name"]);
+        Assert.Equal("42", contacts[0].Variables!["code"]);
         Assert.Null(contacts[1].Variables);
     }
 

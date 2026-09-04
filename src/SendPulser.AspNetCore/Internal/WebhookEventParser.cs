@@ -65,7 +65,11 @@ internal static class WebhookEventParser
             EmailWebhookEventNames.Redirect => Read(element, context.EmailClickedEvent),
             EmailWebhookEventNames.Unsubscribe => Read(element, context.EmailUnsubscribedEvent),
             EmailWebhookEventNames.NewSubscriber => Read(element, context.EmailNewSubscriberEvent),
+            EmailWebhookEventNames.Delete => Read(element, context.EmailDeletedEvent),
             EmailWebhookEventNames.Spam => Read(element, context.EmailSpamEvent),
+            EmailWebhookEventNames.TaskStatusUpdate => Read(element, context.EmailCampaignStatusEvent),
+            EmailWebhookEventNames.SoftBounces => Read(element, context.EmailSoftBounceEvent),
+            EmailWebhookEventNames.HardBounces => Read(element, context.EmailHardBounceEvent),
             _ => Unknown(element),
         };
 
@@ -84,10 +88,14 @@ internal static class WebhookEventParser
         return GetEventName(element) switch
         {
             SmtpWebhookEventNames.Delivered => Read(element, context.SmtpDeliveredEvent),
+            SmtpWebhookEventNames.Undelivered => Read(element, context.SmtpUndeliveredEvent),
             SmtpWebhookEventNames.Opened => Read(element, context.SmtpOpenedEvent),
             SmtpWebhookEventNames.Clicked => Read(element, context.SmtpClickedEvent),
             SmtpWebhookEventNames.Unsubscribed => Read(element, context.SmtpUnsubscribedEvent),
             SmtpWebhookEventNames.Resubscribed => Read(element, context.SmtpResubscribedEvent),
+            SmtpWebhookEventNames.Spam => Read(element, context.SmtpSpamEvent),
+            SmtpWebhookEventNames.SoftBounces => Read(element, context.SmtpSoftBounceEvent),
+            SmtpWebhookEventNames.HardBounces => Read(element, context.SmtpHardBounceEvent),
             _ => Unknown(element),
         };
 
@@ -105,6 +113,17 @@ internal static class WebhookEventParser
             : null;
 
     private static T Read<T>(JsonElement element, JsonTypeInfo<T> typeInfo)
-        where T : new() =>
-        element.Deserialize(typeInfo) ?? new T();
+        where T : new()
+    {
+        try
+        {
+            return element.Deserialize(typeInfo) ?? new T();
+        }
+        catch (JsonException)
+        {
+            // A field with an unexpected shape must not drop the whole batch; the event is kept with
+            // whatever could be read and the original JSON stays available on the unknown fallback.
+            return new T();
+        }
+    }
 }

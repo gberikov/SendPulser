@@ -1,1 +1,26 @@
 #nullable enable
+SendPulser.RateLimit
+SendPulser.SendPulserAuthenticationHandler
+SendPulser.SendPulserAuthenticationHandler.SendPulserAuthenticationHandler(SendPulser.SendPulserTokenProvider! tokenProvider, Microsoft.Extensions.Logging.ILogger<SendPulser.SendPulserAuthenticationHandler!>? logger = null) -> void
+SendPulser.SendPulserClient
+SendPulser.SendPulserClient.AddressBooks.get -> SendPulser.AddressBooks.IAddressBookService!
+SendPulser.SendPulserClient.Balance.get -> SendPulser.Balance.IBalanceService!
+SendPulser.SendPulserClient.Blacklist.get -> SendPulser.Blacklist.IBlacklistService!
+SendPulser.SendPulserClient.Campaigns.get -> SendPulser.Campaigns.ICampaignService!
+SendPulser.SendPulserClient.Dispose() -> void
+SendPulser.SendPulserClient.EmailAddresses.get -> SendPulser.EmailAddresses.IEmailAddressService!
+SendPulser.SendPulserClient.SendPulserClient(SendPulser.SendPulserOptions! options) -> void
+SendPulser.SendPulserClient.SendPulserClient(System.Net.Http.HttpClient! httpClient) -> void
+SendPulser.SendPulserClient.SendPulserClient(string! clientId, string! clientSecret) -> void
+SendPulser.SendPulserClient.Senders.get -> SendPulser.Senders.ISenderService!
+SendPulser.SendPulserClient.Smtp.get -> SendPulser.Smtp.ISmtpService!
+SendPulser.SendPulserClient.Tags.get -> SendPulser.Tags.ITagService!
+SendPulser.SendPulserClient.Templates.get -> SendPulser.Templates.ITemplateService!
+SendPulser.SendPulserClient.Webhooks.get -> SendPulser.Webhooks.IWebhookService!
+SendPulser.SendPulserTokenProvider
+SendPulser.SendPulserTokenProvider.Dispose() -> void
+SendPulser.SendPulserTokenProvider.GetTokenAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.ValueTask<string!>
+SendPulser.SendPulserTokenProvider.Invalidate(string? rejectedToken = null) -> void
+SendPulser.SendPulserTokenProvider.SendPulserTokenProvider(System.Net.Http.HttpClient! httpClient, SendPulser.SendPulserOptions! options, Microsoft.Extensions.Logging.ILogger<SendPulser.SendPulserTokenProvider!>? logger = null, System.TimeProvider? timeProvider = null) -> void
+const SendPulser.RateLimit.PerSecondErrorCode = 2020202020 -> int
+const SendPulser.RateLimit.RequestsPerSecond = 10 -> int

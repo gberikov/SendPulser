@@ -17,6 +17,6 @@ internal static partial class Log
     [LoggerMessage(
         EventId = 2,
         Level = LogLevel.Information,
-        Message = "SendPulse rejected the access token for {Method} {Uri}; refreshing and retrying once.")]
-    public static partial void TokenRejected(ILogger logger, HttpMethod method, Uri? uri);
+        Message = "SendPulse rejected the access token for {Method} {Path}; refreshing and retrying once.")]
+    public static partial void TokenRejected(ILogger logger, HttpMethod method, string? path);
 }

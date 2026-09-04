@@ -105,6 +105,25 @@ public class TokenProviderTests
     }
 
     [Fact]
+    public async Task Keeps_a_token_that_already_replaced_the_rejected_one()
+    {
+        var handler = new FakeHttpMessageHandler()
+            .RespondWith(TokenJson)
+            .RespondWith("""{"access_token":"second","expires_in":3600}""");
+        using var httpClient = new HttpClient(handler) { BaseAddress = TestClient.BaseAddress };
+        using var provider = new SendPulserTokenProvider(httpClient, Options);
+
+        var first = await provider.GetTokenAsync();
+        provider.Invalidate(first);
+        var second = await provider.GetTokenAsync();
+
+        // A slow caller reporting the first token as rejected must not throw away the fresh one.
+        provider.Invalidate(first);
+        Assert.Equal(second, await provider.GetTokenAsync());
+        Assert.Equal(2, handler.Requests.Count);
+    }
+
+    [Fact]
     public void Rejects_options_without_credentials()
     {
         using var httpClient = new HttpClient { BaseAddress = TestClient.BaseAddress };

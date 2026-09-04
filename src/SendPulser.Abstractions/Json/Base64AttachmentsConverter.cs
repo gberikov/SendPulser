@@ -32,10 +32,9 @@ public sealed class Base64AttachmentsConverter : JsonConverter<Dictionary<string
                 continue;
             }
 
-            var value = reader.GetString();
-            if (value is not null && Convert.TryFromBase64String(value, new byte[value.Length], out _))
+            if (reader.TryGetBytesFromBase64(out var bytes))
             {
-                result[name] = Convert.FromBase64String(value);
+                result[name] = bytes;
             }
         }
 
@@ -56,7 +55,7 @@ public sealed class Base64AttachmentsConverter : JsonConverter<Dictionary<string
         writer.WriteStartObject();
         foreach (var (name, content) in value)
         {
-            writer.WriteString(name, Convert.ToBase64String(content));
+            writer.WriteBase64String(name, content);
         }
 
         writer.WriteEndObject();

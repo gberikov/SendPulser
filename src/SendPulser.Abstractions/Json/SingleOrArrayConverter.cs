@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -21,7 +22,7 @@ public sealed class SingleOrArrayConverter : JsonConverter<IReadOnlyList<int>?>
                 return [reader.GetInt32()];
 
             case JsonTokenType.String:
-                return int.TryParse(reader.GetString(), out var single) ? [single] : null;
+                return int.TryParse(reader.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var single) ? [single] : null;
 
             case JsonTokenType.StartArray:
                 var items = new List<int>();
@@ -31,7 +32,7 @@ public sealed class SingleOrArrayConverter : JsonConverter<IReadOnlyList<int>?>
                     {
                         items.Add(reader.GetInt32());
                     }
-                    else if (reader.TokenType is JsonTokenType.String && int.TryParse(reader.GetString(), out var item))
+                    else if (reader.TokenType is JsonTokenType.String && int.TryParse(reader.GetString(), NumberStyles.Integer, CultureInfo.InvariantCulture, out var item))
                     {
                         items.Add(item);
                     }

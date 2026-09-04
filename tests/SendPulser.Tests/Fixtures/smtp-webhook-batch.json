@@ -17,5 +17,33 @@
     "recipient": "doe.john@sendpulse.com",
     "sender": "john.doe@sendpulse.com",
     "subject": "utf8_hello_world"
+  },
+  {
+    "smtp_server_response_code": "554",
+    "smtp_server_response_subcode": "5.7.1",
+    "sender": "john.doe@sendpulse.com",
+    "smtp_server_response": "rejected",
+    "timestamp": 1490956117,
+    "message_id": 1149317311,
+    "recipient": "doe.john@sendpulse.com",
+    "event": "undelivered",
+    "subject": "utf8_hello_world"
+  },
+  {
+    "event": "spam_by_user",
+    "timestamp": 1490964607,
+    "message_id": 1145317311,
+    "recipient": "doe.john@sendpulse.com",
+    "sender": "john.doe@sendpulse.com",
+    "subject": "utf8_hello_world"
+  },
+  {
+    "smtp_server_response_code": 550,
+    "smtp_server_response_subcode": "5.1.1",
+    "task_id": 17076325,
+    "smtp_server_response": "User unknown in local recipient table",
+    "timestamp": 1658998170,
+    "event": "hard_bounces",
+    "email": "example@example.com"
   }
 ]

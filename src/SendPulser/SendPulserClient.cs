@@ -1,8 +1,13 @@
 using SendPulser.AddressBooks;
+using SendPulser.Balance;
+using SendPulser.Blacklist;
 using SendPulser.Campaigns;
+using SendPulser.EmailAddresses;
 using SendPulser.Internal;
+using SendPulser.Senders;
 using SendPulser.Services;
 using SendPulser.Smtp;
+using SendPulser.Tags;
 using SendPulser.Templates;
 using SendPulser.Webhooks;
 
@@ -26,19 +31,31 @@ public sealed class SendPulserClient : ISendPulserClient, IDisposable
     private bool _disposed;
 
     /// <summary>
-    /// Creates a client over a pre-configured <see cref="HttpClient"/>, which is expected to carry the
-    /// SendPulse base address and a <see cref="SendPulserAuthenticationHandler"/>. This is the constructor
-    /// the dependency injection package uses; the client does not dispose the supplied instance.
+    /// Creates a client over a pre-configured <see cref="HttpClient"/>, which must carry the SendPulse
+    /// base address and is expected to run through a <see cref="SendPulserAuthenticationHandler"/>. This is
+    /// the constructor the dependency injection package uses; the client does not dispose the supplied instance.
     /// </summary>
     /// <param name="httpClient">Authenticated HTTP client.</param>
+    /// <exception cref="ArgumentException">The client has no base address.</exception>
     public SendPulserClient(HttpClient httpClient)
     {
         ArgumentNullException.ThrowIfNull(httpClient);
+        if (httpClient.BaseAddress is null)
+        {
+            throw new ArgumentException(
+                "The HttpClient needs a BaseAddress, for example " + SendPulserOptions.DefaultBaseUrl + ".",
+                nameof(httpClient));
+        }
 
         var api = new SendPulserApi(httpClient);
         AddressBooks = new AddressBookService(api);
+        EmailAddresses = new EmailAddressService(api);
         Templates = new TemplateService(api);
         Campaigns = new CampaignService(api);
+        Senders = new SenderService(api);
+        Blacklist = new BlacklistService(api);
+        Tags = new TagService(api);
+        Balance = new BalanceService(api);
         Smtp = new SmtpService(api);
         Webhooks = new WebhookService(api);
     }
@@ -70,10 +87,25 @@ public sealed class SendPulserClient : ISendPulserClient, IDisposable
     public IAddressBookService AddressBooks { get; }
 
     /// <inheritdoc />
+    public IEmailAddressService EmailAddresses { get; }
+
+    /// <inheritdoc />
     public ITemplateService Templates { get; }
 
     /// <inheritdoc />
     public ICampaignService Campaigns { get; }
+
+    /// <inheritdoc />
+    public ISenderService Senders { get; }
+
+    /// <inheritdoc />
+    public IBlacklistService Blacklist { get; }
+
+    /// <inheritdoc />
+    public ITagService Tags { get; }
+
+    /// <inheritdoc />
+    public IBalanceService Balance { get; }
 
     /// <inheritdoc />
     public ISmtpService Smtp { get; }
@@ -112,7 +144,7 @@ public sealed class SendPulserClient : ISendPulserClient, IDisposable
 
         var handler = new SendPulserAuthenticationHandler(tokenProvider)
         {
-            InnerHandler = new HttpClientHandler(),
+            InnerHandler = new SocketsHttpHandler { PooledConnectionLifetime = TimeSpan.FromMinutes(5) },
         };
 
         ownedHttpClient = new HttpClient(handler) { BaseAddress = baseAddress, Timeout = options.Timeout };

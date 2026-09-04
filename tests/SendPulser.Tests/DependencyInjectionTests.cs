@@ -49,6 +49,44 @@ public class DependencyInjectionTests
     }
 
     [Fact]
+    public void Resolves_one_client_instance_for_the_whole_container()
+    {
+        var services = new ServiceCollection();
+        services.AddSendPulser(options =>
+        {
+            options.ClientId = "id";
+            options.ClientSecret = "secret";
+        });
+
+        using var provider = services.BuildServiceProvider();
+
+        Assert.Same(provider.GetRequiredService<ISendPulserClient>(), provider.GetRequiredService<ISendPulserClient>());
+    }
+
+    [Fact]
+    public void Reads_the_refresh_margin_and_the_BaseAddress_key_from_configuration()
+    {
+        var configuration = new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?>
+            {
+                ["SendPulser:ClientId"] = "id",
+                ["SendPulser:ClientSecret"] = "secret",
+                ["SendPulser:BaseAddress"] = "https://example.test/api",
+                ["SendPulser:TokenRefreshMargin"] = "00:05:00",
+            })
+            .Build();
+
+        var services = new ServiceCollection();
+        services.AddSendPulser(configuration.GetSection(SendPulserOptions.SectionName));
+
+        using var provider = services.BuildServiceProvider();
+        var options = provider.GetRequiredService<IOptions<SendPulserOptions>>().Value;
+
+        Assert.Equal(new Uri("https://example.test/api"), options.BaseAddress);
+        Assert.Equal(TimeSpan.FromMinutes(5), options.TokenRefreshMargin);
+    }
+
+    [Fact]
     public void Fails_fast_when_the_credentials_are_incomplete()
     {
         var services = new ServiceCollection();
@@ -120,6 +158,85 @@ public class DependencyInjectionTests
         // Creating a mailing list is a write: a replay would create it twice, so it is not retried.
         await Assert.ThrowsAsync<SendPulserApiException>(() => client.AddressBooks.CreateAsync("book"));
         Assert.Equal(3, apiHandler.Requests.Count);
+    }
+
+    [Fact]
+    public async Task Retries_a_get_whose_attempt_timed_out()
+    {
+        var apiHandler = new FakeHttpMessageHandler()
+            .RespondAsync(async (_, cancellationToken) =>
+            {
+                // Longer than the attempt timeout below; the retry then succeeds immediately.
+                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            })
+            .RespondWith(TestClient.Fixture("address-books.json"));
+
+        var tokenHandler = new FakeHttpMessageHandler()
+            .RespondWith("""{"access_token":"token","expires_in":3600}""");
+
+        var services = new ServiceCollection();
+        services
+            .AddSendPulser(options =>
+            {
+                options.ClientId = "id";
+                options.ClientSecret = "secret";
+            })
+            .AddSendPulserResilience(options =>
+            {
+                options.RetryDelay = TimeSpan.FromMilliseconds(1);
+                options.AttemptTimeout = TimeSpan.FromMilliseconds(100);
+            });
+
+        UsePrimaryHandler(services, SendPulserServiceCollectionExtensions.HttpClientName, apiHandler);
+        UsePrimaryHandler(services, SendPulserServiceCollectionExtensions.TokenHttpClientName, tokenHandler);
+
+        using var provider = services.BuildServiceProvider();
+        var client = provider.GetRequiredService<ISendPulserClient>();
+
+        var books = await client.AddressBooks.GetAllAsync();
+
+        Assert.Equal(2, books.Count);
+        Assert.Equal(2, apiHandler.Requests.Count);
+    }
+
+    [Fact]
+    public async Task Reports_an_exhausted_pipeline_as_a_transport_failure()
+    {
+        var apiHandler = new FakeHttpMessageHandler();
+        for (var i = 0; i < 4; i++)
+        {
+            apiHandler.RespondAsync(async (_, cancellationToken) =>
+            {
+                await Task.Delay(TimeSpan.FromSeconds(5), cancellationToken);
+                return new HttpResponseMessage(HttpStatusCode.OK);
+            });
+        }
+
+        var tokenHandler = new FakeHttpMessageHandler()
+            .RespondWith("""{"access_token":"token","expires_in":3600}""");
+
+        var services = new ServiceCollection();
+        services
+            .AddSendPulser(options =>
+            {
+                options.ClientId = "id";
+                options.ClientSecret = "secret";
+            })
+            .AddSendPulserResilience(options =>
+            {
+                options.RetryDelay = TimeSpan.FromMilliseconds(1);
+                options.AttemptTimeout = TimeSpan.FromMilliseconds(50);
+            });
+
+        UsePrimaryHandler(services, SendPulserServiceCollectionExtensions.HttpClientName, apiHandler);
+        UsePrimaryHandler(services, SendPulserServiceCollectionExtensions.TokenHttpClientName, tokenHandler);
+
+        using var provider = services.BuildServiceProvider();
+        var client = provider.GetRequiredService<ISendPulserClient>();
+
+        await Assert.ThrowsAsync<SendPulserTransportException>(() => client.AddressBooks.GetAllAsync());
+        Assert.Equal(4, apiHandler.Requests.Count);
     }
 
     private static void UsePrimaryHandler(IServiceCollection services, string name, HttpMessageHandler handler) =>

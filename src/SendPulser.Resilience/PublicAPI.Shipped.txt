@@ -1,1 +1,15 @@
 #nullable enable
+Microsoft.Extensions.DependencyInjection.SendPulserResilienceHttpClientBuilderExtensions
+SendPulser.Resilience.SendPulserResilienceOptions
+SendPulser.Resilience.SendPulserResilienceOptions.AttemptTimeout.get -> System.TimeSpan
+SendPulser.Resilience.SendPulserResilienceOptions.AttemptTimeout.set -> void
+SendPulser.Resilience.SendPulserResilienceOptions.MaxRetryAttempts.get -> int
+SendPulser.Resilience.SendPulserResilienceOptions.MaxRetryAttempts.set -> void
+SendPulser.Resilience.SendPulserResilienceOptions.QueueLimit.get -> int
+SendPulser.Resilience.SendPulserResilienceOptions.QueueLimit.set -> void
+SendPulser.Resilience.SendPulserResilienceOptions.RequestsPerSecond.get -> int
+SendPulser.Resilience.SendPulserResilienceOptions.RequestsPerSecond.set -> void
+SendPulser.Resilience.SendPulserResilienceOptions.RetryDelay.get -> System.TimeSpan
+SendPulser.Resilience.SendPulserResilienceOptions.RetryDelay.set -> void
+SendPulser.Resilience.SendPulserResilienceOptions.SendPulserResilienceOptions() -> void
+static Microsoft.Extensions.DependencyInjection.SendPulserResilienceHttpClientBuilderExtensions.AddSendPulserResilience(this Microsoft.Extensions.DependencyInjection.IHttpClientBuilder! builder, System.Action<SendPulser.Resilience.SendPulserResilienceOptions!>? configure = null) -> Microsoft.Extensions.DependencyInjection.IHttpClientBuilder!

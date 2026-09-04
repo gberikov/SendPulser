@@ -250,7 +250,7 @@ public class SmtpServiceTests
 
         var contacts = await client.Smtp.GetUnsubscribedAsync(new DateOnly(2018, 11, 24));
 
-        Assert.Equal(1, contacts[0].SpamComplaint);
+        Assert.True(contacts[0].SpamComplaint);
         Assert.Equal("?date=2018-11-24", handler.LastRequest.Query);
     }
 

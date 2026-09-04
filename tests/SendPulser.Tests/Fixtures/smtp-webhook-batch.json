@@ -1,0 +1,21 @@
+[
+  {
+    "smtp_server_response_code": "250",
+    "smtp_server_response_subcode": "",
+    "sender": "john.doe@sendpulse.com",
+    "smtp_server_response": "ok",
+    "timestamp": 1490953933,
+    "message_id": 1149317311,
+    "recipient": "doe.john@sendpulse.com",
+    "event": "delivered",
+    "subject": "utf8_hello_world"
+  },
+  {
+    "event": "opened",
+    "timestamp": 1490962764,
+    "message_id": "1149317311",
+    "recipient": "doe.john@sendpulse.com",
+    "sender": "john.doe@sendpulse.com",
+    "subject": "utf8_hello_world"
+  }
+]

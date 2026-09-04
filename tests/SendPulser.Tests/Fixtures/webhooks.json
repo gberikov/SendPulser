@@ -1,0 +1,9 @@
+{
+  "data": {
+    "result": true,
+    "data": [
+      { "id": 37857, "user_id": 7043663, "url": "https://example.com/hooks/sp", "action": "delivered" },
+      { "id": 37858, "user_id": 7043663, "url": "https://example.com/hooks/sp", "action": "open" }
+    ]
+  }
+}

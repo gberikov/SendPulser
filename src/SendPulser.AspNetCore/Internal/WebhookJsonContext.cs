@@ -1,0 +1,23 @@
+using System.Text.Json.Serialization;
+using SendPulser.Webhooks;
+
+namespace SendPulser.AspNetCore.Internal;
+
+/// <summary>
+/// Source generated metadata for the webhook payloads, keeping the endpoints trimming and AOT safe.
+/// </summary>
+[JsonSourceGenerationOptions(NumberHandling = JsonNumberHandling.AllowReadingFromString)]
+[JsonSerializable(typeof(EmailDeliveredEvent))]
+[JsonSerializable(typeof(EmailOpenedEvent))]
+[JsonSerializable(typeof(EmailClickedEvent))]
+[JsonSerializable(typeof(EmailUnsubscribedEvent))]
+[JsonSerializable(typeof(EmailNewSubscriberEvent))]
+[JsonSerializable(typeof(EmailSpamEvent))]
+[JsonSerializable(typeof(UnknownEmailEvent))]
+[JsonSerializable(typeof(SmtpDeliveredEvent))]
+[JsonSerializable(typeof(SmtpOpenedEvent))]
+[JsonSerializable(typeof(SmtpClickedEvent))]
+[JsonSerializable(typeof(SmtpUnsubscribedEvent))]
+[JsonSerializable(typeof(SmtpResubscribedEvent))]
+[JsonSerializable(typeof(UnknownSmtpEvent))]
+internal sealed partial class WebhookJsonContext : JsonSerializerContext;

@@ -1,0 +1,16 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/SendPulser.Abstractions/SendPulser.Abstractions.csproj" />
+    <Project Path="src/SendPulser/SendPulser.csproj" />
+    <Project Path="src/SendPulser.DependencyInjection/SendPulser.DependencyInjection.csproj" />
+    <Project Path="src/SendPulser.Resilience/SendPulser.Resilience.csproj" />
+    <Project Path="src/SendPulser.AspNetCore/SendPulser.AspNetCore.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/SendPulser.Tests/SendPulser.Tests.csproj" />
+  </Folder>
+  <Folder Name="/samples/">
+    <Project Path="samples/SendPulser.Sample.Console/SendPulser.Sample.Console.csproj" />
+    <Project Path="samples/SendPulser.Sample.Web/SendPulser.Sample.Web.csproj" />
+  </Folder>
+</Solution>

@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <IsPackable>false</IsPackable>
+    <OutputType>Library</OutputType>
+  </PropertyGroup>
+
+  <PropertyGroup Label="Coverage">
+    <CoverletOutputFormat>cobertura</CoverletOutputFormat>
+    <ThresholdType>line</ThresholdType>
+    <ThresholdStat>total</ThresholdStat>
+    <!-- The abstractions package is serialization models and interfaces; covering it would mean
+         writing property tests for DTOs to make a percentage look good. -->
+    <Exclude>[SendPulser.Abstractions]*</Exclude>
+    <SkipAutoProps>true</SkipAutoProps>
+    <!-- Source generated JSON metadata and LoggerMessage plumbing are not ours to test. -->
+    <ExcludeByAttribute>Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverageAttribute</ExcludeByAttribute>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/SendPulser/SendPulser.csproj" />
+    <ProjectReference Include="../../src/SendPulser.AspNetCore/SendPulser.AspNetCore.csproj" />
+    <ProjectReference Include="../../src/SendPulser.DependencyInjection/SendPulser.DependencyInjection.csproj" />
+    <ProjectReference Include="../../src/SendPulser.Resilience/SendPulser.Resilience.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" />
+    <PackageReference Include="Microsoft.AspNetCore.TestHost" />
+    <PackageReference Include="xunit" />
+    <PackageReference Include="xunit.runner.visualstudio" />
+    <PackageReference Include="coverlet.collector" />
+    <PackageReference Include="coverlet.msbuild">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Fixtures/**/*.json" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Using Include="Xunit" />
+  </ItemGroup>
+
+</Project>

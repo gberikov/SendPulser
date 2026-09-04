@@ -1,0 +1,22 @@
+{
+  "id": "f3266876955c9d21e214deed49b97446",
+  "real_id": 1153018,
+  "lang": "en",
+  "name": "Webinar Speakers",
+  "name_slug": "",
+  "created": "2020-09-04 13:54:30",
+  "full_description": "Use this template as a webinar invitation.",
+  "is_structure": true,
+  "category": "education",
+  "category_info": {
+    "id": 109,
+    "name": "Education",
+    "code": "education",
+    "sort": 6
+  },
+  "tags": {
+    "webinar": "webinar"
+  },
+  "owner": "sendpulse",
+  "preview": "https://login.sendpulse.com/files/emailservice/preview/f3266876.png"
+}

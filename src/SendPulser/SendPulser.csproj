@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <Description>Modern async .NET client for the SendPulse REST API: mailing lists, contacts, templates, campaigns and SMTP.</Description>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../SendPulser.Abstractions/SendPulser.Abstractions.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="SendPulser.Tests" />
+  </ItemGroup>
+
+</Project>

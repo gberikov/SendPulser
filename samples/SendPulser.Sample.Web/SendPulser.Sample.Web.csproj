@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>SendPulser.Sample.Web</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/SendPulser.AspNetCore/SendPulser.AspNetCore.csproj" />
+    <ProjectReference Include="../../src/SendPulser.Resilience/SendPulser.Resilience.csproj" />
+  </ItemGroup>
+
+</Project>

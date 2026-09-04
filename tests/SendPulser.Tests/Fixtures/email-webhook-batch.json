@@ -1,0 +1,43 @@
+[
+  {
+    "timestamp": "1496827941",
+    "event": "open",
+    "task_id": "3668141",
+    "open_device": "Desktop",
+    "open_platform": "Windows",
+    "browser_ver": "11.0",
+    "browser_name": "Firefox",
+    "email": "john.doe@sendpulse.com"
+  },
+  {
+    "link_url": "http://google.com",
+    "task_id": "3668141",
+    "timestamp": "1496828000",
+    "link_id": "71741389",
+    "email": "john.doe@sendpulse.com",
+    "event": "redirect"
+  },
+  {
+    "task_id": "3668141",
+    "timestamp": "1496827872",
+    "from_all": "1",
+    "email": "john.doe@sendpulse.com",
+    "reason": null,
+    "book_id": "490686",
+    "event": "unsubscribe",
+    "categories": ""
+  },
+  {
+    "timestamp": 1632316421,
+    "event": "delivered",
+    "task_id": 9333331,
+    "email": "test@e.cn.ua"
+  },
+  {
+    "timestamp": 1632316500,
+    "event": "hard_bounce_unknown_to_the_sdk",
+    "task_id": 9333331,
+    "email": "test@e.cn.ua",
+    "some_new_field": "value"
+  }
+]

@@ -1,0 +1,9 @@
+#nullable enable
+Microsoft.AspNetCore.Builder.SendPulserWebhookEndpointExtensions
+SendPulser.AspNetCore.SendPulserWebhookOptions
+SendPulser.AspNetCore.SendPulserWebhookOptions.AllowedAddresses.get -> System.Collections.Generic.IList<System.Net.IPAddress!>!
+SendPulser.AspNetCore.SendPulserWebhookOptions.Secret.get -> string?
+SendPulser.AspNetCore.SendPulserWebhookOptions.Secret.set -> void
+SendPulser.AspNetCore.SendPulserWebhookOptions.SendPulserWebhookOptions() -> void
+static Microsoft.AspNetCore.Builder.SendPulserWebhookEndpointExtensions.MapSendPulserEmailWebhook(this Microsoft.AspNetCore.Routing.IEndpointRouteBuilder! endpoints, string! pattern, System.Func<System.Collections.Generic.IReadOnlyList<SendPulser.Webhooks.EmailWebhookEvent!>!, System.Threading.CancellationToken, System.Threading.Tasks.Task!>! handler, System.Action<SendPulser.AspNetCore.SendPulserWebhookOptions!>? configure = null) -> Microsoft.AspNetCore.Builder.IEndpointConventionBuilder!
+static Microsoft.AspNetCore.Builder.SendPulserWebhookEndpointExtensions.MapSendPulserSmtpWebhook(this Microsoft.AspNetCore.Routing.IEndpointRouteBuilder! endpoints, string! pattern, System.Func<System.Collections.Generic.IReadOnlyList<SendPulser.Webhooks.SmtpWebhookEvent!>!, System.Threading.CancellationToken, System.Threading.Tasks.Task!>! handler, System.Action<SendPulser.AspNetCore.SendPulserWebhookOptions!>? configure = null) -> Microsoft.AspNetCore.Builder.IEndpointConventionBuilder!

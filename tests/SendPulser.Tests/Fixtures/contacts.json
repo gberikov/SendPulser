@@ -1,0 +1,16 @@
+[
+  {
+    "email": "test@test.com",
+    "status": "0",
+    "status_explain": "New",
+    "variables": {
+      "name": "John",
+      "code": 42
+    }
+  },
+  {
+    "email": "test2@test.com",
+    "status": 1,
+    "status_explain": "Active"
+  }
+]

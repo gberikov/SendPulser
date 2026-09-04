@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFrameworks />
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>SendPulser.Sample.Console</RootNamespace>
+    <UserSecretsId>sendpulser-sample-console</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../src/SendPulser/SendPulser.csproj" />
+  </ItemGroup>
+
+</Project>

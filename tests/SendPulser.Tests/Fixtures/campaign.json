@@ -1,0 +1,37 @@
+{
+  "id": 14973974,
+  "name": "test check link",
+  "is_sms": false,
+  "is_viber": false,
+  "status": 3,
+  "message": {
+    "sender_name": "test",
+    "sender_email": "e.b@sendpulse.com",
+    "subject": "test check link",
+    "body": "<html>hello</html>",
+    "preheader": "",
+    "attachments": "",
+    "list_id": 89311111
+  },
+  "external_stat": {
+    "check_open_email": true,
+    "check_redirect_link": true
+  },
+  "all_email_qty": 2,
+  "tariff_email_qty": 2,
+  "paid_email_qty": 0,
+  "overdraft_price": 0,
+  "company_price": "0.05",
+  "overdraft_currency": "UAH",
+  "send_date": "2021-09-01 10:55:39",
+  "permalink": "http://archive.sendpulse.com/u/abc/",
+  "statistics": {
+    "general": [
+      { "code": 1, "count": 2, "explain": "Sent" },
+      { "code": 3, "count": 2, "explain": "Opened" }
+    ],
+    "clicks": [
+      { "url": "https://habr.com/ru/all/", "count": 3 }
+    ]
+  }
+}

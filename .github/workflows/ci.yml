@@ -1,0 +1,99 @@
+name: CI
+
+on:
+  push:
+    branches: [master, develop]
+    tags: ['[0-9]*']
+  pull_request:
+    branches: [master, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  # Required by NuGet trusted publishing, which exchanges this token for a short lived API key.
+  id-token: write
+
+# A newer push to the same branch supersedes the running build; tag builds are never cancelled.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Actions are pinned to commit SHAs; Dependabot keeps the pins current.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # MinVer derives the version from the closest tag, so the full history is needed.
+          fetch-depth: 0
+
+      - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
+        with:
+          dotnet-version: |
+            8.0.x
+            10.0.x
+
+      - name: Restore
+        run: dotnet restore SendPulser.slnx
+
+      - name: Build
+        run: dotnet build SendPulser.slnx -c Release --no-restore
+
+      - name: Test
+        run: >
+          dotnet test tests/SendPulser.Tests/SendPulser.Tests.csproj
+          -c Release --no-build
+          -p:CollectCoverage=true
+          -p:Threshold=80
+          -p:CoverletOutput=../../artifacts/coverage/
+
+      # The packages claim Native AOT compatibility; publishing the console sample with the ILCompiler
+      # is the only check that proves it, analyzers alone miss runtime-only reflection.
+      - name: Verify Native AOT publish
+        run: >
+          dotnet publish samples/SendPulser.Sample.Console/SendPulser.Sample.Console.csproj
+          -c Release -r linux-x64 -p:PublishAot=true -o artifacts/aot
+
+      - name: Upload coverage
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: coverage
+          path: artifacts/coverage/
+          if-no-files-found: ignore
+
+      - name: Pack
+        if: startsWith(github.ref, 'refs/tags/')
+        run: dotnet pack SendPulser.slnx -c Release --no-build -o artifacts/packages
+
+      - name: Upload packages
+        if: startsWith(github.ref, 'refs/tags/')
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: packages
+          path: artifacts/packages/
+
+      # Trusted publishing: no long lived API key in the repository secrets. Configure the policy for
+      # this repository at https://www.nuget.org/account/trustedpublishing and set the NUGET_USER
+      # repository variable to the nuget.org account that owns it.
+      - name: Authenticate to NuGet
+        if: startsWith(github.ref, 'refs/tags/')
+        id: nuget-login
+        uses: NuGet/login@8d196754b4036150537f80ac539e15c2f1028841 # v1.2.0
+        with:
+          user: ${{ vars.NUGET_USER }}
+
+      - name: Push
+        if: startsWith(github.ref, 'refs/tags/')
+        run: >
+          dotnet nuget push "artifacts/packages/*.nupkg"
+          --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate

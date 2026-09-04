@@ -1,0 +1,1095 @@
+#nullable enable
+SendPulser.AddressBooks.AddressBook
+SendPulser.AddressBooks.AddressBook.ActiveEmailCount.get -> int
+SendPulser.AddressBooks.AddressBook.ActiveEmailCount.set -> void
+SendPulser.AddressBooks.AddressBook.AddressBook() -> void
+SendPulser.AddressBooks.AddressBook.AllEmailCount.get -> int
+SendPulser.AddressBooks.AddressBook.AllEmailCount.set -> void
+SendPulser.AddressBooks.AddressBook.CreatedAt.get -> System.DateTime?
+SendPulser.AddressBooks.AddressBook.CreatedAt.set -> void
+SendPulser.AddressBooks.AddressBook.Id.get -> int
+SendPulser.AddressBooks.AddressBook.Id.set -> void
+SendPulser.AddressBooks.AddressBook.InactiveEmailCount.get -> int
+SendPulser.AddressBooks.AddressBook.InactiveEmailCount.set -> void
+SendPulser.AddressBooks.AddressBook.Name.get -> string!
+SendPulser.AddressBooks.AddressBook.Name.set -> void
+SendPulser.AddressBooks.AddressBook.Status.get -> int
+SendPulser.AddressBooks.AddressBook.Status.set -> void
+SendPulser.AddressBooks.AddressBook.StatusExplanation.get -> string?
+SendPulser.AddressBooks.AddressBook.StatusExplanation.set -> void
+SendPulser.AddressBooks.AddressBookCampaign
+SendPulser.AddressBooks.AddressBookCampaign.AddressBookCampaign() -> void
+SendPulser.AddressBooks.AddressBookCampaign.Id.get -> int
+SendPulser.AddressBooks.AddressBookCampaign.Id.set -> void
+SendPulser.AddressBooks.AddressBookCampaign.Name.get -> string?
+SendPulser.AddressBooks.AddressBookCampaign.Name.set -> void
+SendPulser.AddressBooks.AddressBookCampaign.Status.get -> int
+SendPulser.AddressBooks.AddressBookCampaign.Status.set -> void
+SendPulser.AddressBooks.AddressBookVariable
+SendPulser.AddressBooks.AddressBookVariable.AddressBookVariable() -> void
+SendPulser.AddressBooks.AddressBookVariable.Name.get -> string!
+SendPulser.AddressBooks.AddressBookVariable.Name.set -> void
+SendPulser.AddressBooks.AddressBookVariable.Type.get -> string!
+SendPulser.AddressBooks.AddressBookVariable.Type.set -> void
+SendPulser.AddressBooks.CampaignCost
+SendPulser.AddressBooks.CampaignCost.AddressesFromBalance.get -> int
+SendPulser.AddressBooks.CampaignCost.AddressesFromBalance.set -> void
+SendPulser.AddressBooks.CampaignCost.AddressesFromPlan.get -> int
+SendPulser.AddressBooks.CampaignCost.AddressesFromPlan.set -> void
+SendPulser.AddressBooks.CampaignCost.CampaignCost() -> void
+SendPulser.AddressBooks.CampaignCost.Currency.get -> string?
+SendPulser.AddressBooks.CampaignCost.Currency.set -> void
+SendPulser.AddressBooks.CampaignCost.EmailCount.get -> int
+SendPulser.AddressBooks.CampaignCost.EmailCount.set -> void
+SendPulser.AddressBooks.CampaignCost.IsAffordable.get -> bool
+SendPulser.AddressBooks.CampaignCost.IsAffordable.set -> void
+SendPulser.AddressBooks.CampaignCost.MaxEmailsPerCampaign.get -> int
+SendPulser.AddressBooks.CampaignCost.MaxEmailsPerCampaign.set -> void
+SendPulser.AddressBooks.CampaignCost.OverdraftPrice.get -> decimal
+SendPulser.AddressBooks.CampaignCost.OverdraftPrice.set -> void
+SendPulser.AddressBooks.Contact
+SendPulser.AddressBooks.Contact.Contact() -> void
+SendPulser.AddressBooks.Contact.Email.get -> string!
+SendPulser.AddressBooks.Contact.Email.set -> void
+SendPulser.AddressBooks.Contact.Phone.get -> string?
+SendPulser.AddressBooks.Contact.Phone.set -> void
+SendPulser.AddressBooks.Contact.Status.get -> int
+SendPulser.AddressBooks.Contact.Status.set -> void
+SendPulser.AddressBooks.Contact.StatusExplanation.get -> string?
+SendPulser.AddressBooks.Contact.StatusExplanation.set -> void
+SendPulser.AddressBooks.Contact.Variables.get -> System.Collections.Generic.Dictionary<string!, string?>?
+SendPulser.AddressBooks.Contact.Variables.set -> void
+SendPulser.AddressBooks.ContactDetails
+SendPulser.AddressBooks.ContactDetails.AddressBookId.get -> int
+SendPulser.AddressBooks.ContactDetails.AddressBookId.set -> void
+SendPulser.AddressBooks.ContactDetails.ContactDetails() -> void
+SendPulser.AddressBooks.ContactDetails.Email.get -> string!
+SendPulser.AddressBooks.ContactDetails.Email.set -> void
+SendPulser.AddressBooks.ContactDetails.Phone.get -> string?
+SendPulser.AddressBooks.ContactDetails.Phone.set -> void
+SendPulser.AddressBooks.ContactDetails.Status.get -> int
+SendPulser.AddressBooks.ContactDetails.Status.set -> void
+SendPulser.AddressBooks.ContactDetails.StatusExplanation.get -> string?
+SendPulser.AddressBooks.ContactDetails.StatusExplanation.set -> void
+SendPulser.AddressBooks.ContactDetails.Variables.get -> System.Collections.Generic.IReadOnlyList<SendPulser.AddressBooks.ContactVariable!>!
+SendPulser.AddressBooks.ContactDetails.Variables.set -> void
+SendPulser.AddressBooks.ContactStatus
+SendPulser.AddressBooks.ContactVariable
+SendPulser.AddressBooks.ContactVariable.ContactVariable() -> void
+SendPulser.AddressBooks.ContactVariable.Name.get -> string!
+SendPulser.AddressBooks.ContactVariable.Name.set -> void
+SendPulser.AddressBooks.ContactVariable.Type.get -> string?
+SendPulser.AddressBooks.ContactVariable.Type.set -> void
+SendPulser.AddressBooks.ContactVariable.Value.get -> string?
+SendPulser.AddressBooks.ContactVariable.Value.set -> void
+SendPulser.AddressBooks.DoubleOptInSettings
+SendPulser.AddressBooks.DoubleOptInSettings.DoubleOptInSettings(string! senderEmail, string! messageLanguage) -> void
+SendPulser.AddressBooks.DoubleOptInSettings.MessageLanguage.get -> string!
+SendPulser.AddressBooks.DoubleOptInSettings.SenderEmail.get -> string!
+SendPulser.AddressBooks.DoubleOptInSettings.TemplateId.get -> string?
+SendPulser.AddressBooks.DoubleOptInSettings.TemplateId.set -> void
+SendPulser.AddressBooks.IAddressBookService
+SendPulser.AddressBooks.IAddressBookService.AddContactsAsync(int addressBookId, System.Collections.Generic.IReadOnlyList<SendPulser.AddressBooks.NewContact!>! contacts, System.Collections.Generic.IReadOnlyList<int>? tagIds = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.AddressBooks.IAddressBookService.AddContactsWithConfirmationAsync(int addressBookId, System.Collections.Generic.IReadOnlyList<SendPulser.AddressBooks.NewContact!>! contacts, SendPulser.AddressBooks.DoubleOptInSettings! settings, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.AddressBooks.IAddressBookService.CreateAsync(string! name, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<int>!
+SendPulser.AddressBooks.IAddressBookService.DeleteAsync(int addressBookId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.AddressBooks.IAddressBookService.DeleteContactsAsync(int addressBookId, System.Collections.Generic.IReadOnlyList<string!>! emails, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.AddressBooks.IAddressBookService.FindContactsByVariableAsync(int addressBookId, string! variableName, string! value, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.AddressBooks.Contact!>!>!
+SendPulser.AddressBooks.IAddressBookService.GetAllAsync(int? limit = null, int? offset = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.AddressBooks.AddressBook!>!>!
+SendPulser.AddressBooks.IAddressBookService.GetAsync(int addressBookId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.AddressBooks.AddressBook!>!
+SendPulser.AddressBooks.IAddressBookService.GetCampaignCostAsync(int addressBookId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.AddressBooks.CampaignCost!>!
+SendPulser.AddressBooks.IAddressBookService.GetCampaignsAsync(int addressBookId, int? limit = null, int? offset = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.AddressBooks.AddressBookCampaign!>!>!
+SendPulser.AddressBooks.IAddressBookService.GetContactAsync(int addressBookId, string! email, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.AddressBooks.ContactDetails!>!
+SendPulser.AddressBooks.IAddressBookService.GetContactCountAsync(int addressBookId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<int>!
+SendPulser.AddressBooks.IAddressBookService.GetContactsAsync(int addressBookId, int? limit = null, int? offset = null, bool? active = null, bool? notActive = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.AddressBooks.Contact!>!>!
+SendPulser.AddressBooks.IAddressBookService.GetVariablesAsync(int addressBookId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.AddressBooks.AddressBookVariable!>!>!
+SendPulser.AddressBooks.IAddressBookService.RenameAsync(int addressBookId, string! name, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.AddressBooks.IAddressBookService.SetPhoneAsync(int addressBookId, string! email, string! phone, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.AddressBooks.IAddressBookService.UnsubscribeContactsAsync(int addressBookId, System.Collections.Generic.IReadOnlyList<string!>! emails, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.AddressBooks.IAddressBookService.UpdateVariablesAsync(int addressBookId, string! email, System.Collections.Generic.IReadOnlyList<SendPulser.AddressBooks.VariableUpdate!>! variables, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.AddressBooks.NewContact
+SendPulser.AddressBooks.NewContact.Email.get -> string!
+SendPulser.AddressBooks.NewContact.Email.set -> void
+SendPulser.AddressBooks.NewContact.NewContact() -> void
+SendPulser.AddressBooks.NewContact.NewContact(string! email) -> void
+SendPulser.AddressBooks.NewContact.Variables.get -> System.Collections.Generic.Dictionary<string!, string!>?
+SendPulser.AddressBooks.NewContact.Variables.set -> void
+SendPulser.AddressBooks.VariableUpdate
+SendPulser.AddressBooks.VariableUpdate.Name.get -> string!
+SendPulser.AddressBooks.VariableUpdate.Name.set -> void
+SendPulser.AddressBooks.VariableUpdate.Value.get -> string!
+SendPulser.AddressBooks.VariableUpdate.Value.set -> void
+SendPulser.AddressBooks.VariableUpdate.VariableUpdate() -> void
+SendPulser.AddressBooks.VariableUpdate.VariableUpdate(string! name, string! value) -> void
+SendPulser.Balance.AccountBalance
+SendPulser.Balance.AccountBalance.AccountBalance() -> void
+SendPulser.Balance.AccountBalance.Amount.get -> decimal
+SendPulser.Balance.AccountBalance.Amount.set -> void
+SendPulser.Balance.AccountBalance.Currency.get -> string?
+SendPulser.Balance.AccountBalance.Currency.set -> void
+SendPulser.Balance.BalanceDetails
+SendPulser.Balance.BalanceDetails.Balance.get -> SendPulser.Balance.MoneyBalance?
+SendPulser.Balance.BalanceDetails.Balance.set -> void
+SendPulser.Balance.BalanceDetails.BalanceDetails() -> void
+SendPulser.Balance.BalanceDetails.Email.get -> SendPulser.Balance.EmailPlan?
+SendPulser.Balance.BalanceDetails.Email.set -> void
+SendPulser.Balance.BalanceDetails.Push.get -> SendPulser.Balance.PushPlan?
+SendPulser.Balance.BalanceDetails.Push.set -> void
+SendPulser.Balance.BalanceDetails.Smtp.get -> SendPulser.Balance.SmtpPlan?
+SendPulser.Balance.BalanceDetails.Smtp.set -> void
+SendPulser.Balance.EmailPlan
+SendPulser.Balance.EmailPlan.CurrentSubscribers.get -> long
+SendPulser.Balance.EmailPlan.CurrentSubscribers.set -> void
+SendPulser.Balance.EmailPlan.EmailPlan() -> void
+SendPulser.Balance.EmailPlan.EmailsLeft.get -> long
+SendPulser.Balance.EmailPlan.EmailsLeft.set -> void
+SendPulser.Balance.EmailPlan.EndsAt.get -> System.DateTime?
+SendPulser.Balance.EmailPlan.EndsAt.set -> void
+SendPulser.Balance.EmailPlan.MaximumSubscribers.get -> long
+SendPulser.Balance.EmailPlan.MaximumSubscribers.set -> void
+SendPulser.Balance.EmailPlan.Name.get -> string?
+SendPulser.Balance.EmailPlan.Name.set -> void
+SendPulser.Balance.IBalanceService
+SendPulser.Balance.IBalanceService.GetAsync(string? currency = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Balance.AccountBalance!>!
+SendPulser.Balance.IBalanceService.GetDetailsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Balance.BalanceDetails!>!
+SendPulser.Balance.MoneyBalance
+SendPulser.Balance.MoneyBalance.Bonus.get -> decimal
+SendPulser.Balance.MoneyBalance.Bonus.set -> void
+SendPulser.Balance.MoneyBalance.Currency.get -> string?
+SendPulser.Balance.MoneyBalance.Currency.set -> void
+SendPulser.Balance.MoneyBalance.Main.get -> decimal
+SendPulser.Balance.MoneyBalance.Main.set -> void
+SendPulser.Balance.MoneyBalance.MoneyBalance() -> void
+SendPulser.Balance.PushPlan
+SendPulser.Balance.PushPlan.AutoRenew.get -> bool
+SendPulser.Balance.PushPlan.AutoRenew.set -> void
+SendPulser.Balance.PushPlan.EndsAt.get -> System.DateTime?
+SendPulser.Balance.PushPlan.EndsAt.set -> void
+SendPulser.Balance.PushPlan.Name.get -> string?
+SendPulser.Balance.PushPlan.Name.set -> void
+SendPulser.Balance.PushPlan.PushPlan() -> void
+SendPulser.Balance.SmtpPlan
+SendPulser.Balance.SmtpPlan.AutoRenew.get -> bool
+SendPulser.Balance.SmtpPlan.AutoRenew.set -> void
+SendPulser.Balance.SmtpPlan.EmailQuota.get -> long
+SendPulser.Balance.SmtpPlan.EmailQuota.set -> void
+SendPulser.Balance.SmtpPlan.EmailsLeft.get -> long
+SendPulser.Balance.SmtpPlan.EmailsLeft.set -> void
+SendPulser.Balance.SmtpPlan.EmailsPerHour.get -> long
+SendPulser.Balance.SmtpPlan.EmailsPerHour.set -> void
+SendPulser.Balance.SmtpPlan.EndsAt.get -> System.DateTime?
+SendPulser.Balance.SmtpPlan.EndsAt.set -> void
+SendPulser.Balance.SmtpPlan.Name.get -> string?
+SendPulser.Balance.SmtpPlan.Name.set -> void
+SendPulser.Balance.SmtpPlan.SmtpPlan() -> void
+SendPulser.Balance.SmtpPlan.TrafficLeft.get -> string?
+SendPulser.Balance.SmtpPlan.TrafficLeft.set -> void
+SendPulser.Balance.SmtpPlan.TrafficLimit.get -> string?
+SendPulser.Balance.SmtpPlan.TrafficLimit.set -> void
+SendPulser.Blacklist.IBlacklistService
+SendPulser.Blacklist.IBlacklistService.AddAsync(System.Collections.Generic.IReadOnlyList<string!>! emails, string? comment = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Blacklist.IBlacklistService.GetAllAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<string!>!>!
+SendPulser.Blacklist.IBlacklistService.RemoveAsync(System.Collections.Generic.IReadOnlyList<string!>! emails, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Campaigns.Campaign
+SendPulser.Campaigns.Campaign.AllEmailCount.get -> int
+SendPulser.Campaigns.Campaign.AllEmailCount.set -> void
+SendPulser.Campaigns.Campaign.Campaign() -> void
+SendPulser.Campaigns.Campaign.Currency.get -> string?
+SendPulser.Campaigns.Campaign.Currency.set -> void
+SendPulser.Campaigns.Campaign.Id.get -> int
+SendPulser.Campaigns.Campaign.Id.set -> void
+SendPulser.Campaigns.Campaign.IsSms.get -> bool
+SendPulser.Campaigns.Campaign.IsSms.set -> void
+SendPulser.Campaigns.Campaign.IsViber.get -> bool
+SendPulser.Campaigns.Campaign.IsViber.set -> void
+SendPulser.Campaigns.Campaign.Message.get -> SendPulser.Campaigns.CampaignMessage?
+SendPulser.Campaigns.Campaign.Message.set -> void
+SendPulser.Campaigns.Campaign.Name.get -> string?
+SendPulser.Campaigns.Campaign.Name.set -> void
+SendPulser.Campaigns.Campaign.OverdraftPrice.get -> decimal?
+SendPulser.Campaigns.Campaign.OverdraftPrice.set -> void
+SendPulser.Campaigns.Campaign.PaidEmailCount.get -> int
+SendPulser.Campaigns.Campaign.PaidEmailCount.set -> void
+SendPulser.Campaigns.Campaign.Price.get -> decimal?
+SendPulser.Campaigns.Campaign.Price.set -> void
+SendPulser.Campaigns.Campaign.SendDate.get -> System.DateTime?
+SendPulser.Campaigns.Campaign.SendDate.set -> void
+SendPulser.Campaigns.Campaign.Statistics.get -> SendPulser.Campaigns.CampaignCounters?
+SendPulser.Campaigns.Campaign.Statistics.set -> void
+SendPulser.Campaigns.Campaign.Status.get -> int
+SendPulser.Campaigns.Campaign.Status.set -> void
+SendPulser.Campaigns.Campaign.TariffEmailCount.get -> int
+SendPulser.Campaigns.Campaign.TariffEmailCount.set -> void
+SendPulser.Campaigns.CampaignCounters
+SendPulser.Campaigns.CampaignCounters.CampaignCounters() -> void
+SendPulser.Campaigns.CampaignCounters.Clicked.get -> int
+SendPulser.Campaigns.CampaignCounters.Clicked.set -> void
+SendPulser.Campaigns.CampaignCounters.Delivered.get -> int
+SendPulser.Campaigns.CampaignCounters.Delivered.set -> void
+SendPulser.Campaigns.CampaignCounters.Errors.get -> int
+SendPulser.Campaigns.CampaignCounters.Errors.set -> void
+SendPulser.Campaigns.CampaignCounters.Opened.get -> int
+SendPulser.Campaigns.CampaignCounters.Opened.set -> void
+SendPulser.Campaigns.CampaignCounters.Sent.get -> int
+SendPulser.Campaigns.CampaignCounters.Sent.set -> void
+SendPulser.Campaigns.CampaignCounters.Unsubscribed.get -> int
+SendPulser.Campaigns.CampaignCounters.Unsubscribed.set -> void
+SendPulser.Campaigns.CampaignInfo
+SendPulser.Campaigns.CampaignInfo.AllEmailCount.get -> int
+SendPulser.Campaigns.CampaignInfo.AllEmailCount.set -> void
+SendPulser.Campaigns.CampaignInfo.CampaignInfo() -> void
+SendPulser.Campaigns.CampaignInfo.Currency.get -> string?
+SendPulser.Campaigns.CampaignInfo.Currency.set -> void
+SendPulser.Campaigns.CampaignInfo.Id.get -> int
+SendPulser.Campaigns.CampaignInfo.Id.set -> void
+SendPulser.Campaigns.CampaignInfo.IsSms.get -> bool
+SendPulser.Campaigns.CampaignInfo.IsSms.set -> void
+SendPulser.Campaigns.CampaignInfo.IsViber.get -> bool
+SendPulser.Campaigns.CampaignInfo.IsViber.set -> void
+SendPulser.Campaigns.CampaignInfo.Message.get -> SendPulser.Campaigns.CampaignMessage?
+SendPulser.Campaigns.CampaignInfo.Message.set -> void
+SendPulser.Campaigns.CampaignInfo.Name.get -> string?
+SendPulser.Campaigns.CampaignInfo.Name.set -> void
+SendPulser.Campaigns.CampaignInfo.OverdraftPrice.get -> decimal?
+SendPulser.Campaigns.CampaignInfo.OverdraftPrice.set -> void
+SendPulser.Campaigns.CampaignInfo.PaidEmailCount.get -> int
+SendPulser.Campaigns.CampaignInfo.PaidEmailCount.set -> void
+SendPulser.Campaigns.CampaignInfo.Permalink.get -> string?
+SendPulser.Campaigns.CampaignInfo.Permalink.set -> void
+SendPulser.Campaigns.CampaignInfo.Price.get -> decimal?
+SendPulser.Campaigns.CampaignInfo.Price.set -> void
+SendPulser.Campaigns.CampaignInfo.SendDate.get -> System.DateTime?
+SendPulser.Campaigns.CampaignInfo.SendDate.set -> void
+SendPulser.Campaigns.CampaignInfo.Statistics.get -> SendPulser.Campaigns.CampaignStatistics?
+SendPulser.Campaigns.CampaignInfo.Statistics.set -> void
+SendPulser.Campaigns.CampaignInfo.Status.get -> int
+SendPulser.Campaigns.CampaignInfo.Status.set -> void
+SendPulser.Campaigns.CampaignInfo.TariffEmailCount.get -> int
+SendPulser.Campaigns.CampaignInfo.TariffEmailCount.set -> void
+SendPulser.Campaigns.CampaignInfo.Tracking.get -> SendPulser.Campaigns.CampaignTracking?
+SendPulser.Campaigns.CampaignInfo.Tracking.set -> void
+SendPulser.Campaigns.CampaignLinkClicks
+SendPulser.Campaigns.CampaignLinkClicks.CampaignLinkClicks() -> void
+SendPulser.Campaigns.CampaignLinkClicks.Count.get -> int
+SendPulser.Campaigns.CampaignLinkClicks.Count.set -> void
+SendPulser.Campaigns.CampaignLinkClicks.Url.get -> string?
+SendPulser.Campaigns.CampaignLinkClicks.Url.set -> void
+SendPulser.Campaigns.CampaignMessage
+SendPulser.Campaigns.CampaignMessage.Attachments.get -> string?
+SendPulser.Campaigns.CampaignMessage.Attachments.set -> void
+SendPulser.Campaigns.CampaignMessage.Body.get -> string?
+SendPulser.Campaigns.CampaignMessage.Body.set -> void
+SendPulser.Campaigns.CampaignMessage.CampaignMessage() -> void
+SendPulser.Campaigns.CampaignMessage.ListId.get -> int
+SendPulser.Campaigns.CampaignMessage.ListId.set -> void
+SendPulser.Campaigns.CampaignMessage.Preheader.get -> string?
+SendPulser.Campaigns.CampaignMessage.Preheader.set -> void
+SendPulser.Campaigns.CampaignMessage.SenderEmail.get -> string?
+SendPulser.Campaigns.CampaignMessage.SenderEmail.set -> void
+SendPulser.Campaigns.CampaignMessage.SenderName.get -> string?
+SendPulser.Campaigns.CampaignMessage.SenderName.set -> void
+SendPulser.Campaigns.CampaignMessage.Subject.get -> string?
+SendPulser.Campaigns.CampaignMessage.Subject.set -> void
+SendPulser.Campaigns.CampaignRecipient
+SendPulser.Campaigns.CampaignRecipient.CampaignRecipient() -> void
+SendPulser.Campaigns.CampaignRecipient.DetailStatus.get -> int
+SendPulser.Campaigns.CampaignRecipient.DetailStatus.set -> void
+SendPulser.Campaigns.CampaignRecipient.DetailStatusExplanation.get -> string?
+SendPulser.Campaigns.CampaignRecipient.DetailStatusExplanation.set -> void
+SendPulser.Campaigns.CampaignRecipient.GlobalStatus.get -> int
+SendPulser.Campaigns.CampaignRecipient.GlobalStatus.set -> void
+SendPulser.Campaigns.CampaignRecipient.GlobalStatusExplanation.get -> string?
+SendPulser.Campaigns.CampaignRecipient.GlobalStatusExplanation.set -> void
+SendPulser.Campaigns.CampaignRecipient.SentAt.get -> System.DateTime?
+SendPulser.Campaigns.CampaignRecipient.SentAt.set -> void
+SendPulser.Campaigns.CampaignReferral
+SendPulser.Campaigns.CampaignReferral.CampaignReferral() -> void
+SendPulser.Campaigns.CampaignReferral.Count.get -> int
+SendPulser.Campaigns.CampaignReferral.Count.set -> void
+SendPulser.Campaigns.CampaignReferral.Link.get -> string?
+SendPulser.Campaigns.CampaignReferral.Link.set -> void
+SendPulser.Campaigns.CampaignStatistics
+SendPulser.Campaigns.CampaignStatistics.CampaignStatistics() -> void
+SendPulser.Campaigns.CampaignStatistics.Clicks.get -> System.Collections.Generic.IReadOnlyList<SendPulser.Campaigns.CampaignLinkClicks!>!
+SendPulser.Campaigns.CampaignStatistics.Clicks.set -> void
+SendPulser.Campaigns.CampaignStatistics.General.get -> System.Collections.Generic.IReadOnlyList<SendPulser.Campaigns.CampaignStatusCount!>!
+SendPulser.Campaigns.CampaignStatistics.General.set -> void
+SendPulser.Campaigns.CampaignStatus
+SendPulser.Campaigns.CampaignStatusCount
+SendPulser.Campaigns.CampaignStatusCount.CampaignStatusCount() -> void
+SendPulser.Campaigns.CampaignStatusCount.Code.get -> int
+SendPulser.Campaigns.CampaignStatusCount.Code.set -> void
+SendPulser.Campaigns.CampaignStatusCount.Count.get -> int
+SendPulser.Campaigns.CampaignStatusCount.Count.set -> void
+SendPulser.Campaigns.CampaignStatusCount.Explanation.get -> string?
+SendPulser.Campaigns.CampaignStatusCount.Explanation.set -> void
+SendPulser.Campaigns.CampaignTracking
+SendPulser.Campaigns.CampaignTracking.CampaignTracking() -> void
+SendPulser.Campaigns.CampaignTracking.TracksClicks.get -> bool
+SendPulser.Campaigns.CampaignTracking.TracksClicks.set -> void
+SendPulser.Campaigns.CampaignTracking.TracksOpens.get -> bool
+SendPulser.Campaigns.CampaignTracking.TracksOpens.set -> void
+SendPulser.Campaigns.CreateCampaignRequest
+SendPulser.Campaigns.CreateCampaignRequest.Attachments.get -> System.Collections.Generic.Dictionary<string!, string!>?
+SendPulser.Campaigns.CreateCampaignRequest.Attachments.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.Body.get -> string?
+SendPulser.Campaigns.CreateCampaignRequest.Body.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.CreateCampaignRequest() -> void
+SendPulser.Campaigns.CreateCampaignRequest.IsTest.get -> bool?
+SendPulser.Campaigns.CreateCampaignRequest.IsTest.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.ListIds.get -> System.Collections.Generic.IReadOnlyList<int>?
+SendPulser.Campaigns.CreateCampaignRequest.ListIds.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.Name.get -> string?
+SendPulser.Campaigns.CreateCampaignRequest.Name.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.SegmentId.get -> int?
+SendPulser.Campaigns.CreateCampaignRequest.SegmentId.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.SendDate.get -> System.DateTime?
+SendPulser.Campaigns.CreateCampaignRequest.SendDate.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.SenderEmail.get -> string!
+SendPulser.Campaigns.CreateCampaignRequest.SenderEmail.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.SenderName.get -> string!
+SendPulser.Campaigns.CreateCampaignRequest.SenderName.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.Subject.get -> string!
+SendPulser.Campaigns.CreateCampaignRequest.Subject.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.TemplateId.get -> string?
+SendPulser.Campaigns.CreateCampaignRequest.TemplateId.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.Type.get -> string?
+SendPulser.Campaigns.CreateCampaignRequest.Type.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.UseDynamicList.get -> bool?
+SendPulser.Campaigns.CreateCampaignRequest.UseDynamicList.set -> void
+SendPulser.Campaigns.CreateCampaignResult
+SendPulser.Campaigns.CreateCampaignResult.Count.get -> int
+SendPulser.Campaigns.CreateCampaignResult.Count.set -> void
+SendPulser.Campaigns.CreateCampaignResult.CreateCampaignResult() -> void
+SendPulser.Campaigns.CreateCampaignResult.Id.get -> int
+SendPulser.Campaigns.CreateCampaignResult.Id.set -> void
+SendPulser.Campaigns.CreateCampaignResult.OverdraftCurrency.get -> string?
+SendPulser.Campaigns.CreateCampaignResult.OverdraftCurrency.set -> void
+SendPulser.Campaigns.CreateCampaignResult.OverdraftPrice.get -> decimal?
+SendPulser.Campaigns.CreateCampaignResult.OverdraftPrice.set -> void
+SendPulser.Campaigns.CreateCampaignResult.Status.get -> int
+SendPulser.Campaigns.CreateCampaignResult.Status.set -> void
+SendPulser.Campaigns.CreateCampaignResult.TariffEmailCount.get -> int
+SendPulser.Campaigns.CreateCampaignResult.TariffEmailCount.set -> void
+SendPulser.Campaigns.DeliveryStatus
+SendPulser.Campaigns.ICampaignService
+SendPulser.Campaigns.ICampaignService.CancelAsync(int campaignId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Campaigns.ICampaignService.CreateAsync(SendPulser.Campaigns.CreateCampaignRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Campaigns.CreateCampaignResult!>!
+SendPulser.Campaigns.ICampaignService.GetAllAsync(int? limit = null, int? offset = null, string? order = null, System.Collections.Generic.IReadOnlyList<int>? statuses = null, bool? scheduled = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Campaigns.Campaign!>!>!
+SendPulser.Campaigns.ICampaignService.GetAsync(int campaignId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Campaigns.CampaignInfo!>!
+SendPulser.Campaigns.ICampaignService.GetCountryStatisticsAsync(int campaignId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyDictionary<string!, int>!>!
+SendPulser.Campaigns.ICampaignService.GetRecipientAsync(int campaignId, string! email, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Campaigns.CampaignRecipient!>!
+SendPulser.Campaigns.ICampaignService.GetReferralStatisticsAsync(int campaignId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Campaigns.CampaignReferral!>!>!
+SendPulser.Campaigns.ICampaignService.UpdateAsync(int campaignId, SendPulser.Campaigns.UpdateCampaignRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Campaigns.UpdateCampaignRequest
+SendPulser.Campaigns.UpdateCampaignRequest.Body.get -> string?
+SendPulser.Campaigns.UpdateCampaignRequest.Body.set -> void
+SendPulser.Campaigns.UpdateCampaignRequest.Name.get -> string!
+SendPulser.Campaigns.UpdateCampaignRequest.Name.set -> void
+SendPulser.Campaigns.UpdateCampaignRequest.SendDate.get -> System.DateTime?
+SendPulser.Campaigns.UpdateCampaignRequest.SendDate.set -> void
+SendPulser.Campaigns.UpdateCampaignRequest.SenderEmail.get -> string!
+SendPulser.Campaigns.UpdateCampaignRequest.SenderEmail.set -> void
+SendPulser.Campaigns.UpdateCampaignRequest.SenderName.get -> string!
+SendPulser.Campaigns.UpdateCampaignRequest.SenderName.set -> void
+SendPulser.Campaigns.UpdateCampaignRequest.Subject.get -> string!
+SendPulser.Campaigns.UpdateCampaignRequest.Subject.set -> void
+SendPulser.Campaigns.UpdateCampaignRequest.TemplateId.get -> string?
+SendPulser.Campaigns.UpdateCampaignRequest.TemplateId.set -> void
+SendPulser.Campaigns.UpdateCampaignRequest.UpdateCampaignRequest() -> void
+SendPulser.EmailAddresses.AddressBookReference
+SendPulser.EmailAddresses.AddressBookReference.AddressBookReference() -> void
+SendPulser.EmailAddresses.AddressBookReference.Id.get -> int
+SendPulser.EmailAddresses.AddressBookReference.Id.set -> void
+SendPulser.EmailAddresses.AddressBookReference.Name.get -> string?
+SendPulser.EmailAddresses.AddressBookReference.Name.set -> void
+SendPulser.EmailAddresses.EmailAddressBatchStatistics
+SendPulser.EmailAddresses.EmailAddressBatchStatistics.AddressBooks.get -> System.Collections.Generic.IReadOnlyList<SendPulser.EmailAddresses.AddressBookReference!>!
+SendPulser.EmailAddresses.EmailAddressBatchStatistics.AddressBooks.set -> void
+SendPulser.EmailAddresses.EmailAddressBatchStatistics.Clicked.get -> int
+SendPulser.EmailAddresses.EmailAddressBatchStatistics.Clicked.set -> void
+SendPulser.EmailAddresses.EmailAddressBatchStatistics.EmailAddressBatchStatistics() -> void
+SendPulser.EmailAddresses.EmailAddressBatchStatistics.IsBlacklisted.get -> bool
+SendPulser.EmailAddresses.EmailAddressBatchStatistics.IsBlacklisted.set -> void
+SendPulser.EmailAddresses.EmailAddressBatchStatistics.Opened.get -> int
+SendPulser.EmailAddresses.EmailAddressBatchStatistics.Opened.set -> void
+SendPulser.EmailAddresses.EmailAddressBatchStatistics.Sent.get -> int
+SendPulser.EmailAddresses.EmailAddressBatchStatistics.Sent.set -> void
+SendPulser.EmailAddresses.EmailAddressCounters
+SendPulser.EmailAddresses.EmailAddressCounters.Clicked.get -> int
+SendPulser.EmailAddresses.EmailAddressCounters.Clicked.set -> void
+SendPulser.EmailAddresses.EmailAddressCounters.EmailAddressCounters() -> void
+SendPulser.EmailAddresses.EmailAddressCounters.Opened.get -> int
+SendPulser.EmailAddresses.EmailAddressCounters.Opened.set -> void
+SendPulser.EmailAddresses.EmailAddressCounters.Sent.get -> int
+SendPulser.EmailAddresses.EmailAddressCounters.Sent.set -> void
+SendPulser.EmailAddresses.EmailAddressListEntry
+SendPulser.EmailAddresses.EmailAddressListEntry.AddedAt.get -> System.DateTime?
+SendPulser.EmailAddresses.EmailAddressListEntry.AddedAt.set -> void
+SendPulser.EmailAddresses.EmailAddressListEntry.AddressBookId.get -> int
+SendPulser.EmailAddresses.EmailAddressListEntry.AddressBookId.set -> void
+SendPulser.EmailAddresses.EmailAddressListEntry.AddressBookName.get -> string?
+SendPulser.EmailAddresses.EmailAddressListEntry.AddressBookName.set -> void
+SendPulser.EmailAddresses.EmailAddressListEntry.EmailAddressListEntry() -> void
+SendPulser.EmailAddresses.EmailAddressListEntry.Source.get -> string?
+SendPulser.EmailAddresses.EmailAddressListEntry.Source.set -> void
+SendPulser.EmailAddresses.EmailAddressMembership
+SendPulser.EmailAddresses.EmailAddressMembership.AddressBookId.get -> int
+SendPulser.EmailAddresses.EmailAddressMembership.AddressBookId.set -> void
+SendPulser.EmailAddresses.EmailAddressMembership.Email.get -> string?
+SendPulser.EmailAddresses.EmailAddressMembership.Email.set -> void
+SendPulser.EmailAddresses.EmailAddressMembership.EmailAddressMembership() -> void
+SendPulser.EmailAddresses.EmailAddressMembership.Status.get -> int
+SendPulser.EmailAddresses.EmailAddressMembership.Status.set -> void
+SendPulser.EmailAddresses.EmailAddressMembership.StatusExplanation.get -> string?
+SendPulser.EmailAddresses.EmailAddressMembership.StatusExplanation.set -> void
+SendPulser.EmailAddresses.EmailAddressMembership.Variables.get -> System.Collections.Generic.IReadOnlyList<SendPulser.AddressBooks.ContactVariable!>!
+SendPulser.EmailAddresses.EmailAddressMembership.Variables.set -> void
+SendPulser.EmailAddresses.EmailAddressStatistics
+SendPulser.EmailAddresses.EmailAddressStatistics.AddressBooks.get -> System.Collections.Generic.IReadOnlyList<SendPulser.EmailAddresses.AddressBookReference!>!
+SendPulser.EmailAddresses.EmailAddressStatistics.AddressBooks.set -> void
+SendPulser.EmailAddresses.EmailAddressStatistics.Counters.get -> SendPulser.EmailAddresses.EmailAddressCounters!
+SendPulser.EmailAddresses.EmailAddressStatistics.Counters.set -> void
+SendPulser.EmailAddresses.EmailAddressStatistics.EmailAddressStatistics() -> void
+SendPulser.EmailAddresses.EmailAddressStatistics.IsBlacklisted.get -> bool
+SendPulser.EmailAddresses.EmailAddressStatistics.IsBlacklisted.set -> void
+SendPulser.EmailAddresses.IEmailAddressService
+SendPulser.EmailAddresses.IEmailAddressService.DeleteFromAllListsAsync(string! email, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.EmailAddresses.IEmailAddressService.GetAsync(string! email, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.EmailAddresses.EmailAddressMembership!>!>!
+SendPulser.EmailAddresses.IEmailAddressService.GetDetailsAsync(string! email, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.EmailAddresses.EmailAddressListEntry!>!>!
+SendPulser.EmailAddresses.IEmailAddressService.GetManyAsync(System.Collections.Generic.IReadOnlyList<string!>! emails, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyDictionary<string!, System.Collections.Generic.IReadOnlyList<SendPulser.EmailAddresses.EmailAddressMembership!>!>!>!
+SendPulser.EmailAddresses.IEmailAddressService.GetStatisticsAsync(System.Collections.Generic.IReadOnlyList<string!>! emails, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyDictionary<string!, SendPulser.EmailAddresses.EmailAddressBatchStatistics!>!>!
+SendPulser.EmailAddresses.IEmailAddressService.GetStatisticsAsync(string! email, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.EmailAddresses.EmailAddressStatistics!>!
+SendPulser.ISendPulserClient
+SendPulser.ISendPulserClient.AddressBooks.get -> SendPulser.AddressBooks.IAddressBookService!
+SendPulser.ISendPulserClient.Balance.get -> SendPulser.Balance.IBalanceService!
+SendPulser.ISendPulserClient.Blacklist.get -> SendPulser.Blacklist.IBlacklistService!
+SendPulser.ISendPulserClient.Campaigns.get -> SendPulser.Campaigns.ICampaignService!
+SendPulser.ISendPulserClient.EmailAddresses.get -> SendPulser.EmailAddresses.IEmailAddressService!
+SendPulser.ISendPulserClient.Senders.get -> SendPulser.Senders.ISenderService!
+SendPulser.ISendPulserClient.Smtp.get -> SendPulser.Smtp.ISmtpService!
+SendPulser.ISendPulserClient.Tags.get -> SendPulser.Tags.ITagService!
+SendPulser.ISendPulserClient.Templates.get -> SendPulser.Templates.ITemplateService!
+SendPulser.ISendPulserClient.Webhooks.get -> SendPulser.Webhooks.IWebhookService!
+SendPulser.Json.AddressBookReferenceConverter
+SendPulser.Json.AddressBookReferenceConverter.AddressBookReferenceConverter() -> void
+SendPulser.Json.Base64AttachmentsConverter
+SendPulser.Json.Base64AttachmentsConverter.Base64AttachmentsConverter() -> void
+SendPulser.Json.Base64BodyConverter
+SendPulser.Json.Base64BodyConverter.Base64BodyConverter() -> void
+SendPulser.Json.CategoryInfoConverter
+SendPulser.Json.CategoryInfoConverter.CategoryInfoConverter() -> void
+SendPulser.Json.FlexibleBooleanConverter
+SendPulser.Json.FlexibleBooleanConverter.FlexibleBooleanConverter() -> void
+SendPulser.Json.FlexibleStringConverter
+SendPulser.Json.FlexibleStringConverter.FlexibleStringConverter() -> void
+SendPulser.Json.SendPulseDateTimeConverter
+SendPulser.Json.SendPulseDateTimeConverter.SendPulseDateTimeConverter() -> void
+SendPulser.Json.SingleOrArrayConverter
+SendPulser.Json.SingleOrArrayConverter.SingleOrArrayConverter() -> void
+SendPulser.Json.TagCollectionConverter
+SendPulser.Json.TagCollectionConverter.TagCollectionConverter() -> void
+SendPulser.Json.UnixTimestampConverter
+SendPulser.Json.UnixTimestampConverter.UnixTimestampConverter() -> void
+SendPulser.Json.VariableMapConverter
+SendPulser.Json.VariableMapConverter.VariableMapConverter() -> void
+SendPulser.SendPulserApiException
+SendPulser.SendPulserApiException.ErrorCode.get -> int?
+SendPulser.SendPulserApiException.ResponseBody.get -> string?
+SendPulser.SendPulserApiException.SendPulserApiException() -> void
+SendPulser.SendPulserApiException.SendPulserApiException(string! message) -> void
+SendPulser.SendPulserApiException.SendPulserApiException(string! message, System.Exception! innerException) -> void
+SendPulser.SendPulserApiException.SendPulserApiException(string! message, System.Net.HttpStatusCode statusCode, int? errorCode, string? responseBody) -> void
+SendPulser.SendPulserApiException.StatusCode.get -> System.Net.HttpStatusCode
+SendPulser.SendPulserAuthenticationException
+SendPulser.SendPulserAuthenticationException.SendPulserAuthenticationException() -> void
+SendPulser.SendPulserAuthenticationException.SendPulserAuthenticationException(string! message) -> void
+SendPulser.SendPulserAuthenticationException.SendPulserAuthenticationException(string! message, System.Exception! innerException) -> void
+SendPulser.SendPulserAuthenticationException.SendPulserAuthenticationException(string! message, System.Net.HttpStatusCode statusCode, int? errorCode, string? responseBody) -> void
+SendPulser.SendPulserException
+SendPulser.SendPulserException.SendPulserException() -> void
+SendPulser.SendPulserException.SendPulserException(string! message) -> void
+SendPulser.SendPulserException.SendPulserException(string! message, System.Exception! innerException) -> void
+SendPulser.SendPulserOptions
+SendPulser.SendPulserOptions.BaseAddress.get -> System.Uri!
+SendPulser.SendPulserOptions.BaseAddress.set -> void
+SendPulser.SendPulserOptions.ClientId.get -> string!
+SendPulser.SendPulserOptions.ClientId.set -> void
+SendPulser.SendPulserOptions.ClientSecret.get -> string!
+SendPulser.SendPulserOptions.ClientSecret.set -> void
+SendPulser.SendPulserOptions.GetNormalizedBaseAddress() -> System.Uri!
+SendPulser.SendPulserOptions.SendPulserOptions() -> void
+SendPulser.SendPulserOptions.Timeout.get -> System.TimeSpan
+SendPulser.SendPulserOptions.Timeout.set -> void
+SendPulser.SendPulserOptions.TokenRefreshMargin.get -> System.TimeSpan
+SendPulser.SendPulserOptions.TokenRefreshMargin.set -> void
+SendPulser.SendPulserOptions.Validate() -> void
+SendPulser.SendPulserTransportException
+SendPulser.SendPulserTransportException.SendPulserTransportException() -> void
+SendPulser.SendPulserTransportException.SendPulserTransportException(string! message) -> void
+SendPulser.SendPulserTransportException.SendPulserTransportException(string! message, System.Exception! innerException) -> void
+SendPulser.Senders.ISenderService
+SendPulser.Senders.ISenderService.ActivateAsync(string! email, string! code, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Senders.ISenderService.AddAsync(string! email, string! name, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Senders.ISenderService.DeleteAsync(string! email, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Senders.ISenderService.GetAllAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Senders.Sender!>!>!
+SendPulser.Senders.ISenderService.RequestActivationCodeAsync(string! email, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Senders.Sender
+SendPulser.Senders.Sender.Email.get -> string!
+SendPulser.Senders.Sender.Email.set -> void
+SendPulser.Senders.Sender.IsAllowedForSmtp.get -> bool
+SendPulser.Senders.Sender.IsAllowedForSmtp.set -> void
+SendPulser.Senders.Sender.Name.get -> string?
+SendPulser.Senders.Sender.Name.set -> void
+SendPulser.Senders.Sender.Sender() -> void
+SendPulser.Senders.Sender.Status.get -> string?
+SendPulser.Senders.Sender.Status.set -> void
+SendPulser.Smtp.EmailAddress
+SendPulser.Smtp.EmailAddress.Email.get -> string!
+SendPulser.Smtp.EmailAddress.Email.set -> void
+SendPulser.Smtp.EmailAddress.EmailAddress() -> void
+SendPulser.Smtp.EmailAddress.EmailAddress(string! email, string? name = null) -> void
+SendPulser.Smtp.EmailAddress.Name.get -> string?
+SendPulser.Smtp.EmailAddress.Name.set -> void
+SendPulser.Smtp.ISmtpService
+SendPulser.Smtp.ISmtpService.AddSenderDomainAsync(string! domain, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Smtp.ISmtpService.GetBounceCountAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<int>!
+SendPulser.Smtp.ISmtpService.GetBouncesAsync(System.DateOnly? onDate = null, int? limit = null, int? offset = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Smtp.SmtpBouncePage!>!
+SendPulser.Smtp.ISmtpService.GetEmailAsync(string! messageId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Smtp.SmtpEmail!>!
+SendPulser.Smtp.ISmtpService.GetEmailsAsync(System.Collections.Generic.IReadOnlyList<string!>! messageIds, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.SmtpEmail!>!>!
+SendPulser.Smtp.ISmtpService.GetEmailsAsync(int? limit = null, int? offset = null, System.DateOnly? fromDate = null, System.DateOnly? toDate = null, string? sender = null, string? recipient = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.SmtpEmail!>!>!
+SendPulser.Smtp.ISmtpService.GetIpAddressesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<string!>!>!
+SendPulser.Smtp.ISmtpService.GetSenderDomainsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.SenderDomain!>!>!
+SendPulser.Smtp.ISmtpService.GetSendersAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<string!>!>!
+SendPulser.Smtp.ISmtpService.GetTotalCountAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<int>!
+SendPulser.Smtp.ISmtpService.GetUnsubscribedAsync(System.DateOnly? onDate = null, int? limit = null, int? offset = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.UnsubscribedContact!>!>!
+SendPulser.Smtp.ISmtpService.IsUnsubscribedAsync(string! email, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<bool>!
+SendPulser.Smtp.ISmtpService.RemoveFromUnsubscribeListAsync(System.Collections.Generic.IReadOnlyList<string!>! emails, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Smtp.ISmtpService.ResubscribeAsync(string! email, string! sender, string? language = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Smtp.SendEmailResult!>!
+SendPulser.Smtp.ISmtpService.SendAsync(SendPulser.Smtp.SendEmailRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Smtp.SendEmailResult!>!
+SendPulser.Smtp.ISmtpService.UnsubscribeAsync(System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.UnsubscribeRequest!>! requests, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Smtp.SendEmailRequest
+SendPulser.Smtp.SendEmailRequest.Attachments.get -> System.Collections.Generic.Dictionary<string!, string!>?
+SendPulser.Smtp.SendEmailRequest.Attachments.set -> void
+SendPulser.Smtp.SendEmailRequest.AutoPlainText.get -> bool?
+SendPulser.Smtp.SendEmailRequest.AutoPlainText.set -> void
+SendPulser.Smtp.SendEmailRequest.Bcc.get -> System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.EmailAddress!>?
+SendPulser.Smtp.SendEmailRequest.Bcc.set -> void
+SendPulser.Smtp.SendEmailRequest.BinaryAttachments.get -> System.Collections.Generic.Dictionary<string!, byte[]!>?
+SendPulser.Smtp.SendEmailRequest.BinaryAttachments.set -> void
+SendPulser.Smtp.SendEmailRequest.Cc.get -> System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.EmailAddress!>?
+SendPulser.Smtp.SendEmailRequest.Cc.set -> void
+SendPulser.Smtp.SendEmailRequest.From.get -> SendPulser.Smtp.EmailAddress!
+SendPulser.Smtp.SendEmailRequest.From.set -> void
+SendPulser.Smtp.SendEmailRequest.Html.get -> string?
+SendPulser.Smtp.SendEmailRequest.Html.set -> void
+SendPulser.Smtp.SendEmailRequest.ReplyTo.get -> SendPulser.Smtp.EmailAddress?
+SendPulser.Smtp.SendEmailRequest.ReplyTo.set -> void
+SendPulser.Smtp.SendEmailRequest.SendEmailRequest() -> void
+SendPulser.Smtp.SendEmailRequest.Subject.get -> string!
+SendPulser.Smtp.SendEmailRequest.Subject.set -> void
+SendPulser.Smtp.SendEmailRequest.Template.get -> SendPulser.Smtp.SmtpTemplateReference?
+SendPulser.Smtp.SendEmailRequest.Template.set -> void
+SendPulser.Smtp.SendEmailRequest.Text.get -> string?
+SendPulser.Smtp.SendEmailRequest.Text.set -> void
+SendPulser.Smtp.SendEmailRequest.To.get -> System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.EmailAddress!>!
+SendPulser.Smtp.SendEmailRequest.To.set -> void
+SendPulser.Smtp.SendEmailResult
+SendPulser.Smtp.SendEmailResult.Id.get -> string?
+SendPulser.Smtp.SendEmailResult.Id.set -> void
+SendPulser.Smtp.SendEmailResult.Result.get -> bool
+SendPulser.Smtp.SendEmailResult.Result.set -> void
+SendPulser.Smtp.SendEmailResult.SendEmailResult() -> void
+SendPulser.Smtp.SenderDomain
+SendPulser.Smtp.SenderDomain.Checks.get -> SendPulser.Smtp.SenderDomainChecks?
+SendPulser.Smtp.SenderDomain.Checks.set -> void
+SendPulser.Smtp.SenderDomain.Domain.get -> string!
+SendPulser.Smtp.SenderDomain.Domain.set -> void
+SendPulser.Smtp.SenderDomain.Id.get -> int
+SendPulser.Smtp.SenderDomain.Id.set -> void
+SendPulser.Smtp.SenderDomain.IsDefault.get -> bool
+SendPulser.Smtp.SenderDomain.IsDefault.set -> void
+SendPulser.Smtp.SenderDomain.SenderDomain() -> void
+SendPulser.Smtp.SenderDomain.SslExpiresAt.get -> System.DateTime?
+SendPulser.Smtp.SenderDomain.SslExpiresAt.set -> void
+SendPulser.Smtp.SenderDomain.SslType.get -> int
+SendPulser.Smtp.SenderDomain.SslType.set -> void
+SendPulser.Smtp.SenderDomain.Status.get -> int
+SendPulser.Smtp.SenderDomain.Status.set -> void
+SendPulser.Smtp.SenderDomain.UserId.get -> int
+SendPulser.Smtp.SenderDomain.UserId.set -> void
+SendPulser.Smtp.SenderDomainChecks
+SendPulser.Smtp.SenderDomainChecks.All.get -> bool
+SendPulser.Smtp.SenderDomainChecks.All.set -> void
+SendPulser.Smtp.SenderDomainChecks.Dkim.get -> bool
+SendPulser.Smtp.SenderDomainChecks.Dkim.set -> void
+SendPulser.Smtp.SenderDomainChecks.Dmarc.get -> bool
+SendPulser.Smtp.SenderDomainChecks.Dmarc.set -> void
+SendPulser.Smtp.SenderDomainChecks.RequiredSpfRecord.get -> string?
+SendPulser.Smtp.SenderDomainChecks.RequiredSpfRecord.set -> void
+SendPulser.Smtp.SenderDomainChecks.SenderDomainChecks() -> void
+SendPulser.Smtp.SenderDomainChecks.Spf.get -> bool
+SendPulser.Smtp.SenderDomainChecks.Spf.set -> void
+SendPulser.Smtp.SmtpBounce
+SendPulser.Smtp.SmtpBounce.Recipient.get -> string?
+SendPulser.Smtp.SmtpBounce.Recipient.set -> void
+SendPulser.Smtp.SmtpBounce.SendDate.get -> System.DateTime?
+SendPulser.Smtp.SmtpBounce.SendDate.set -> void
+SendPulser.Smtp.SmtpBounce.Sender.get -> string?
+SendPulser.Smtp.SmtpBounce.Sender.set -> void
+SendPulser.Smtp.SmtpBounce.SmtpAnswerCode.get -> int?
+SendPulser.Smtp.SmtpBounce.SmtpAnswerCode.set -> void
+SendPulser.Smtp.SmtpBounce.SmtpAnswerData.get -> string?
+SendPulser.Smtp.SmtpBounce.SmtpAnswerData.set -> void
+SendPulser.Smtp.SmtpBounce.SmtpAnswerSubcode.get -> string?
+SendPulser.Smtp.SmtpBounce.SmtpAnswerSubcode.set -> void
+SendPulser.Smtp.SmtpBounce.SmtpBounce() -> void
+SendPulser.Smtp.SmtpBounce.Subject.get -> string?
+SendPulser.Smtp.SmtpBounce.Subject.set -> void
+SendPulser.Smtp.SmtpBouncePage
+SendPulser.Smtp.SmtpBouncePage.Bounces.get -> System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.SmtpBounce!>!
+SendPulser.Smtp.SmtpBouncePage.Bounces.set -> void
+SendPulser.Smtp.SmtpBouncePage.Found.get -> int
+SendPulser.Smtp.SmtpBouncePage.Found.set -> void
+SendPulser.Smtp.SmtpBouncePage.RequestLimit.get -> int
+SendPulser.Smtp.SmtpBouncePage.RequestLimit.set -> void
+SendPulser.Smtp.SmtpBouncePage.SmtpBouncePage() -> void
+SendPulser.Smtp.SmtpBouncePage.Total.get -> int
+SendPulser.Smtp.SmtpBouncePage.Total.set -> void
+SendPulser.Smtp.SmtpClientInfo
+SendPulser.Smtp.SmtpClientInfo.ActionDate.get -> System.DateTime?
+SendPulser.Smtp.SmtpClientInfo.ActionDate.set -> void
+SendPulser.Smtp.SmtpClientInfo.Browser.get -> string?
+SendPulser.Smtp.SmtpClientInfo.Browser.set -> void
+SendPulser.Smtp.SmtpClientInfo.Country.get -> string?
+SendPulser.Smtp.SmtpClientInfo.Country.set -> void
+SendPulser.Smtp.SmtpClientInfo.IpAddress.get -> string?
+SendPulser.Smtp.SmtpClientInfo.IpAddress.set -> void
+SendPulser.Smtp.SmtpClientInfo.OperatingSystem.get -> string?
+SendPulser.Smtp.SmtpClientInfo.OperatingSystem.set -> void
+SendPulser.Smtp.SmtpClientInfo.SmtpClientInfo() -> void
+SendPulser.Smtp.SmtpEmail
+SendPulser.Smtp.SmtpEmail.Id.get -> string?
+SendPulser.Smtp.SmtpEmail.Id.set -> void
+SendPulser.Smtp.SmtpEmail.Recipient.get -> string?
+SendPulser.Smtp.SmtpEmail.Recipient.set -> void
+SendPulser.Smtp.SmtpEmail.SendDate.get -> System.DateTime?
+SendPulser.Smtp.SmtpEmail.SendDate.set -> void
+SendPulser.Smtp.SmtpEmail.Sender.get -> string?
+SendPulser.Smtp.SmtpEmail.Sender.set -> void
+SendPulser.Smtp.SmtpEmail.SenderIp.get -> string?
+SendPulser.Smtp.SmtpEmail.SenderIp.set -> void
+SendPulser.Smtp.SmtpEmail.SmtpAnswerCode.get -> int?
+SendPulser.Smtp.SmtpEmail.SmtpAnswerCode.set -> void
+SendPulser.Smtp.SmtpEmail.SmtpAnswerData.get -> string?
+SendPulser.Smtp.SmtpEmail.SmtpAnswerData.set -> void
+SendPulser.Smtp.SmtpEmail.SmtpAnswerSubcode.get -> string?
+SendPulser.Smtp.SmtpEmail.SmtpAnswerSubcode.set -> void
+SendPulser.Smtp.SmtpEmail.SmtpEmail() -> void
+SendPulser.Smtp.SmtpEmail.Subject.get -> string?
+SendPulser.Smtp.SmtpEmail.Subject.set -> void
+SendPulser.Smtp.SmtpEmail.TotalSize.get -> long
+SendPulser.Smtp.SmtpEmail.TotalSize.set -> void
+SendPulser.Smtp.SmtpEmail.Tracking.get -> SendPulser.Smtp.SmtpTracking?
+SendPulser.Smtp.SmtpEmail.Tracking.set -> void
+SendPulser.Smtp.SmtpEmail.UsedIp.get -> string?
+SendPulser.Smtp.SmtpEmail.UsedIp.set -> void
+SendPulser.Smtp.SmtpLinkClick
+SendPulser.Smtp.SmtpLinkClick.ActionDate.get -> System.DateTime?
+SendPulser.Smtp.SmtpLinkClick.ActionDate.set -> void
+SendPulser.Smtp.SmtpLinkClick.Browser.get -> string?
+SendPulser.Smtp.SmtpLinkClick.Browser.set -> void
+SendPulser.Smtp.SmtpLinkClick.Country.get -> string?
+SendPulser.Smtp.SmtpLinkClick.Country.set -> void
+SendPulser.Smtp.SmtpLinkClick.IpAddress.get -> string?
+SendPulser.Smtp.SmtpLinkClick.IpAddress.set -> void
+SendPulser.Smtp.SmtpLinkClick.OperatingSystem.get -> string?
+SendPulser.Smtp.SmtpLinkClick.OperatingSystem.set -> void
+SendPulser.Smtp.SmtpLinkClick.ScreenResolution.get -> string?
+SendPulser.Smtp.SmtpLinkClick.ScreenResolution.set -> void
+SendPulser.Smtp.SmtpLinkClick.SmtpLinkClick() -> void
+SendPulser.Smtp.SmtpLinkClick.Url.get -> string?
+SendPulser.Smtp.SmtpLinkClick.Url.set -> void
+SendPulser.Smtp.SmtpTemplateReference
+SendPulser.Smtp.SmtpTemplateReference.Id.get -> string!
+SendPulser.Smtp.SmtpTemplateReference.Id.set -> void
+SendPulser.Smtp.SmtpTemplateReference.SmtpTemplateReference() -> void
+SendPulser.Smtp.SmtpTemplateReference.Variables.get -> System.Collections.Generic.Dictionary<string!, string!>?
+SendPulser.Smtp.SmtpTemplateReference.Variables.set -> void
+SendPulser.Smtp.SmtpTracking
+SendPulser.Smtp.SmtpTracking.Clicks.get -> int
+SendPulser.Smtp.SmtpTracking.Clicks.set -> void
+SendPulser.Smtp.SmtpTracking.Clients.get -> System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.SmtpClientInfo!>!
+SendPulser.Smtp.SmtpTracking.Clients.set -> void
+SendPulser.Smtp.SmtpTracking.Links.get -> System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.SmtpLinkClick!>!
+SendPulser.Smtp.SmtpTracking.Links.set -> void
+SendPulser.Smtp.SmtpTracking.Opens.get -> int
+SendPulser.Smtp.SmtpTracking.Opens.set -> void
+SendPulser.Smtp.SmtpTracking.SmtpTracking() -> void
+SendPulser.Smtp.UnsubscribeRequest
+SendPulser.Smtp.UnsubscribeRequest.Comment.get -> string?
+SendPulser.Smtp.UnsubscribeRequest.Comment.set -> void
+SendPulser.Smtp.UnsubscribeRequest.Email.get -> string!
+SendPulser.Smtp.UnsubscribeRequest.Email.set -> void
+SendPulser.Smtp.UnsubscribeRequest.UnsubscribeRequest() -> void
+SendPulser.Smtp.UnsubscribeRequest.UnsubscribeRequest(string! email, string? comment = null) -> void
+SendPulser.Smtp.UnsubscribedContact
+SendPulser.Smtp.UnsubscribedContact.Date.get -> System.DateTime?
+SendPulser.Smtp.UnsubscribedContact.Date.set -> void
+SendPulser.Smtp.UnsubscribedContact.Email.get -> string!
+SendPulser.Smtp.UnsubscribedContact.Email.set -> void
+SendPulser.Smtp.UnsubscribedContact.SpamComplaint.get -> bool
+SendPulser.Smtp.UnsubscribedContact.SpamComplaint.set -> void
+SendPulser.Smtp.UnsubscribedContact.UnsubscribedByLink.get -> bool
+SendPulser.Smtp.UnsubscribedContact.UnsubscribedByLink.set -> void
+SendPulser.Smtp.UnsubscribedContact.UnsubscribedByUser.get -> bool
+SendPulser.Smtp.UnsubscribedContact.UnsubscribedByUser.set -> void
+SendPulser.Smtp.UnsubscribedContact.UnsubscribedContact() -> void
+SendPulser.Tags.ITagService
+SendPulser.Tags.ITagService.AssignToEmailAsync(string! email, System.Collections.Generic.IReadOnlyList<int>! tagIds, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Tags.TagOperationResult!>!
+SendPulser.Tags.ITagService.AssignToPhoneAsync(string! phone, System.Collections.Generic.IReadOnlyList<int>! tagIds, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Tags.TagOperationResult!>!
+SendPulser.Tags.ITagService.CreateAsync(string! name, string! color, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Tags.TagOperationResult!>!
+SendPulser.Tags.ITagService.DeleteAsync(int tagId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Tags.TagOperationResult!>!
+SendPulser.Tags.ITagService.GetAllAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Tags.Tag!>!>!
+SendPulser.Tags.ITagService.UnassignFromEmailAsync(string! email, System.Collections.Generic.IReadOnlyList<int>! tagIds, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Tags.TagOperationResult!>!
+SendPulser.Tags.ITagService.UnassignFromPhoneAsync(string! phone, System.Collections.Generic.IReadOnlyList<int>! tagIds, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Tags.TagOperationResult!>!
+SendPulser.Tags.ITagService.UpdateAsync(int tagId, string! name, string! color, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Tags.TagOperationResult!>!
+SendPulser.Tags.Tag
+SendPulser.Tags.Tag.Color.get -> string?
+SendPulser.Tags.Tag.Color.set -> void
+SendPulser.Tags.Tag.Id.get -> int
+SendPulser.Tags.Tag.Id.set -> void
+SendPulser.Tags.Tag.Name.get -> string!
+SendPulser.Tags.Tag.Name.set -> void
+SendPulser.Tags.Tag.Tag() -> void
+SendPulser.Tags.TagOperationResult
+SendPulser.Tags.TagOperationResult.Code.get -> string?
+SendPulser.Tags.TagOperationResult.Code.set -> void
+SendPulser.Tags.TagOperationResult.Description.get -> string?
+SendPulser.Tags.TagOperationResult.Description.set -> void
+SendPulser.Tags.TagOperationResult.QueueId.get -> string?
+SendPulser.Tags.TagOperationResult.QueueId.set -> void
+SendPulser.Tags.TagOperationResult.Success.get -> bool
+SendPulser.Tags.TagOperationResult.Success.set -> void
+SendPulser.Tags.TagOperationResult.TagOperationResult() -> void
+SendPulser.Templates.CreateTemplateRequest
+SendPulser.Templates.CreateTemplateRequest.Body.get -> string!
+SendPulser.Templates.CreateTemplateRequest.Body.set -> void
+SendPulser.Templates.CreateTemplateRequest.CreateTemplateRequest() -> void
+SendPulser.Templates.CreateTemplateRequest.Language.get -> string?
+SendPulser.Templates.CreateTemplateRequest.Language.set -> void
+SendPulser.Templates.CreateTemplateRequest.Name.get -> string?
+SendPulser.Templates.CreateTemplateRequest.Name.set -> void
+SendPulser.Templates.CreateTemplateResult
+SendPulser.Templates.CreateTemplateResult.CreateTemplateResult() -> void
+SendPulser.Templates.CreateTemplateResult.RealId.get -> int
+SendPulser.Templates.CreateTemplateResult.RealId.set -> void
+SendPulser.Templates.CreateTemplateResult.Result.get -> bool
+SendPulser.Templates.CreateTemplateResult.Result.set -> void
+SendPulser.Templates.ITemplateService
+SendPulser.Templates.ITemplateService.CreateAsync(SendPulser.Templates.CreateTemplateRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Templates.CreateTemplateResult!>!
+SendPulser.Templates.ITemplateService.GetAllAsync(string? owner = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Templates.Template!>!>!
+SendPulser.Templates.ITemplateService.GetAsync(string! templateId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Templates.Template!>!
+SendPulser.Templates.ITemplateService.GetBySlugAsync(string! slug, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Templates.Template!>!
+SendPulser.Templates.ITemplateService.UpdateAsync(string! templateId, SendPulser.Templates.UpdateTemplateRequest! request, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Templates.Template
+SendPulser.Templates.Template.Category.get -> string?
+SendPulser.Templates.Template.Category.set -> void
+SendPulser.Templates.Template.CategoryInfo.get -> SendPulser.Templates.TemplateCategory?
+SendPulser.Templates.Template.CategoryInfo.set -> void
+SendPulser.Templates.Template.CreatedAt.get -> System.DateTime?
+SendPulser.Templates.Template.CreatedAt.set -> void
+SendPulser.Templates.Template.FullDescription.get -> string?
+SendPulser.Templates.Template.FullDescription.set -> void
+SendPulser.Templates.Template.Id.get -> string!
+SendPulser.Templates.Template.Id.set -> void
+SendPulser.Templates.Template.IsStructure.get -> bool
+SendPulser.Templates.Template.IsStructure.set -> void
+SendPulser.Templates.Template.Language.get -> string?
+SendPulser.Templates.Template.Language.set -> void
+SendPulser.Templates.Template.Name.get -> string!
+SendPulser.Templates.Template.Name.set -> void
+SendPulser.Templates.Template.NameSlug.get -> string?
+SendPulser.Templates.Template.NameSlug.set -> void
+SendPulser.Templates.Template.Owner.get -> string?
+SendPulser.Templates.Template.Owner.set -> void
+SendPulser.Templates.Template.Preview.get -> System.Uri?
+SendPulser.Templates.Template.Preview.set -> void
+SendPulser.Templates.Template.RealId.get -> int
+SendPulser.Templates.Template.RealId.set -> void
+SendPulser.Templates.Template.Tags.get -> System.Collections.Generic.IReadOnlyList<string!>!
+SendPulser.Templates.Template.Tags.set -> void
+SendPulser.Templates.Template.Template() -> void
+SendPulser.Templates.TemplateCategory
+SendPulser.Templates.TemplateCategory.Code.get -> string?
+SendPulser.Templates.TemplateCategory.Code.set -> void
+SendPulser.Templates.TemplateCategory.FullDescription.get -> string?
+SendPulser.Templates.TemplateCategory.FullDescription.set -> void
+SendPulser.Templates.TemplateCategory.Id.get -> int
+SendPulser.Templates.TemplateCategory.Id.set -> void
+SendPulser.Templates.TemplateCategory.MetaDescription.get -> string?
+SendPulser.Templates.TemplateCategory.MetaDescription.set -> void
+SendPulser.Templates.TemplateCategory.Name.get -> string!
+SendPulser.Templates.TemplateCategory.Name.set -> void
+SendPulser.Templates.TemplateCategory.Sort.get -> int
+SendPulser.Templates.TemplateCategory.Sort.set -> void
+SendPulser.Templates.TemplateCategory.TemplateCategory() -> void
+SendPulser.Templates.UpdateTemplateRequest
+SendPulser.Templates.UpdateTemplateRequest.Body.get -> string!
+SendPulser.Templates.UpdateTemplateRequest.Body.set -> void
+SendPulser.Templates.UpdateTemplateRequest.Language.get -> string?
+SendPulser.Templates.UpdateTemplateRequest.Language.set -> void
+SendPulser.Templates.UpdateTemplateRequest.UpdateTemplateRequest() -> void
+SendPulser.Webhooks.EmailBounceEvent
+SendPulser.Webhooks.EmailBounceEvent.EmailBounceEvent() -> void
+SendPulser.Webhooks.EmailBounceEvent.Response.get -> string?
+SendPulser.Webhooks.EmailBounceEvent.Response.set -> void
+SendPulser.Webhooks.EmailBounceEvent.ResponseCode.get -> int?
+SendPulser.Webhooks.EmailBounceEvent.ResponseCode.set -> void
+SendPulser.Webhooks.EmailBounceEvent.ResponseSubcode.get -> string?
+SendPulser.Webhooks.EmailBounceEvent.ResponseSubcode.set -> void
+SendPulser.Webhooks.EmailCampaignStatusEvent
+SendPulser.Webhooks.EmailCampaignStatusEvent.BookId.get -> long?
+SendPulser.Webhooks.EmailCampaignStatusEvent.BookId.set -> void
+SendPulser.Webhooks.EmailCampaignStatusEvent.EmailCampaignStatusEvent() -> void
+SendPulser.Webhooks.EmailCampaignStatusEvent.Status.get -> string?
+SendPulser.Webhooks.EmailCampaignStatusEvent.Status.set -> void
+SendPulser.Webhooks.EmailCampaignStatusEvent.StatusExplanation.get -> string?
+SendPulser.Webhooks.EmailCampaignStatusEvent.StatusExplanation.set -> void
+SendPulser.Webhooks.EmailClickedEvent
+SendPulser.Webhooks.EmailClickedEvent.EmailClickedEvent() -> void
+SendPulser.Webhooks.EmailClickedEvent.LinkId.get -> long?
+SendPulser.Webhooks.EmailClickedEvent.LinkId.set -> void
+SendPulser.Webhooks.EmailClickedEvent.LinkUrl.get -> string?
+SendPulser.Webhooks.EmailClickedEvent.LinkUrl.set -> void
+SendPulser.Webhooks.EmailDeletedEvent
+SendPulser.Webhooks.EmailDeletedEvent.BookId.get -> long?
+SendPulser.Webhooks.EmailDeletedEvent.BookId.set -> void
+SendPulser.Webhooks.EmailDeletedEvent.EmailDeletedEvent() -> void
+SendPulser.Webhooks.EmailDeliveredEvent
+SendPulser.Webhooks.EmailDeliveredEvent.EmailDeliveredEvent() -> void
+SendPulser.Webhooks.EmailHardBounceEvent
+SendPulser.Webhooks.EmailHardBounceEvent.EmailHardBounceEvent() -> void
+SendPulser.Webhooks.EmailNewSubscriberEvent
+SendPulser.Webhooks.EmailNewSubscriberEvent.BookId.get -> long?
+SendPulser.Webhooks.EmailNewSubscriberEvent.BookId.set -> void
+SendPulser.Webhooks.EmailNewSubscriberEvent.EmailNewSubscriberEvent() -> void
+SendPulser.Webhooks.EmailNewSubscriberEvent.Source.get -> string?
+SendPulser.Webhooks.EmailNewSubscriberEvent.Source.set -> void
+SendPulser.Webhooks.EmailNewSubscriberEvent.Variables.get -> System.Collections.Generic.Dictionary<string!, string?>?
+SendPulser.Webhooks.EmailNewSubscriberEvent.Variables.set -> void
+SendPulser.Webhooks.EmailOpenedEvent
+SendPulser.Webhooks.EmailOpenedEvent.BrowserName.get -> string?
+SendPulser.Webhooks.EmailOpenedEvent.BrowserName.set -> void
+SendPulser.Webhooks.EmailOpenedEvent.BrowserVersion.get -> string?
+SendPulser.Webhooks.EmailOpenedEvent.BrowserVersion.set -> void
+SendPulser.Webhooks.EmailOpenedEvent.Device.get -> string?
+SendPulser.Webhooks.EmailOpenedEvent.Device.set -> void
+SendPulser.Webhooks.EmailOpenedEvent.EmailOpenedEvent() -> void
+SendPulser.Webhooks.EmailOpenedEvent.Platform.get -> string?
+SendPulser.Webhooks.EmailOpenedEvent.Platform.set -> void
+SendPulser.Webhooks.EmailSoftBounceEvent
+SendPulser.Webhooks.EmailSoftBounceEvent.EmailSoftBounceEvent() -> void
+SendPulser.Webhooks.EmailSpamEvent
+SendPulser.Webhooks.EmailSpamEvent.AutomationId.get -> string?
+SendPulser.Webhooks.EmailSpamEvent.AutomationId.set -> void
+SendPulser.Webhooks.EmailSpamEvent.EmailSpamEvent() -> void
+SendPulser.Webhooks.EmailSpamEvent.Source.get -> string?
+SendPulser.Webhooks.EmailSpamEvent.Source.set -> void
+SendPulser.Webhooks.EmailUnsubscribedEvent
+SendPulser.Webhooks.EmailUnsubscribedEvent.BookId.get -> long?
+SendPulser.Webhooks.EmailUnsubscribedEvent.BookId.set -> void
+SendPulser.Webhooks.EmailUnsubscribedEvent.Categories.get -> string?
+SendPulser.Webhooks.EmailUnsubscribedEvent.Categories.set -> void
+SendPulser.Webhooks.EmailUnsubscribedEvent.EmailUnsubscribedEvent() -> void
+SendPulser.Webhooks.EmailUnsubscribedEvent.FromAll.get -> bool
+SendPulser.Webhooks.EmailUnsubscribedEvent.FromAll.set -> void
+SendPulser.Webhooks.EmailUnsubscribedEvent.Reason.get -> string?
+SendPulser.Webhooks.EmailUnsubscribedEvent.Reason.set -> void
+SendPulser.Webhooks.EmailWebhookEvent
+SendPulser.Webhooks.EmailWebhookEvent.AdditionalProperties.get -> System.Collections.Generic.Dictionary<string!, System.Text.Json.JsonElement>?
+SendPulser.Webhooks.EmailWebhookEvent.AdditionalProperties.set -> void
+SendPulser.Webhooks.EmailWebhookEvent.Email.get -> string?
+SendPulser.Webhooks.EmailWebhookEvent.Email.set -> void
+SendPulser.Webhooks.EmailWebhookEvent.EmailWebhookEvent() -> void
+SendPulser.Webhooks.EmailWebhookEvent.Event.get -> string!
+SendPulser.Webhooks.EmailWebhookEvent.Event.set -> void
+SendPulser.Webhooks.EmailWebhookEvent.TaskId.get -> long?
+SendPulser.Webhooks.EmailWebhookEvent.TaskId.set -> void
+SendPulser.Webhooks.EmailWebhookEvent.Timestamp.get -> System.DateTimeOffset?
+SendPulser.Webhooks.EmailWebhookEvent.Timestamp.set -> void
+SendPulser.Webhooks.EmailWebhookEventNames
+SendPulser.Webhooks.IWebhookService
+SendPulser.Webhooks.IWebhookService.CreateAsync(string! url, System.Collections.Generic.IReadOnlyList<string!>! actions, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Webhooks.Webhook!>!>!
+SendPulser.Webhooks.IWebhookService.DeleteAsync(int webhookId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Webhooks.IWebhookService.GetAllAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Webhooks.Webhook!>!>!
+SendPulser.Webhooks.IWebhookService.GetAsync(int webhookId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Webhooks.Webhook!>!
+SendPulser.Webhooks.IWebhookService.UpdateAsync(int webhookId, string! url, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task!
+SendPulser.Webhooks.SmtpBounceEvent
+SendPulser.Webhooks.SmtpBounceEvent.Email.get -> string?
+SendPulser.Webhooks.SmtpBounceEvent.Email.set -> void
+SendPulser.Webhooks.SmtpBounceEvent.SmtpBounceEvent() -> void
+SendPulser.Webhooks.SmtpBounceEvent.TaskId.get -> long?
+SendPulser.Webhooks.SmtpBounceEvent.TaskId.set -> void
+SendPulser.Webhooks.SmtpClickedEvent
+SendPulser.Webhooks.SmtpClickedEvent.SmtpClickedEvent() -> void
+SendPulser.Webhooks.SmtpDeliveredEvent
+SendPulser.Webhooks.SmtpDeliveredEvent.SmtpDeliveredEvent() -> void
+SendPulser.Webhooks.SmtpDeliveryResultEvent
+SendPulser.Webhooks.SmtpDeliveryResultEvent.Response.get -> string?
+SendPulser.Webhooks.SmtpDeliveryResultEvent.Response.set -> void
+SendPulser.Webhooks.SmtpDeliveryResultEvent.ResponseCode.get -> int?
+SendPulser.Webhooks.SmtpDeliveryResultEvent.ResponseCode.set -> void
+SendPulser.Webhooks.SmtpDeliveryResultEvent.ResponseSubcode.get -> string?
+SendPulser.Webhooks.SmtpDeliveryResultEvent.ResponseSubcode.set -> void
+SendPulser.Webhooks.SmtpDeliveryResultEvent.SmtpDeliveryResultEvent() -> void
+SendPulser.Webhooks.SmtpHardBounceEvent
+SendPulser.Webhooks.SmtpHardBounceEvent.SmtpHardBounceEvent() -> void
+SendPulser.Webhooks.SmtpOpenedEvent
+SendPulser.Webhooks.SmtpOpenedEvent.SmtpOpenedEvent() -> void
+SendPulser.Webhooks.SmtpResubscribedEvent
+SendPulser.Webhooks.SmtpResubscribedEvent.SmtpResubscribedEvent() -> void
+SendPulser.Webhooks.SmtpSoftBounceEvent
+SendPulser.Webhooks.SmtpSoftBounceEvent.SmtpSoftBounceEvent() -> void
+SendPulser.Webhooks.SmtpSpamEvent
+SendPulser.Webhooks.SmtpSpamEvent.SmtpSpamEvent() -> void
+SendPulser.Webhooks.SmtpUndeliveredEvent
+SendPulser.Webhooks.SmtpUndeliveredEvent.SmtpUndeliveredEvent() -> void
+SendPulser.Webhooks.SmtpUnsubscribedEvent
+SendPulser.Webhooks.SmtpUnsubscribedEvent.SmtpUnsubscribedEvent() -> void
+SendPulser.Webhooks.SmtpWebhookEvent
+SendPulser.Webhooks.SmtpWebhookEvent.AdditionalProperties.get -> System.Collections.Generic.Dictionary<string!, System.Text.Json.JsonElement>?
+SendPulser.Webhooks.SmtpWebhookEvent.AdditionalProperties.set -> void
+SendPulser.Webhooks.SmtpWebhookEvent.Event.get -> string!
+SendPulser.Webhooks.SmtpWebhookEvent.Event.set -> void
+SendPulser.Webhooks.SmtpWebhookEvent.MessageId.get -> string?
+SendPulser.Webhooks.SmtpWebhookEvent.MessageId.set -> void
+SendPulser.Webhooks.SmtpWebhookEvent.Recipient.get -> string?
+SendPulser.Webhooks.SmtpWebhookEvent.Recipient.set -> void
+SendPulser.Webhooks.SmtpWebhookEvent.Sender.get -> string?
+SendPulser.Webhooks.SmtpWebhookEvent.Sender.set -> void
+SendPulser.Webhooks.SmtpWebhookEvent.SmtpWebhookEvent() -> void
+SendPulser.Webhooks.SmtpWebhookEvent.Subject.get -> string?
+SendPulser.Webhooks.SmtpWebhookEvent.Subject.set -> void
+SendPulser.Webhooks.SmtpWebhookEvent.Timestamp.get -> System.DateTimeOffset?
+SendPulser.Webhooks.SmtpWebhookEvent.Timestamp.set -> void
+SendPulser.Webhooks.SmtpWebhookEventNames
+SendPulser.Webhooks.UnknownEmailEvent
+SendPulser.Webhooks.UnknownEmailEvent.Raw.get -> System.Text.Json.JsonElement
+SendPulser.Webhooks.UnknownEmailEvent.Raw.set -> void
+SendPulser.Webhooks.UnknownEmailEvent.UnknownEmailEvent() -> void
+SendPulser.Webhooks.UnknownSmtpEvent
+SendPulser.Webhooks.UnknownSmtpEvent.Raw.get -> System.Text.Json.JsonElement
+SendPulser.Webhooks.UnknownSmtpEvent.Raw.set -> void
+SendPulser.Webhooks.UnknownSmtpEvent.UnknownSmtpEvent() -> void
+SendPulser.Webhooks.Webhook
+SendPulser.Webhooks.Webhook.Action.get -> string!
+SendPulser.Webhooks.Webhook.Action.set -> void
+SendPulser.Webhooks.Webhook.Id.get -> int
+SendPulser.Webhooks.Webhook.Id.set -> void
+SendPulser.Webhooks.Webhook.Url.get -> string!
+SendPulser.Webhooks.Webhook.Url.set -> void
+SendPulser.Webhooks.Webhook.UserId.get -> int
+SendPulser.Webhooks.Webhook.UserId.set -> void
+SendPulser.Webhooks.Webhook.Webhook() -> void
+const SendPulser.AddressBooks.ContactStatus.ActivationEmailSent = 7 -> int
+const SendPulser.AddressBooks.ContactStatus.ActivationRequested = 3 -> int
+const SendPulser.AddressBooks.ContactStatus.Active = 1 -> int
+const SendPulser.AddressBooks.ContactStatus.BlockedByAddressPart = 12 -> int
+const SendPulser.AddressBooks.ContactStatus.BlockedByHost = 10 -> int
+const SendPulser.AddressBooks.ContactStatus.BlockedBySenderName = 11 -> int
+const SendPulser.AddressBooks.ContactStatus.BlockedByUser = 8 -> int
+const SendPulser.AddressBooks.ContactStatus.ConfirmationRequested = 2 -> int
+const SendPulser.AddressBooks.ContactStatus.DeletedByUser = 13 -> int
+const SendPulser.AddressBooks.ContactStatus.New = 0 -> int
+const SendPulser.AddressBooks.ContactStatus.RejectedByAdmin = 5 -> int
+const SendPulser.AddressBooks.ContactStatus.SendingError = 9 -> int
+const SendPulser.AddressBooks.ContactStatus.TemporarilyUnavailable = 14 -> int
+const SendPulser.AddressBooks.ContactStatus.Unsubscribed = 4 -> int
+const SendPulser.AddressBooks.ContactStatus.UnsubscribedFromAll = 6 -> int
+const SendPulser.Campaigns.CampaignStatus.AutomationBalanceExceeded = 33 -> int
+const SendPulser.Campaigns.CampaignStatus.AutomationDraft = 36 -> int
+const SendPulser.Campaigns.CampaignStatus.AwaitingAbTest = 15 -> int
+const SendPulser.Campaigns.CampaignStatus.AwaitingModeratorAnswer = 11 -> int
+const SendPulser.Campaigns.CampaignStatus.Blocked = 5 -> int
+const SendPulser.Campaigns.CampaignStatus.Cancelled = 16 -> int
+const SendPulser.Campaigns.CampaignStatus.Creating = 13 -> int
+const SendPulser.Campaigns.CampaignStatus.Delivering = 9 -> int
+const SendPulser.Campaigns.CampaignStatus.Draft = 26 -> int
+const SendPulser.Campaigns.CampaignStatus.InModeration = 1 -> int
+const SendPulser.Campaigns.CampaignStatus.MarkedForDeletion = 6 -> int
+const SendPulser.Campaigns.CampaignStatus.New = 0 -> int
+const SendPulser.Campaigns.CampaignStatus.NoActiveAddresses = 12 -> int
+const SendPulser.Campaigns.CampaignStatus.PartiallySentAndBlocked = 25 -> int
+const SendPulser.Campaigns.CampaignStatus.Preparing = 10 -> int
+const SendPulser.Campaigns.CampaignStatus.Queued = 14 -> int
+const SendPulser.Campaigns.CampaignStatus.RequiresEditing = 27 -> int
+const SendPulser.Campaigns.CampaignStatus.ResendToUnreadScheduled = 28 -> int
+const SendPulser.Campaigns.CampaignStatus.Sending = 2 -> int
+const SendPulser.Campaigns.CampaignStatus.SendingPartially = 22 -> int
+const SendPulser.Campaigns.CampaignStatus.Sent = 3 -> int
+const SendPulser.Campaigns.CampaignStatus.SentPartially = 23 -> int
+const SendPulser.Campaigns.CampaignStatus.StatusUpdating = 7 -> int
+const SendPulser.Campaigns.CampaignStatus.Test = 4 -> int
+const SendPulser.Campaigns.CampaignStatus.TestSent = 8 -> int
+const SendPulser.Campaigns.DeliveryStatus.AlreadyUnsubscribed = 20 -> int
+const SendPulser.Campaigns.DeliveryStatus.Clicked = 4 -> int
+const SendPulser.Campaigns.DeliveryStatus.Delivered = 2 -> int
+const SendPulser.Campaigns.DeliveryStatus.DeliveryFailure = 12 -> int
+const SendPulser.Campaigns.DeliveryStatus.DisabledByAdministrator = 18 -> int
+const SendPulser.Campaigns.DeliveryStatus.InQueue = 0 -> int
+const SendPulser.Campaigns.DeliveryStatus.InvalidEmail = 16 -> int
+const SendPulser.Campaigns.DeliveryStatus.MailboxFull = 10 -> int
+const SendPulser.Campaigns.DeliveryStatus.MarkedAsSpam = 11 -> int
+const SendPulser.Campaigns.DeliveryStatus.NoSuchEmail = 6 -> int
+const SendPulser.Campaigns.DeliveryStatus.Opened = 3 -> int
+const SendPulser.Campaigns.DeliveryStatus.RejectedAsSpam = 9 -> int
+const SendPulser.Campaigns.DeliveryStatus.Sent = 1 -> int
+const SendPulser.Campaigns.DeliveryStatus.TemporarilyBlocked = 17 -> int
+const SendPulser.Campaigns.DeliveryStatus.TemporarilyUnavailable = 7 -> int
+const SendPulser.Campaigns.DeliveryStatus.Unavailable = 8 -> int
+const SendPulser.Campaigns.DeliveryStatus.Unsubscribed = 5 -> int
+const SendPulser.SendPulserOptions.DefaultBaseUrl = "https://api.sendpulse.com/" -> string!
+const SendPulser.SendPulserOptions.SectionName = "SendPulser" -> string!
+const SendPulser.Webhooks.EmailWebhookEventNames.Delete = "delete" -> string!
+const SendPulser.Webhooks.EmailWebhookEventNames.Delivered = "delivered" -> string!
+const SendPulser.Webhooks.EmailWebhookEventNames.HardBounces = "hard_bounces" -> string!
+const SendPulser.Webhooks.EmailWebhookEventNames.NewSubscriber = "new_emails" -> string!
+const SendPulser.Webhooks.EmailWebhookEventNames.Open = "open" -> string!
+const SendPulser.Webhooks.EmailWebhookEventNames.Redirect = "redirect" -> string!
+const SendPulser.Webhooks.EmailWebhookEventNames.SoftBounces = "soft_bounces" -> string!
+const SendPulser.Webhooks.EmailWebhookEventNames.Spam = "spam" -> string!
+const SendPulser.Webhooks.EmailWebhookEventNames.TaskStatusUpdate = "task_status_update" -> string!
+const SendPulser.Webhooks.EmailWebhookEventNames.Unsubscribe = "unsubscribe" -> string!
+const SendPulser.Webhooks.SmtpWebhookEventNames.Clicked = "clicked" -> string!
+const SendPulser.Webhooks.SmtpWebhookEventNames.Delivered = "delivered" -> string!
+const SendPulser.Webhooks.SmtpWebhookEventNames.HardBounces = "hard_bounces" -> string!
+const SendPulser.Webhooks.SmtpWebhookEventNames.Opened = "opened" -> string!
+const SendPulser.Webhooks.SmtpWebhookEventNames.Resubscribed = "resubscribed" -> string!
+const SendPulser.Webhooks.SmtpWebhookEventNames.SoftBounces = "soft_bounces" -> string!
+const SendPulser.Webhooks.SmtpWebhookEventNames.Spam = "spam_by_user" -> string!
+const SendPulser.Webhooks.SmtpWebhookEventNames.Undelivered = "undelivered" -> string!
+const SendPulser.Webhooks.SmtpWebhookEventNames.Unsubscribed = "unsubscribed" -> string!
+override SendPulser.Json.AddressBookReferenceConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> SendPulser.EmailAddresses.AddressBookReference?
+override SendPulser.Json.AddressBookReferenceConverter.Write(System.Text.Json.Utf8JsonWriter! writer, SendPulser.EmailAddresses.AddressBookReference! value, System.Text.Json.JsonSerializerOptions! options) -> void
+override SendPulser.Json.Base64AttachmentsConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> System.Collections.Generic.Dictionary<string!, byte[]!>?
+override SendPulser.Json.Base64AttachmentsConverter.Write(System.Text.Json.Utf8JsonWriter! writer, System.Collections.Generic.Dictionary<string!, byte[]!>? value, System.Text.Json.JsonSerializerOptions! options) -> void
+override SendPulser.Json.Base64BodyConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> string?
+override SendPulser.Json.Base64BodyConverter.Write(System.Text.Json.Utf8JsonWriter! writer, string? value, System.Text.Json.JsonSerializerOptions! options) -> void
+override SendPulser.Json.CategoryInfoConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> SendPulser.Templates.TemplateCategory?
+override SendPulser.Json.CategoryInfoConverter.Write(System.Text.Json.Utf8JsonWriter! writer, SendPulser.Templates.TemplateCategory? value, System.Text.Json.JsonSerializerOptions! options) -> void
+override SendPulser.Json.FlexibleBooleanConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> bool
+override SendPulser.Json.FlexibleBooleanConverter.Write(System.Text.Json.Utf8JsonWriter! writer, bool value, System.Text.Json.JsonSerializerOptions! options) -> void
+override SendPulser.Json.FlexibleStringConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> string?
+override SendPulser.Json.FlexibleStringConverter.Write(System.Text.Json.Utf8JsonWriter! writer, string? value, System.Text.Json.JsonSerializerOptions! options) -> void
+override SendPulser.Json.SendPulseDateTimeConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> System.DateTime?
+override SendPulser.Json.SendPulseDateTimeConverter.Write(System.Text.Json.Utf8JsonWriter! writer, System.DateTime? value, System.Text.Json.JsonSerializerOptions! options) -> void
+override SendPulser.Json.SingleOrArrayConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> System.Collections.Generic.IReadOnlyList<int>?
+override SendPulser.Json.SingleOrArrayConverter.Write(System.Text.Json.Utf8JsonWriter! writer, System.Collections.Generic.IReadOnlyList<int>? value, System.Text.Json.JsonSerializerOptions! options) -> void
+override SendPulser.Json.TagCollectionConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> System.Collections.Generic.IReadOnlyList<string!>!
+override SendPulser.Json.TagCollectionConverter.Write(System.Text.Json.Utf8JsonWriter! writer, System.Collections.Generic.IReadOnlyList<string!>! value, System.Text.Json.JsonSerializerOptions! options) -> void
+override SendPulser.Json.UnixTimestampConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> System.DateTimeOffset?
+override SendPulser.Json.UnixTimestampConverter.Write(System.Text.Json.Utf8JsonWriter! writer, System.DateTimeOffset? value, System.Text.Json.JsonSerializerOptions! options) -> void
+override SendPulser.Json.VariableMapConverter.Read(ref System.Text.Json.Utf8JsonReader reader, System.Type! typeToConvert, System.Text.Json.JsonSerializerOptions! options) -> System.Collections.Generic.Dictionary<string!, string?>?
+override SendPulser.Json.VariableMapConverter.Write(System.Text.Json.Utf8JsonWriter! writer, System.Collections.Generic.Dictionary<string!, string?>? value, System.Text.Json.JsonSerializerOptions! options) -> void
+static SendPulser.Webhooks.EmailWebhookEventNames.All.get -> System.Collections.Generic.IReadOnlyList<string!>!

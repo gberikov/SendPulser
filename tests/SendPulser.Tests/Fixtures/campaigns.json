@@ -1,0 +1,31 @@
+[
+  {
+    "id": 14911111,
+    "name": "test check link",
+    "status": 3,
+    "is_sms": false,
+    "is_viber": false,
+    "send_date": "2021-09-01 10:55:39",
+    "all_email_qty": 2,
+    "tariff_email_qty": 2,
+    "paid_email_qty": 0,
+    "overdraft_price": 0,
+    "company_price": "0.05",
+    "overdraft_currency": "UAH",
+    "message": {
+      "sender_name": "test",
+      "sender_email": "e.b@sendpulse.com",
+      "subject": "test check link",
+      "attachments": "",
+      "list_id": 89311111
+    },
+    "statistics": {
+      "sent": 2,
+      "delivered": 2,
+      "opening": 2,
+      "link_redirected": 2,
+      "unsubscribe": 0,
+      "error": 0
+    }
+  }
+]

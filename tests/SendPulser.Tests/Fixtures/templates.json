@@ -1,0 +1,41 @@
+[
+  {
+    "id": "f3266876955c9d21e214deed49b97446",
+    "real_id": 1153018,
+    "lang": "en",
+    "name": "Webinar Speakers",
+    "name_slug": "",
+    "created": "2020-09-04 13:54:30",
+    "full_description": "Use this template as a webinar invitation.",
+    "is_structure": true,
+    "category": "education",
+    "category_info": {
+      "id": 109,
+      "name": "Education",
+      "meta_description": "Education templates",
+      "full_description": "",
+      "code": "education",
+      "sort": 6
+    },
+    "tags": {
+      "webinar": "webinar",
+      "study": "study"
+    },
+    "owner": "sendpulse",
+    "preview": "https://login.sendpulse.com/files/emailservice/preview/f3266876.png"
+  },
+  {
+    "id": "b1178c3a7a1b4b0e9e1f2c3d4e5f6a7b",
+    "real_id": 1042220,
+    "lang": "ru",
+    "name": "My Template",
+    "name_slug": "",
+    "created": "",
+    "is_structure": false,
+    "category": "",
+    "category_info": [],
+    "tags": [],
+    "owner": "me",
+    "preview": null
+  }
+]

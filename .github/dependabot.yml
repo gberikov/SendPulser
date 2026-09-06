@@ -9,6 +9,14 @@ updates:
         patterns: ["Microsoft.Extensions.*", "Microsoft.AspNetCore.*"]
       test-tooling:
         patterns: ["xunit*", "coverlet*", "Microsoft.NET.Test.Sdk"]
+    ignore:
+      # Runtime deps are pinned per target framework in Directory.Packages.props, so a major bump
+      # drags the net8.0 group onto 10.x and breaks the multi-target promise. Framework moves are
+      # deliberate and done by hand; patches within a major line still come through.
+      - dependency-name: "Microsoft.Extensions.*"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "Microsoft.AspNetCore.*"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: github-actions
     directory: /

@@ -4,6 +4,7 @@
     <TargetFrameworks />
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>SendPulser.Sample.Web</RootNamespace>
+    <UserSecretsId>sendpulser-sample-web</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

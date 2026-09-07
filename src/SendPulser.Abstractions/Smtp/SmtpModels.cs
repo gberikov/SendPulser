@@ -111,6 +111,7 @@ public sealed class SendEmailResult
 {
     /// <summary>Whether SendPulse accepted the email.</summary>
     [JsonPropertyName("result")]
+    [JsonRequired]
     public bool Result { get; set; }
 
     /// <summary>ID of the sent message, used to look up its delivery status later.</summary>
@@ -389,9 +390,27 @@ public sealed class SenderDomain
     [JsonPropertyName("user_id")]
     public int UserId { get; set; }
 
+    /// <summary>Service type responsible for this domain. SendPulse currently returns <c>3</c>.</summary>
+    [JsonPropertyName("service_type")]
+    public int ServiceType { get; set; }
+
     /// <summary>Domain name.</summary>
     [JsonPropertyName("service_value")]
     public string Domain { get; set; } = string.Empty;
+
+    /// <summary>Domain expiry date, when applicable.</summary>
+    [JsonPropertyName("expire_date")]
+    [JsonConverter(typeof(SendPulseDateTimeConverter))]
+    public DateTime? ExpiresAt { get; set; }
+
+    /// <summary>Whether SendPulse automatically extends the free domain period.</summary>
+    [JsonPropertyName("auto_free_prolong")]
+    [JsonConverter(typeof(FlexibleBooleanConverter))]
+    public bool AutoFreeProlong { get; set; }
+
+    /// <summary>Currency associated with the domain record.</summary>
+    [JsonPropertyName("currency")]
+    public string? Currency { get; set; }
 
     /// <summary>Whether the domain is active: <c>1</c> active, <c>0</c> inactive.</summary>
     [JsonPropertyName("status")]
@@ -410,6 +429,10 @@ public sealed class SenderDomain
     [JsonPropertyName("ssl_expired")]
     [JsonConverter(typeof(SendPulseDateTimeConverter))]
     public DateTime? SslExpiresAt { get; set; }
+
+    /// <summary>SendPulse SSL certificate generation label.</summary>
+    [JsonPropertyName("ssl_generated")]
+    public int? SslGenerated { get; set; }
 
     /// <summary>DNS validation results.</summary>
     [JsonPropertyName("checks")]

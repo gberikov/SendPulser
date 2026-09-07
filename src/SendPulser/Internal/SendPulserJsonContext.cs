@@ -68,6 +68,7 @@ namespace SendPulser.Internal;
 [JsonSerializable(typeof(List<CampaignReferral>))]
 [JsonSerializable(typeof(Dictionary<string, int>))]
 [JsonSerializable(typeof(CreateCampaignRequest))]
+[JsonSerializable(typeof(CampaignStatisticsSettings))]
 [JsonSerializable(typeof(CreateCampaignResult))]
 [JsonSerializable(typeof(UpdateCampaignRequest))]
 [JsonSerializable(typeof(List<Sender>))]

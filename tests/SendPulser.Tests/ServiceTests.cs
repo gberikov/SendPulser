@@ -1,3 +1,4 @@
+using System.Text.Json;
 using SendPulser.Campaigns;
 using SendPulser.Smtp;
 using SendPulser.Templates;
@@ -121,11 +122,22 @@ public class CampaignServiceTests
             Subject = "Hello",
             ListIds = [756589],
             TemplateId = "775667",
+            AmpBody = "<p>AMP</p>",
+            BinaryAttachments = new() { ["invoice.pdf"] = [1, 2, 3] },
+            Statistics = new() { Clicks = true, Opens = false, UtmCampaign = "launch" },
         });
 
         Assert.Equal(245587, result.Id);
         Assert.Equal("/campaigns", handler.LastRequest.Path);
         Assert.Contains("\"list_id\":756589", handler.LastRequest.Body, StringComparison.Ordinal);
+        Assert.Contains("\"body_amp\":\"PHA+QU1QPC9wPg==\"", handler.LastRequest.Body, StringComparison.Ordinal);
+        Assert.Contains("\"attachments_binary\":{\"invoice.pdf\":\"AQID\"}", handler.LastRequest.Body, StringComparison.Ordinal);
+        using var body = JsonDocument.Parse(handler.LastRequest.Body!);
+        var stats = body.RootElement.GetProperty("stats");
+        Assert.True(stats.GetProperty("clicks").GetBoolean());
+        Assert.False(stats.GetProperty("opens").GetBoolean());
+        Assert.Equal("launch", stats.GetProperty("utm_campaign").GetString());
+        Assert.False(body.RootElement.TryGetProperty("utm_campaign", out var unused));
     }
 
     [Fact]
@@ -200,6 +212,18 @@ public class SmtpServiceTests
 
         Assert.Single(emails);
         Assert.Equal("?limit=10&from=2026-01-01&to=2026-01-31&recipient=a%40b.com", handler.LastRequest.Query);
+    }
+
+    [Fact]
+    public async Task Can_omit_country_data_from_processed_messages()
+    {
+        var (client, handler) = TestClient.Create();
+        using var _ = client;
+        handler.RespondWith("[]");
+
+        await client.Smtp.GetEmailsAsync(includeCountry: false, limit: 10);
+
+        Assert.Equal("?limit=10&country=off", handler.LastRequest.Query);
     }
 
     [Fact]
@@ -305,8 +329,9 @@ public class WebhookServiceTests
         var created = await client.Webhooks.CreateAsync("https://example.com/hooks/sp", ["delivered", "open"]);
 
         Assert.Equal(2, created.Count);
+        Assert.Equal("application/x-www-form-urlencoded", handler.LastRequest.ContentType);
         Assert.Equal(
-            """{"url":"https://example.com/hooks/sp","actions":["delivered","open"]}""",
+            "url=https%3A%2F%2Fexample.com%2Fhooks%2Fsp&actions%5B%5D=delivered&actions%5B%5D=open",
             handler.LastRequest.Body);
     }
 

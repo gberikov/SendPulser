@@ -41,6 +41,10 @@ no conversion.
 The result carries the campaign ID and the initial status: 13 while addresses are being copied, 26 for
 a draft.
 
+`CreateCampaignRequest` also supports `BinaryAttachments`, an `AmpBody` and open/click `Statistics`.
+Set `Statistics.UtmCampaign` to add a custom UTM campaign value; it is sent inside `stats`.
+Binary attachments and the AMP body are Base64 encoded on the wire.
+
 ## Reading
 
 `GetAllAsync` returns `Campaign` with aggregated counters; `GetAsync` returns `CampaignInfo` with the

@@ -42,11 +42,6 @@ public static class SendPulserResilienceHttpClientBuilderExtensions
 
         builder.AddResilienceHandler("sendpulser", pipeline =>
         {
-            pipeline.AddRateLimiter(new RateLimiterStrategyOptions
-            {
-                RateLimiter = CreateRateLimiter(options),
-            });
-
             pipeline.AddRetry(new HttpRetryStrategyOptions
             {
                 MaxRetryAttempts = options.MaxRetryAttempts,
@@ -55,6 +50,12 @@ public static class SendPulserResilienceHttpClientBuilderExtensions
                 UseJitter = true,
                 ShouldRetryAfterHeader = true,
                 ShouldHandle = arguments => ValueTask.FromResult(ShouldRetry(arguments)),
+            });
+
+            // Each retry is a separate network request and must acquire its own permit.
+            pipeline.AddRateLimiter(new RateLimiterStrategyOptions
+            {
+                RateLimiter = CreateRateLimiter(options),
             });
 
             pipeline.AddTimeout(options.AttemptTimeout);

@@ -10,6 +10,7 @@ public sealed class Campaign
 {
     /// <summary>Campaign ID.</summary>
     [JsonPropertyName("id")]
+    [JsonRequired]
     public int Id { get; set; }
 
     /// <summary>Campaign name.</summary>
@@ -380,6 +381,36 @@ public sealed class CreateCampaignRequest
     /// <summary>Text attachments, keyed by file name.</summary>
     [JsonPropertyName("attachments")]
     public Dictionary<string, string>? Attachments { get; set; }
+
+    /// <summary>Binary attachments, keyed by file name. Content is Base64 encoded on the wire.</summary>
+    [JsonPropertyName("attachments_binary")]
+    [JsonConverter(typeof(Base64AttachmentsConverter))]
+    public Dictionary<string, byte[]>? BinaryAttachments { get; set; }
+
+    /// <summary>AMP HTML body. Pass plain markup; it is Base64 encoded on the wire.</summary>
+    [JsonPropertyName("body_amp")]
+    [JsonConverter(typeof(Base64BodyConverter))]
+    public string? AmpBody { get; set; }
+
+    /// <summary>Open and click tracking settings and custom UTM campaign value.</summary>
+    [JsonPropertyName("stats")]
+    public CampaignStatisticsSettings? Statistics { get; set; }
+}
+
+/// <summary>Tracking settings used when creating a campaign.</summary>
+public sealed class CampaignStatisticsSettings
+{
+    /// <summary>Whether link clicks should be tracked.</summary>
+    [JsonPropertyName("clicks")]
+    public bool? Clicks { get; set; }
+
+    /// <summary>Whether opens should be tracked.</summary>
+    [JsonPropertyName("opens")]
+    public bool? Opens { get; set; }
+
+    /// <summary>Custom Google Analytics UTM campaign value added to links.</summary>
+    [JsonPropertyName("utm_campaign")]
+    public string? UtmCampaign { get; set; }
 }
 
 /// <summary>
@@ -389,6 +420,7 @@ public sealed class CreateCampaignResult
 {
     /// <summary>Campaign ID.</summary>
     [JsonPropertyName("id")]
+    [JsonRequired]
     public int Id { get; set; }
 
     /// <summary>Initial status, see <see cref="CampaignStatus"/>: 13 while addresses are being copied, 26 for a draft.</summary>

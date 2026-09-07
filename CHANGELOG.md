@@ -6,6 +6,20 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+### Added
+
+- Campaign AMP bodies, binary attachments, statistics settings and UTM campaign values; complete
+  sender-domain fields; and control over the SMTP message-list `country` flag.
+
+### Fixed
+
+- Preserve malformed known webhook events through the unknown-event fallback, reject invalid batch
+  items, and require a configured secret whenever the route declares `{secret}`, including route-group
+  prefixes and catch-all parameters.
+- Serialize custom campaign UTM values inside `stats` through `Statistics.UtmCampaign`.
+- Send webhook registration bodies as form data, validate typed success responses, rate-limit every
+  retry attempt, and publish cached OAuth token state atomically.
+
 ## [0.1.0]
 
 First release. The library was rewritten from scratch; it shares no code and no API with the

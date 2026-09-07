@@ -63,6 +63,7 @@ internal sealed class ResultResponse
 internal sealed class IdResponse
 {
     [JsonPropertyName("id")]
+    [JsonRequired]
     public int Id { get; set; }
 }
 

@@ -40,6 +40,7 @@ retries it; see
 | Method | SendPulse endpoint |
 | --- | --- |
 | `GetEmailsAsync(limit, offset, fromDate, toDate, sender, recipient)` | `GET /smtp/emails` |
+| `GetEmailsAsync(includeCountry, limit, offset, fromDate, toDate, sender, recipient)` | `GET /smtp/emails`; `false` sends `country=off` |
 | `GetEmailAsync(id)` | `GET /smtp/emails/{id}` |
 | `GetEmailsAsync(ids)` | `POST /smtp/emails/info` (up to 500 IDs) |
 | `GetTotalCountAsync()` | `GET /smtp/emails/total` |

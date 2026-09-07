@@ -23,6 +23,7 @@ All five ship together under one version.
 
 ```bash
 dotnet add package SendPulser.DependencyInjection
+dotnet add package SendPulser.Resilience
 ```
 
 ```csharp
@@ -64,8 +65,8 @@ public sealed class WelcomeMailer(ISendPulserClient sendPulse)
 
 ## Coverage
 
-Every endpoint of the SendPulse bulk email service and SMTP service documentation is wrapped, with the
-exception of the `country` display flag of the SMTP message list. Responses are typed; values SendPulse
+Every endpoint of the SendPulse bulk email service and SMTP service documentation is wrapped. Responses
+are typed; values SendPulse
 returns inconsistently (numbers as strings, flags as `0`/`1`, tags as an object or an array,
 timestamps without a time zone) are normalised. Webhook events are typed per event name, and unknown
 events or unknown fields are preserved rather than dropped.

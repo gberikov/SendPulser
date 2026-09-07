@@ -4,6 +4,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Features;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Patterns;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -126,11 +127,34 @@ public static class SendPulserWebhookEndpointExtensions
         var options = new SendPulserWebhookOptions();
         configure?.Invoke(options);
 
+        ValidateSecret(RoutePatternFactory.Parse(pattern));
+
         // A RequestDelegate is used rather than a route handler lambda: minimal API parameter binding
         // reflects over the delegate, which would make the package unusable under Native AOT.
         RequestDelegate endpoint = context => HandleAsync(context, options, parse, handler, family);
 
-        return endpoints.MapPost(pattern, endpoint);
+        IEndpointConventionBuilder builder = endpoints.MapPost(pattern, endpoint);
+        // Endpoint construction includes prefixes from all enclosing route groups.
+        builder.Finally(endpointBuilder =>
+        {
+            if (endpointBuilder is RouteEndpointBuilder routeEndpoint)
+            {
+                ValidateSecret(routeEndpoint.RoutePattern);
+            }
+        });
+        return builder;
+
+        void ValidateSecret(RoutePattern routePattern)
+        {
+            if (routePattern.Parameters.Any(parameter =>
+                    string.Equals(parameter.Name, "secret", StringComparison.OrdinalIgnoreCase))
+                && string.IsNullOrWhiteSpace(options.Secret))
+            {
+                throw new ArgumentException(
+                    "A webhook route containing a {secret} parameter requires SendPulserWebhookOptions.Secret.",
+                    nameof(configure));
+            }
+        }
     }
 
     private static async Task HandleAsync<TEvent>(
@@ -186,7 +210,17 @@ public static class SendPulserWebhookEndpointExtensions
 
         using (document)
         {
-            var events = parse(document);
+            List<TEvent> events;
+            try
+            {
+                events = parse(document);
+            }
+            catch (Exception exception) when (exception is JsonException or ArgumentOutOfRangeException)
+            {
+                WebhookLog.MalformedPayload(logger, family, exception);
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                return;
+            }
 
             try
             {

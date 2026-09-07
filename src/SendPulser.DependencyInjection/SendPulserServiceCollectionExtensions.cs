@@ -98,6 +98,13 @@ public static class SendPulserServiceCollectionExtensions
 
     private static IHttpClientBuilder AddCore(IServiceCollection services)
     {
+        services.AddOptions<SendPulserOptions>()
+            .Validate(options =>
+            {
+                options.Validate();
+                return true;
+            })
+            .ValidateOnStart();
         services.PostConfigure<SendPulserOptions>(options => options.Validate());
 
         // Both clients are long lived on purpose: the token provider and the API client are singletons, so

@@ -146,9 +146,11 @@ public sealed class CreateTemplateResult
 {
     /// <summary>Whether SendPulse accepted the request.</summary>
     [JsonPropertyName("result")]
+    [JsonRequired]
     public bool Result { get; set; }
 
     /// <summary>Numeric ID of the new template.</summary>
     [JsonPropertyName("real_id")]
+    [JsonRequired]
     public int RealId { get; set; }
 }

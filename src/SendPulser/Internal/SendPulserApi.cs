@@ -23,12 +23,20 @@ internal sealed class SendPulserApi(HttpClient httpClient)
         string path,
         HttpContent? content,
         JsonTypeInfo<T> typeInfo,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        bool ensureAccepted = false)
     {
         var body = await SendRawAsync(method, path, content, cancellationToken).ConfigureAwait(false);
+        // Only mutation results use success flags; reads such as the subscription lookup can
+        // legitimately return result:false as data. Validate before deserializing success-only fields.
+        if (ensureAccepted)
+        {
+            EnsureAccepted(body, method, path);
+        }
+
         var value = Deserialize(body, typeInfo);
         return value ?? throw new SendPulserApiException(
-            $"SendPulse returned an empty body for {method} {path}.",
+            $"SendPulse returned an empty body for {method} {SafePath(path)}.",
             HttpStatusCode.OK,
             errorCode: null,
             Text(body));
@@ -66,7 +74,7 @@ internal sealed class SendPulserApi(HttpClient httpClient)
         try
         {
             return payload.Deserialize(typeInfo) ?? throw new SendPulserApiException(
-                $"SendPulse returned an empty payload for {method} {path}.",
+                $"SendPulse returned an empty payload for {method} {SafePath(path)}.",
                 HttpStatusCode.OK,
                 errorCode: null,
                 Text(body));
@@ -90,12 +98,15 @@ internal sealed class SendPulserApi(HttpClient httpClient)
         byte[] body;
         try
         {
-            response = await _httpClient.SendAsync(request, cancellationToken).ConfigureAwait(false);
+            // The full body is needed below; buffer it here so HttpClient.Timeout covers the read too.
+            response = await _httpClient
+                .SendAsync(request, HttpCompletionOption.ResponseContentRead, cancellationToken)
+                .ConfigureAwait(false);
         }
         catch (HttpRequestException exception)
         {
             throw new SendPulserTransportException(
-                $"The request {method} {path} to SendPulse failed before a response arrived: {exception.Message}",
+                $"The request {method} {SafePath(path)} to SendPulse failed while sending or reading the response: {exception.Message}",
                 exception);
         }
 
@@ -108,7 +119,7 @@ internal sealed class SendPulserApi(HttpClient httpClient)
             catch (HttpRequestException exception)
             {
                 throw new SendPulserTransportException(
-                    $"The response to {method} {path} from SendPulse could not be read: {exception.Message}",
+                    $"The response to {method} {SafePath(path)} from SendPulse could not be read: {exception.Message}",
                     exception);
             }
 
@@ -236,7 +247,7 @@ internal sealed class SendPulserApi(HttpClient httpClient)
         }
 
         // The v2 delete and update endpoints answer {"success": true, "data": [true]}.
-        if (!accepted && element.ValueKind is JsonValueKind.Array)
+        if (element.ValueKind is JsonValueKind.Array)
         {
             foreach (var item in element.EnumerateArray())
             {
@@ -252,7 +263,7 @@ internal sealed class SendPulserApi(HttpClient httpClient)
         if (!accepted)
         {
             throw new SendPulserApiException(
-                $"SendPulse answered {method} {path} without a result flag; the body was: {Truncate(Text(body))}",
+                $"SendPulse answered {method} {SafePath(path)} without a result flag; the body was: {Truncate(Text(body))}",
                 HttpStatusCode.OK,
                 errorCode: null,
                 Text(body));
@@ -283,10 +294,10 @@ internal sealed class SendPulserApi(HttpClient httpClient)
 
         return new SendPulserApiException(
             reason is null
-                ? $"SendPulse rejected {method} {path}."
-                : $"SendPulse rejected {method} {path}: {reason}",
+                ? $"SendPulse rejected {method} {SafePath(path)}."
+                : $"SendPulse rejected {method} {SafePath(path)}: {reason}",
             HttpStatusCode.OK,
-            errorCode: null,
+            TryParseError(body)?.ErrorCode,
             Text(body));
     }
 
@@ -330,7 +341,7 @@ internal sealed class SendPulserApi(HttpClient httpClient)
             ?? error?.Error
             ?? (text.Length == 0 ? "no response body" : Truncate(text));
 
-        var message = $"SendPulse returned {(int)statusCode} for {method} {path}: {description}";
+        var message = $"SendPulse returned {(int)statusCode} for {method} {SafePath(path)}: {description}";
 
         if (error?.ErrorCode == RateLimit.PerSecondErrorCode)
         {
@@ -342,4 +353,13 @@ internal sealed class SendPulserApi(HttpClient httpClient)
 
     private static string Truncate(string body) =>
         body.Length <= 512 ? body : string.Concat(body.AsSpan(0, 512), "...");
+
+    internal static string SafePath(string path)
+    {
+        var pathOnly = path.Split('?', 2)[0];
+        return string.Join(
+            '/',
+            pathOnly.Split('/').Select(segment =>
+                Uri.UnescapeDataString(segment).Contains('@', StringComparison.Ordinal) ? "{email}" : segment));
+    }
 }

@@ -314,6 +314,14 @@ SendPulser.Campaigns.CampaignStatistics.Clicks.get -> System.Collections.Generic
 SendPulser.Campaigns.CampaignStatistics.Clicks.set -> void
 SendPulser.Campaigns.CampaignStatistics.General.get -> System.Collections.Generic.IReadOnlyList<SendPulser.Campaigns.CampaignStatusCount!>!
 SendPulser.Campaigns.CampaignStatistics.General.set -> void
+SendPulser.Campaigns.CampaignStatisticsSettings
+SendPulser.Campaigns.CampaignStatisticsSettings.CampaignStatisticsSettings() -> void
+SendPulser.Campaigns.CampaignStatisticsSettings.Clicks.get -> bool?
+SendPulser.Campaigns.CampaignStatisticsSettings.Clicks.set -> void
+SendPulser.Campaigns.CampaignStatisticsSettings.Opens.get -> bool?
+SendPulser.Campaigns.CampaignStatisticsSettings.Opens.set -> void
+SendPulser.Campaigns.CampaignStatisticsSettings.UtmCampaign.get -> string?
+SendPulser.Campaigns.CampaignStatisticsSettings.UtmCampaign.set -> void
 SendPulser.Campaigns.CampaignStatus
 SendPulser.Campaigns.CampaignStatusCount
 SendPulser.Campaigns.CampaignStatusCount.CampaignStatusCount() -> void
@@ -330,8 +338,12 @@ SendPulser.Campaigns.CampaignTracking.TracksClicks.set -> void
 SendPulser.Campaigns.CampaignTracking.TracksOpens.get -> bool
 SendPulser.Campaigns.CampaignTracking.TracksOpens.set -> void
 SendPulser.Campaigns.CreateCampaignRequest
+SendPulser.Campaigns.CreateCampaignRequest.AmpBody.get -> string?
+SendPulser.Campaigns.CreateCampaignRequest.AmpBody.set -> void
 SendPulser.Campaigns.CreateCampaignRequest.Attachments.get -> System.Collections.Generic.Dictionary<string!, string!>?
 SendPulser.Campaigns.CreateCampaignRequest.Attachments.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.BinaryAttachments.get -> System.Collections.Generic.Dictionary<string!, byte[]!>?
+SendPulser.Campaigns.CreateCampaignRequest.BinaryAttachments.set -> void
 SendPulser.Campaigns.CreateCampaignRequest.Body.get -> string?
 SendPulser.Campaigns.CreateCampaignRequest.Body.set -> void
 SendPulser.Campaigns.CreateCampaignRequest.CreateCampaignRequest() -> void
@@ -349,6 +361,8 @@ SendPulser.Campaigns.CreateCampaignRequest.SenderEmail.get -> string!
 SendPulser.Campaigns.CreateCampaignRequest.SenderEmail.set -> void
 SendPulser.Campaigns.CreateCampaignRequest.SenderName.get -> string!
 SendPulser.Campaigns.CreateCampaignRequest.SenderName.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.Statistics.get -> SendPulser.Campaigns.CampaignStatisticsSettings?
+SendPulser.Campaigns.CreateCampaignRequest.Statistics.set -> void
 SendPulser.Campaigns.CreateCampaignRequest.Subject.get -> string!
 SendPulser.Campaigns.CreateCampaignRequest.Subject.set -> void
 SendPulser.Campaigns.CreateCampaignRequest.TemplateId.get -> string?
@@ -557,6 +571,7 @@ SendPulser.Smtp.ISmtpService.GetBounceCountAsync(System.Threading.CancellationTo
 SendPulser.Smtp.ISmtpService.GetBouncesAsync(System.DateOnly? onDate = null, int? limit = null, int? offset = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Smtp.SmtpBouncePage!>!
 SendPulser.Smtp.ISmtpService.GetEmailAsync(string! messageId, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<SendPulser.Smtp.SmtpEmail!>!
 SendPulser.Smtp.ISmtpService.GetEmailsAsync(System.Collections.Generic.IReadOnlyList<string!>! messageIds, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.SmtpEmail!>!>!
+SendPulser.Smtp.ISmtpService.GetEmailsAsync(bool includeCountry, int? limit = null, int? offset = null, System.DateOnly? fromDate = null, System.DateOnly? toDate = null, string? sender = null, string? recipient = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.SmtpEmail!>!>!
 SendPulser.Smtp.ISmtpService.GetEmailsAsync(int? limit = null, int? offset = null, System.DateOnly? fromDate = null, System.DateOnly? toDate = null, string? sender = null, string? recipient = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.SmtpEmail!>!>!
 SendPulser.Smtp.ISmtpService.GetIpAddressesAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<string!>!>!
 SendPulser.Smtp.ISmtpService.GetSenderDomainsAsync(System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.SenderDomain!>!>!
@@ -601,17 +616,27 @@ SendPulser.Smtp.SendEmailResult.Result.get -> bool
 SendPulser.Smtp.SendEmailResult.Result.set -> void
 SendPulser.Smtp.SendEmailResult.SendEmailResult() -> void
 SendPulser.Smtp.SenderDomain
+SendPulser.Smtp.SenderDomain.AutoFreeProlong.get -> bool
+SendPulser.Smtp.SenderDomain.AutoFreeProlong.set -> void
 SendPulser.Smtp.SenderDomain.Checks.get -> SendPulser.Smtp.SenderDomainChecks?
 SendPulser.Smtp.SenderDomain.Checks.set -> void
+SendPulser.Smtp.SenderDomain.Currency.get -> string?
+SendPulser.Smtp.SenderDomain.Currency.set -> void
 SendPulser.Smtp.SenderDomain.Domain.get -> string!
 SendPulser.Smtp.SenderDomain.Domain.set -> void
+SendPulser.Smtp.SenderDomain.ExpiresAt.get -> System.DateTime?
+SendPulser.Smtp.SenderDomain.ExpiresAt.set -> void
 SendPulser.Smtp.SenderDomain.Id.get -> int
 SendPulser.Smtp.SenderDomain.Id.set -> void
 SendPulser.Smtp.SenderDomain.IsDefault.get -> bool
 SendPulser.Smtp.SenderDomain.IsDefault.set -> void
 SendPulser.Smtp.SenderDomain.SenderDomain() -> void
+SendPulser.Smtp.SenderDomain.ServiceType.get -> int
+SendPulser.Smtp.SenderDomain.ServiceType.set -> void
 SendPulser.Smtp.SenderDomain.SslExpiresAt.get -> System.DateTime?
 SendPulser.Smtp.SenderDomain.SslExpiresAt.set -> void
+SendPulser.Smtp.SenderDomain.SslGenerated.get -> int?
+SendPulser.Smtp.SenderDomain.SslGenerated.set -> void
 SendPulser.Smtp.SenderDomain.SslType.get -> int
 SendPulser.Smtp.SenderDomain.SslType.set -> void
 SendPulser.Smtp.SenderDomain.Status.get -> int

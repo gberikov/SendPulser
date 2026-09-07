@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -68,9 +67,10 @@ public sealed class VariableMapConverter : JsonConverter<Dictionary<string, stri
             case JsonTokenType.String:
                 return reader.GetString();
             case JsonTokenType.Number:
-                return reader.TryGetInt64(out var integer)
-                    ? integer.ToString(CultureInfo.InvariantCulture)
-                    : reader.GetDouble().ToString(CultureInfo.InvariantCulture);
+                using (var document = JsonDocument.ParseValue(ref reader))
+                {
+                    return document.RootElement.GetRawText();
+                }
             case JsonTokenType.True:
                 return "true";
             case JsonTokenType.False:

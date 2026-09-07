@@ -43,7 +43,8 @@ internal sealed class TemplateService(SendPulserApi api) : ITemplateService
                 "template",
                 content,
                 SendPulserJsonContext.Default.CreateTemplateResult,
-                cancellationToken)
+                cancellationToken,
+                ensureAccepted: true)
             .ConfigureAwait(false);
     }
 

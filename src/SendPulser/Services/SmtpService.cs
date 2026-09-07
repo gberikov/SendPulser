@@ -24,7 +24,8 @@ internal sealed class SmtpService(SendPulserApi api) : ISmtpService
                 "smtp/emails",
                 content,
                 SendPulserJsonContext.Default.SendEmailResult,
-                cancellationToken)
+                cancellationToken,
+                ensureAccepted: true)
             .ConfigureAwait(false);
     }
 
@@ -36,6 +37,44 @@ internal sealed class SmtpService(SendPulserApi api) : ISmtpService
         string? sender = null,
         string? recipient = null,
         CancellationToken cancellationToken = default)
+        => await GetEmailsCoreAsync(
+            includeCountry: true,
+            limit,
+            offset,
+            fromDate,
+            toDate,
+            sender,
+            recipient,
+            cancellationToken).ConfigureAwait(false);
+
+    public async Task<IReadOnlyList<SmtpEmail>> GetEmailsAsync(
+        bool includeCountry,
+        int? limit = null,
+        int? offset = null,
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null,
+        string? sender = null,
+        string? recipient = null,
+        CancellationToken cancellationToken = default)
+        => await GetEmailsCoreAsync(
+            includeCountry,
+            limit,
+            offset,
+            fromDate,
+            toDate,
+            sender,
+            recipient,
+            cancellationToken).ConfigureAwait(false);
+
+    private async Task<IReadOnlyList<SmtpEmail>> GetEmailsCoreAsync(
+        bool includeCountry,
+        int? limit,
+        int? offset,
+        DateOnly? fromDate,
+        DateOnly? toDate,
+        string? sender,
+        string? recipient,
+        CancellationToken cancellationToken)
     {
         var query = SendPulserApi.BuildQuery(
             ("limit", SendPulserApi.Number(limit)),
@@ -43,7 +82,8 @@ internal sealed class SmtpService(SendPulserApi api) : ISmtpService
             ("from", SendPulserApi.Date(fromDate)),
             ("to", SendPulserApi.Date(toDate)),
             ("sender", sender),
-            ("recipient", recipient));
+            ("recipient", recipient),
+            ("country", includeCountry ? null : "off"));
 
         return await _api
             .GetAsync("smtp/emails" + query, SendPulserJsonContext.Default.ListSmtpEmail, cancellationToken)
@@ -64,13 +104,15 @@ internal sealed class SmtpService(SendPulserApi api) : ISmtpService
             new EmailListRequest { Emails = messageIds },
             SendPulserJsonContext.Default.EmailListRequest);
 
-        return await _api.SendAsync(
+        var result = await _api.SendAsync(
                 HttpMethod.Post,
                 "smtp/emails/info",
                 content,
                 SendPulserJsonContext.Default.ListSmtpEmail,
                 cancellationToken)
             .ConfigureAwait(false);
+
+        return result;
     }
 
     public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
@@ -176,7 +218,8 @@ internal sealed class SmtpService(SendPulserApi api) : ISmtpService
                 "smtp/resubscribe",
                 content,
                 SendPulserJsonContext.Default.SendEmailResult,
-                cancellationToken)
+                cancellationToken,
+                ensureAccepted: true)
             .ConfigureAwait(false);
     }
 
@@ -205,4 +248,5 @@ internal sealed class SmtpService(SendPulserApi api) : ISmtpService
             SenderDomainsPath + "/" + SendPulserApi.Segment(domain),
             content: null,
             cancellationToken);
+
 }

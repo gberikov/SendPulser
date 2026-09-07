@@ -42,15 +42,21 @@ internal static class WebhookEventParser
         {
             foreach (var element in root.EnumerateArray())
             {
-                if (element.ValueKind is JsonValueKind.Object)
+                if (element.ValueKind is not JsonValueKind.Object)
                 {
-                    yield return element;
+                    throw new JsonException("Every SendPulse webhook batch item must be a JSON object.");
                 }
+
+                yield return element;
             }
         }
         else if (root.ValueKind is JsonValueKind.Object)
         {
             yield return root;
+        }
+        else
+        {
+            throw new JsonException("A SendPulse webhook payload must be an object or an array of objects.");
         }
     }
 
@@ -58,26 +64,26 @@ internal static class WebhookEventParser
     {
         var context = WebhookJsonContext.Default;
 
-        return GetEventName(element) switch
+        try
         {
-            EmailWebhookEventNames.Delivered => Read(element, context.EmailDeliveredEvent),
-            EmailWebhookEventNames.Open => Read(element, context.EmailOpenedEvent),
-            EmailWebhookEventNames.Redirect => Read(element, context.EmailClickedEvent),
-            EmailWebhookEventNames.Unsubscribe => Read(element, context.EmailUnsubscribedEvent),
-            EmailWebhookEventNames.NewSubscriber => Read(element, context.EmailNewSubscriberEvent),
-            EmailWebhookEventNames.Delete => Read(element, context.EmailDeletedEvent),
-            EmailWebhookEventNames.Spam => Read(element, context.EmailSpamEvent),
-            EmailWebhookEventNames.TaskStatusUpdate => Read(element, context.EmailCampaignStatusEvent),
-            EmailWebhookEventNames.SoftBounces => Read(element, context.EmailSoftBounceEvent),
-            EmailWebhookEventNames.HardBounces => Read(element, context.EmailHardBounceEvent),
-            _ => Unknown(element),
-        };
-
-        static UnknownEmailEvent Unknown(JsonElement element)
+            return GetEventName(element) switch
+            {
+                EmailWebhookEventNames.Delivered => Read(element, context.EmailDeliveredEvent),
+                EmailWebhookEventNames.Open => Read(element, context.EmailOpenedEvent),
+                EmailWebhookEventNames.Redirect => Read(element, context.EmailClickedEvent),
+                EmailWebhookEventNames.Unsubscribe => Read(element, context.EmailUnsubscribedEvent),
+                EmailWebhookEventNames.NewSubscriber => Read(element, context.EmailNewSubscriberEvent),
+                EmailWebhookEventNames.Delete => Read(element, context.EmailDeletedEvent),
+                EmailWebhookEventNames.Spam => Read(element, context.EmailSpamEvent),
+                EmailWebhookEventNames.TaskStatusUpdate => Read(element, context.EmailCampaignStatusEvent),
+                EmailWebhookEventNames.SoftBounces => Read(element, context.EmailSoftBounceEvent),
+                EmailWebhookEventNames.HardBounces => Read(element, context.EmailHardBounceEvent),
+                _ => UnknownEmail(element),
+            };
+        }
+        catch (Exception exception) when (exception is JsonException or ArgumentOutOfRangeException)
         {
-            var unknown = Read(element, WebhookJsonContext.Default.UnknownEmailEvent);
-            unknown.Raw = element.Clone();
-            return unknown;
+            return UnknownEmail(element);
         }
     }
 
@@ -85,25 +91,25 @@ internal static class WebhookEventParser
     {
         var context = WebhookJsonContext.Default;
 
-        return GetEventName(element) switch
+        try
         {
-            SmtpWebhookEventNames.Delivered => Read(element, context.SmtpDeliveredEvent),
-            SmtpWebhookEventNames.Undelivered => Read(element, context.SmtpUndeliveredEvent),
-            SmtpWebhookEventNames.Opened => Read(element, context.SmtpOpenedEvent),
-            SmtpWebhookEventNames.Clicked => Read(element, context.SmtpClickedEvent),
-            SmtpWebhookEventNames.Unsubscribed => Read(element, context.SmtpUnsubscribedEvent),
-            SmtpWebhookEventNames.Resubscribed => Read(element, context.SmtpResubscribedEvent),
-            SmtpWebhookEventNames.Spam => Read(element, context.SmtpSpamEvent),
-            SmtpWebhookEventNames.SoftBounces => Read(element, context.SmtpSoftBounceEvent),
-            SmtpWebhookEventNames.HardBounces => Read(element, context.SmtpHardBounceEvent),
-            _ => Unknown(element),
-        };
-
-        static UnknownSmtpEvent Unknown(JsonElement element)
+            return GetEventName(element) switch
+            {
+                SmtpWebhookEventNames.Delivered => Read(element, context.SmtpDeliveredEvent),
+                SmtpWebhookEventNames.Undelivered => Read(element, context.SmtpUndeliveredEvent),
+                SmtpWebhookEventNames.Opened => Read(element, context.SmtpOpenedEvent),
+                SmtpWebhookEventNames.Clicked => Read(element, context.SmtpClickedEvent),
+                SmtpWebhookEventNames.Unsubscribed => Read(element, context.SmtpUnsubscribedEvent),
+                SmtpWebhookEventNames.Resubscribed => Read(element, context.SmtpResubscribedEvent),
+                SmtpWebhookEventNames.Spam => Read(element, context.SmtpSpamEvent),
+                SmtpWebhookEventNames.SoftBounces => Read(element, context.SmtpSoftBounceEvent),
+                SmtpWebhookEventNames.HardBounces => Read(element, context.SmtpHardBounceEvent),
+                _ => UnknownSmtp(element),
+            };
+        }
+        catch (Exception exception) when (exception is JsonException or ArgumentOutOfRangeException)
         {
-            var unknown = Read(element, WebhookJsonContext.Default.UnknownSmtpEvent);
-            unknown.Raw = element.Clone();
-            return unknown;
+            return UnknownSmtp(element);
         }
     }
 
@@ -112,18 +118,104 @@ internal static class WebhookEventParser
             ? name.GetString()
             : null;
 
-    private static T Read<T>(JsonElement element, JsonTypeInfo<T> typeInfo)
-        where T : new()
+    private static T Read<T>(JsonElement element, JsonTypeInfo<T> typeInfo) =>
+        element.Deserialize(typeInfo) ?? throw new JsonException("The SendPulse webhook event was empty.");
+
+    private static UnknownEmailEvent UnknownEmail(JsonElement element) => new()
     {
+        Event = GetEventName(element) ?? string.Empty,
+        Email = GetString(element, "email"),
+        TaskId = GetInt64(element, "task_id"),
+        Timestamp = GetTimestamp(element),
+        AdditionalProperties = GetAdditionalProperties(element, "event", "email", "task_id", "timestamp"),
+        Raw = element.Clone(),
+    };
+
+    private static UnknownSmtpEvent UnknownSmtp(JsonElement element) => new()
+    {
+        Event = GetEventName(element) ?? string.Empty,
+        MessageId = GetFlexibleString(element, "message_id"),
+        Recipient = GetString(element, "recipient"),
+        Sender = GetString(element, "sender"),
+        Subject = GetString(element, "subject"),
+        Timestamp = GetTimestamp(element),
+        AdditionalProperties = GetAdditionalProperties(
+            element, "event", "message_id", "recipient", "sender", "subject", "timestamp"),
+        Raw = element.Clone(),
+    };
+
+    private static Dictionary<string, JsonElement>? GetAdditionalProperties(
+        JsonElement element,
+        params string[] knownProperties)
+    {
+        Dictionary<string, JsonElement>? additionalProperties = null;
+        foreach (var property in element.EnumerateObject())
+        {
+            if (!knownProperties.Contains(property.Name, StringComparer.Ordinal))
+            {
+                additionalProperties ??= new(StringComparer.Ordinal);
+                // Events outlive the request's JsonDocument, including these extension values.
+                additionalProperties[property.Name] = property.Value.Clone();
+            }
+        }
+
+        return additionalProperties;
+    }
+
+    private static string? GetString(JsonElement element, string name) =>
+        element.TryGetProperty(name, out var value) && value.ValueKind is JsonValueKind.String
+            ? value.GetString()
+            : null;
+
+    private static string? GetFlexibleString(JsonElement element, string name)
+    {
+        if (!element.TryGetProperty(name, out var value))
+        {
+            return null;
+        }
+
+        return value.ValueKind switch
+        {
+            JsonValueKind.String => value.GetString(),
+            JsonValueKind.Number => value.GetRawText(),
+            _ => null,
+        };
+    }
+
+    private static long? GetInt64(JsonElement element, string name)
+    {
+        if (!element.TryGetProperty(name, out var value))
+        {
+            return null;
+        }
+
+        return value.ValueKind switch
+        {
+            JsonValueKind.Number when value.TryGetInt64(out var number) => number,
+            JsonValueKind.String when long.TryParse(
+                value.GetString(),
+                System.Globalization.NumberStyles.Integer,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out var number) => number,
+            _ => null,
+        };
+    }
+
+    private static DateTimeOffset? GetTimestamp(JsonElement element)
+    {
+        var seconds = GetInt64(element, "timestamp");
+        if (seconds is null)
+        {
+            return null;
+        }
+
         try
         {
-            return element.Deserialize(typeInfo) ?? new T();
+            return DateTimeOffset.FromUnixTimeSeconds(seconds.Value);
         }
-        catch (JsonException)
+        catch (ArgumentOutOfRangeException)
         {
-            // A field with an unexpected shape must not drop the whole batch; the event is kept with
-            // whatever could be read and the original JSON stays available on the unknown fallback.
-            return new T();
+            return null;
         }
     }
 }

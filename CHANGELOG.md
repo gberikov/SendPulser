@@ -6,6 +6,8 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.0]
+
 ### Added
 
 - Campaign AMP bodies, binary attachments, statistics settings and UTM campaign values; complete
@@ -55,5 +57,6 @@ First release. The library was rewritten from scratch; it shares no code and no 
 - Documentation split into pages under `docs/`, linked with absolute URLs so the package READMEs read
   correctly on nuget.org.
 
-[Unreleased]: https://github.com/gberikov/SendPulser/compare/0.1.0...HEAD
+[Unreleased]: https://github.com/gberikov/SendPulser/compare/0.2.0...HEAD
+[0.2.0]: https://github.com/gberikov/SendPulser/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/gberikov/SendPulser/releases/tag/0.1.0

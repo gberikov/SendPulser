@@ -52,7 +52,8 @@ internal sealed class FakeHttpMessageHandler : HttpMessageHandler
             request.Method,
             request.RequestUri,
             body,
-            request.Headers.Authorization?.Parameter));
+            request.Headers.Authorization?.Parameter,
+            request.Content?.Headers.ContentType?.MediaType));
 
         if (_responses.Count == 0)
         {
@@ -63,7 +64,12 @@ internal sealed class FakeHttpMessageHandler : HttpMessageHandler
     }
 }
 
-internal sealed record RecordedRequest(HttpMethod Method, Uri? Uri, string? Body, string? BearerToken)
+internal sealed record RecordedRequest(
+    HttpMethod Method,
+    Uri? Uri,
+    string? Body,
+    string? BearerToken,
+    string? ContentType)
 {
     public string Path => Uri?.AbsolutePath ?? string.Empty;
 

@@ -15,7 +15,8 @@ app.MapGet("/mailing-lists", async (ISendPulserClient sendPulse, CancellationTok
     await sendPulse.AddressBooks.GetAllAsync(limit: 20, cancellationToken: cancellationToken));
 
 // SendPulse signs nothing, so the secret in the path is the authentication.
-var webhookSecret = builder.Configuration["SendPulser:WebhookSecret"] ?? "change-me";
+var webhookSecret = builder.Configuration["SendPulser:WebhookSecret"]
+    ?? throw new InvalidOperationException("SendPulser:WebhookSecret must be configured.");
 
 app.MapSendPulserEmailWebhook(
     "/hooks/sendpulse/email/{secret}",

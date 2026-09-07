@@ -15,9 +15,9 @@ without reflection, so the package stays usable under Native AOT.
 | `Timeout` | `Timeout` | `00:01:40` | `HttpClient.Timeout` of both the API and the token client |
 | `TokenRefreshMargin` | `TokenRefreshMargin` | `00:01:00` | Tokens are refreshed this long before they expire |
 
-`SendPulserOptions.Validate()` runs on startup through `PostConfigure` and throws `ArgumentException`
-for a missing credential, a relative or plain `http://` base address, a negative margin or a
-non-positive timeout.
+`SendPulserOptions.Validate()` is registered with `ValidateOnStart`, so a host fails during startup for
+a missing credential, a relative or plain `http://` base address, a negative margin or a non-positive
+timeout.
 
 ```csharp
 builder.Services.AddSendPulser(options =>

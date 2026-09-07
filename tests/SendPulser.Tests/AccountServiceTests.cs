@@ -427,12 +427,16 @@ public class SmtpExtrasTests
         var (client, handler) = TestClient.Create();
         using var _ = client;
         handler
-            .RespondWith("""{"data":{"result":true,"data":[{"id":37857,"user_id":1,"service_type":3,"service_value":"example.com","status":0,"is_default":true,"ssl_type":0,"checks":{"check_dkim":false,"check_spf":true,"all_checks":false,"spf_txt_needed":"v=spf1"}}]}}""")
+            .RespondWith("""{"data":{"result":true,"data":[{"id":37857,"user_id":1,"service_type":3,"service_value":"example.com","expire_date":"2027-01-02 03:04:05","auto_free_prolong":1,"currency":"USD","status":0,"is_default":true,"ssl_type":0,"ssl_generated":7,"checks":{"check_dkim":false,"check_spf":true,"all_checks":false,"spf_txt_needed":"v=spf1"}}]}}""")
             .RespondWith("""{"data":{"result":true,"error":null}}""")
             .RespondWith("""{"data":{"result":false,"error":"domain exists"}}""");
 
         var domains = await client.Smtp.GetSenderDomainsAsync();
         Assert.Equal("example.com", domains[0].Domain);
+        Assert.Equal(3, domains[0].ServiceType);
+        Assert.True(domains[0].AutoFreeProlong);
+        Assert.Equal("USD", domains[0].Currency);
+        Assert.Equal(7, domains[0].SslGenerated);
         Assert.True(domains[0].Checks!.Spf);
 
         await client.Smtp.AddSenderDomainAsync("example.com");

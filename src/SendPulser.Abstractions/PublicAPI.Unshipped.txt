@@ -1,1 +1,26 @@
 #nullable enable
+SendPulser.Campaigns.CampaignStatisticsSettings
+SendPulser.Campaigns.CampaignStatisticsSettings.CampaignStatisticsSettings() -> void
+SendPulser.Campaigns.CampaignStatisticsSettings.Clicks.get -> bool?
+SendPulser.Campaigns.CampaignStatisticsSettings.Clicks.set -> void
+SendPulser.Campaigns.CampaignStatisticsSettings.Opens.get -> bool?
+SendPulser.Campaigns.CampaignStatisticsSettings.Opens.set -> void
+SendPulser.Campaigns.CampaignStatisticsSettings.UtmCampaign.get -> string?
+SendPulser.Campaigns.CampaignStatisticsSettings.UtmCampaign.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.AmpBody.get -> string?
+SendPulser.Campaigns.CreateCampaignRequest.AmpBody.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.BinaryAttachments.get -> System.Collections.Generic.Dictionary<string!, byte[]!>?
+SendPulser.Campaigns.CreateCampaignRequest.BinaryAttachments.set -> void
+SendPulser.Campaigns.CreateCampaignRequest.Statistics.get -> SendPulser.Campaigns.CampaignStatisticsSettings?
+SendPulser.Campaigns.CreateCampaignRequest.Statistics.set -> void
+SendPulser.Smtp.SenderDomain.AutoFreeProlong.get -> bool
+SendPulser.Smtp.SenderDomain.AutoFreeProlong.set -> void
+SendPulser.Smtp.SenderDomain.Currency.get -> string?
+SendPulser.Smtp.SenderDomain.Currency.set -> void
+SendPulser.Smtp.SenderDomain.ExpiresAt.get -> System.DateTime?
+SendPulser.Smtp.SenderDomain.ExpiresAt.set -> void
+SendPulser.Smtp.SenderDomain.ServiceType.get -> int
+SendPulser.Smtp.SenderDomain.ServiceType.set -> void
+SendPulser.Smtp.SenderDomain.SslGenerated.get -> int?
+SendPulser.Smtp.SenderDomain.SslGenerated.set -> void
+SendPulser.Smtp.ISmtpService.GetEmailsAsync(bool includeCountry, int? limit = null, int? offset = null, System.DateOnly? fromDate = null, System.DateOnly? toDate = null, string? sender = null, string? recipient = null, System.Threading.CancellationToken cancellationToken = default(System.Threading.CancellationToken)) -> System.Threading.Tasks.Task<System.Collections.Generic.IReadOnlyList<SendPulser.Smtp.SmtpEmail!>!>!

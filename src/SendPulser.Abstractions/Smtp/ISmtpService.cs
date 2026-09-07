@@ -37,6 +37,26 @@ public interface ISmtpService
         string? recipient = null,
         CancellationToken cancellationToken = default);
 
+    /// <summary>Lists processed messages and controls whether country data is included.</summary>
+    /// <param name="includeCountry">Set to <see langword="false"/> to ask SendPulse to omit country data.</param>
+    /// <param name="limit">Maximum number of records to return.</param>
+    /// <param name="offset">Index of the first record to return.</param>
+    /// <param name="fromDate">Earliest send date to include.</param>
+    /// <param name="toDate">Latest send date to include.</param>
+    /// <param name="sender">Filters by sender address.</param>
+    /// <param name="recipient">Filters by recipient address.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    /// <returns>The matching messages.</returns>
+    Task<IReadOnlyList<SmtpEmail>> GetEmailsAsync(
+        bool includeCountry,
+        int? limit = null,
+        int? offset = null,
+        DateOnly? fromDate = null,
+        DateOnly? toDate = null,
+        string? sender = null,
+        string? recipient = null,
+        CancellationToken cancellationToken = default);
+
     /// <summary>Gets a single message by the ID returned when it was sent.</summary>
     /// <param name="messageId">Message ID.</param>
     /// <param name="cancellationToken">Cancellation token.</param>

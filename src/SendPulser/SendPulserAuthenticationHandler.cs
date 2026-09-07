@@ -45,7 +45,10 @@ public sealed class SendPulserAuthenticationHandler : DelegatingHandler
 
         // The query string is left out on purpose: SendPulse query strings carry email addresses, which do
         // not belong in logs. HttpClient has already resolved the URI against the base address here.
-        Log.TokenRejected(_logger, request.Method, request.RequestUri?.AbsolutePath);
+        Log.TokenRejected(
+            _logger,
+            request.Method,
+            request.RequestUri is null ? null : Internal.SendPulserApi.SafePath(request.RequestUri.AbsolutePath));
 
         response.Dispose();
         _tokenProvider.Invalidate(token);

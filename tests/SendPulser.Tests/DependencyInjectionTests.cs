@@ -1,4 +1,5 @@
 using System.Net;
+using System.Diagnostics;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Http;
@@ -198,6 +199,54 @@ public class DependencyInjectionTests
 
         Assert.Equal(2, books.Count);
         Assert.Equal(2, apiHandler.Requests.Count);
+    }
+
+    [Fact]
+    public async Task Applies_the_rate_limiter_to_every_retry_attempt()
+    {
+        var attempts = new List<long>();
+        var stopwatch = Stopwatch.StartNew();
+        var apiHandler = new FakeHttpMessageHandler()
+            .Respond(_ =>
+            {
+                attempts.Add(stopwatch.ElapsedMilliseconds);
+                return new HttpResponseMessage(HttpStatusCode.InternalServerError)
+                {
+                    Content = new StringContent("{}"),
+                };
+            })
+            .Respond(_ =>
+            {
+                attempts.Add(stopwatch.ElapsedMilliseconds);
+                return new HttpResponseMessage(HttpStatusCode.OK)
+                {
+                    Content = new StringContent(TestClient.Fixture("address-books.json")),
+                };
+            });
+        var tokenHandler = new FakeHttpMessageHandler()
+            .RespondWith("""{"access_token":"token","expires_in":3600}""");
+        var services = new ServiceCollection();
+        services
+            .AddSendPulser(options =>
+            {
+                options.ClientId = "id";
+                options.ClientSecret = "secret";
+            })
+            .AddSendPulserResilience(options =>
+            {
+                options.RequestsPerSecond = 1;
+                options.QueueLimit = 1;
+                options.MaxRetryAttempts = 1;
+                options.RetryDelay = TimeSpan.FromMilliseconds(1);
+            });
+        UsePrimaryHandler(services, SendPulserServiceCollectionExtensions.HttpClientName, apiHandler);
+        UsePrimaryHandler(services, SendPulserServiceCollectionExtensions.TokenHttpClientName, tokenHandler);
+        using var provider = services.BuildServiceProvider();
+
+        await provider.GetRequiredService<ISendPulserClient>().AddressBooks.GetAllAsync();
+
+        Assert.Equal(2, attempts.Count);
+        Assert.True(attempts[1] - attempts[0] >= 800, $"Retry started after {attempts[1] - attempts[0]} ms.");
     }
 
     [Fact]

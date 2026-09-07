@@ -55,6 +55,13 @@ The endpoint answers 204 when the callback returns, 500 when it throws, 400 for 
 JSON, 413 for a body above `MaxRequestBodySize` (1 MiB by default) and 404 when the secret does not
 match.
 
+When the route contains a parameter named `secret`, `Secret` must have a nonblank value. This also
+applies to catch-all parameters (`{*secret}`, `{**secret}`) and parameters in enclosing `MapGroup`
+prefixes. Local parameters are validated during mapping; group prefixes are validated when ASP.NET
+Core builds the endpoints, before requests can reach the handler. For an endpoint
+that intentionally relies on an application authentication policy or an address allowlist, use a route
+without the `{secret}` parameter.
+
 ### Security
 
 SendPulse signs nothing: no HMAC, no shared header, no documented source addresses. The options offer

@@ -22,8 +22,7 @@ public sealed class SendPulserTokenProvider : IDisposable
     private readonly TimeProvider _timeProvider;
     private readonly SemaphoreSlim _refreshLock = new(1, 1);
 
-    private string? _accessToken;
-    private DateTimeOffset _expiresAt;
+    private TokenState? _tokenState;
     private bool _disposed;
 
     /// <summary>
@@ -90,13 +89,21 @@ public sealed class SendPulserTokenProvider : IDisposable
     /// </param>
     public void Invalidate(string? rejectedToken = null)
     {
-        if (rejectedToken is not null && !string.Equals(_accessToken, rejectedToken, StringComparison.Ordinal))
+        while (true)
         {
-            return;
-        }
+            var current = Volatile.Read(ref _tokenState);
+            if (current is null
+                || rejectedToken is not null
+                    && !string.Equals(current.AccessToken, rejectedToken, StringComparison.Ordinal))
+            {
+                return;
+            }
 
-        _accessToken = null;
-        _expiresAt = default;
+            if (ReferenceEquals(Interlocked.CompareExchange(ref _tokenState, null, current), current))
+            {
+                return;
+            }
+        }
     }
 
     /// <inheritdoc />
@@ -113,10 +120,10 @@ public sealed class SendPulserTokenProvider : IDisposable
 
     private bool TryGetCachedToken(out string token)
     {
-        var current = _accessToken;
-        if (current is not null && _timeProvider.GetUtcNow() < _expiresAt)
+        var current = Volatile.Read(ref _tokenState);
+        if (current is not null && _timeProvider.GetUtcNow() < current.ExpiresAt)
         {
-            token = current;
+            token = current.AccessToken;
             return true;
         }
 
@@ -172,10 +179,13 @@ public sealed class SendPulserTokenProvider : IDisposable
         var lifetime = TimeSpan.FromSeconds(token.ExpiresIn);
         var margin = _options.TokenRefreshMargin < lifetime ? _options.TokenRefreshMargin : TimeSpan.Zero;
 
-        _accessToken = token.AccessToken;
-        _expiresAt = _timeProvider.GetUtcNow() + lifetime - margin;
+        Volatile.Write(
+            ref _tokenState,
+            new TokenState(token.AccessToken, _timeProvider.GetUtcNow() + lifetime - margin));
 
         Log.TokenObtained(_logger, token.ExpiresIn);
         return token.AccessToken;
     }
+
+    private sealed record TokenState(string AccessToken, DateTimeOffset ExpiresAt);
 }

@@ -36,9 +36,12 @@ internal sealed class WebhookService(SendPulserApi api) : IWebhookService
         ArgumentException.ThrowIfNullOrWhiteSpace(url);
         ArgumentNullException.ThrowIfNull(actions);
 
-        using var content = SendPulserApi.Json(
-            new CreateWebhookRequest { Url = url, Actions = actions },
-            SendPulserJsonContext.Default.CreateWebhookRequest);
+        var fields = new List<KeyValuePair<string, string>>
+        {
+            new("url", url),
+        };
+        fields.AddRange(actions.Select(action => new KeyValuePair<string, string>("actions[]", action)));
+        using var content = new FormUrlEncodedContent(fields);
 
         return await ReadListAsync(HttpMethod.Post, BasePath, content, cancellationToken).ConfigureAwait(false);
     }
@@ -47,9 +50,7 @@ internal sealed class WebhookService(SendPulserApi api) : IWebhookService
     {
         ArgumentException.ThrowIfNullOrWhiteSpace(url);
 
-        using var content = SendPulserApi.Json(
-            new UpdateWebhookRequest { Url = url },
-            SendPulserJsonContext.Default.UpdateWebhookRequest);
+        using var content = new FormUrlEncodedContent([new KeyValuePair<string, string>("url", url)]);
 
         await _api.SendAsync(HttpMethod.Put, Path(webhookId), content, cancellationToken).ConfigureAwait(false);
     }

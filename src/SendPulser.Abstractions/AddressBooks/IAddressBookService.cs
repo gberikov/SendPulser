@@ -11,11 +11,14 @@ namespace SendPulser.AddressBooks;
 /// </remarks>
 public interface IAddressBookService
 {
-    /// <summary>Lists mailing lists.</summary>
-    /// <param name="limit">Maximum number of records to return.</param>
+    /// <summary>
+    /// Lists one page of mailing lists. Without <paramref name="limit"/> SendPulse returns the first 100;
+    /// page through the rest with <paramref name="offset"/>, or pass a larger <paramref name="limit"/>.
+    /// </summary>
+    /// <param name="limit">Maximum number of records to return; SendPulse accepts values above 100.</param>
     /// <param name="offset">Index of the first record to return.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The mailing lists of the account.</returns>
+    /// <returns>The requested page of mailing lists.</returns>
     Task<IReadOnlyList<AddressBook>> GetAllAsync(
         int? limit = null,
         int? offset = null,

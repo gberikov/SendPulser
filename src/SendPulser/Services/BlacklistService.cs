@@ -6,11 +6,45 @@ namespace SendPulser.Services;
 
 internal sealed class BlacklistService(SendPulserApi api) : IBlacklistService
 {
+    // GET /blacklist answers 100 addresses per call and pages only through ?offset= (?limit= breaks the
+    // response shape, ?page= is ignored). Undocumented; checked on a live account on 2026-09-28.
+    private const int PageSize = 100;
+
+    // ponytail: stops silently at 100 000 addresses; raise it if an account ever holds more.
+    private const int MaxPages = 1000;
+
     private readonly SendPulserApi _api = api;
 
-    public async Task<IReadOnlyList<string>> GetAllAsync(CancellationToken cancellationToken = default) =>
-        await _api.GetAsync("blacklist", SendPulserJsonContext.Default.ListString, cancellationToken)
-            .ConfigureAwait(false);
+    public async Task<IReadOnlyList<string>> GetAllAsync(CancellationToken cancellationToken = default)
+    {
+        var all = new List<string>();
+        List<string>? previous = null;
+
+        for (var page = 0; page < MaxPages; page++)
+        {
+            var batch = await _api.GetAsync(
+                    "blacklist" + SendPulserApi.BuildQuery(("offset", SendPulserApi.Number(page * PageSize))),
+                    SendPulserJsonContext.Default.ListString,
+                    cancellationToken)
+                .ConfigureAwait(false);
+
+            // A server that ignores the offset would hand back the same page forever.
+            if (previous is not null && batch.SequenceEqual(previous))
+            {
+                break;
+            }
+
+            all.AddRange(batch);
+            if (batch.Count < PageSize)
+            {
+                break;
+            }
+
+            previous = batch;
+        }
+
+        return all;
+    }
 
     public async Task AddAsync(
         IReadOnlyList<string> emails,

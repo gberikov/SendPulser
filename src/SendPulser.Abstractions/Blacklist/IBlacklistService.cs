@@ -10,7 +10,10 @@ namespace SendPulser.Blacklist;
 /// </remarks>
 public interface IBlacklistService
 {
-    /// <summary>Lists the blacklisted addresses.</summary>
+    /// <summary>
+    /// Lists every blacklisted address. SendPulse returns 100 per call, so a large blacklist costs one
+    /// request per 100 addresses.
+    /// </summary>
     /// <param name="cancellationToken">Cancellation token.</param>
     /// <returns>The addresses.</returns>
     Task<IReadOnlyList<string>> GetAllAsync(CancellationToken cancellationToken = default);

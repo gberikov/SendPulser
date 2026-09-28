@@ -11,6 +11,8 @@ All notable changes to this project are documented here. The format follows
 ### Fixed
 
 - `Blacklist.GetAllAsync` returned only the first 100 entries; it now reads every page.
+- Document that `AddressBooks.GetAllAsync` and `Campaigns.GetAllAsync` return the first 100 records when
+  no `limit` is given, and that the campaign `limit` cannot exceed 100.
 
 ## [0.2.0]
 

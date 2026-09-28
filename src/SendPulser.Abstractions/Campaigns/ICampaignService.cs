@@ -9,14 +9,17 @@ namespace SendPulser.Campaigns;
 /// </remarks>
 public interface ICampaignService
 {
-    /// <summary>Lists campaigns.</summary>
-    /// <param name="limit">Maximum number of records to return.</param>
+    /// <summary>
+    /// Lists one page of campaigns. Without <paramref name="limit"/> SendPulse returns the first 100; page
+    /// through the rest with <paramref name="offset"/>.
+    /// </summary>
+    /// <param name="limit">Maximum number of records to return, at most 100; SendPulse rejects a larger value.</param>
     /// <param name="offset">Index of the first record to return.</param>
     /// <param name="order">Sort order, <c>asc</c> or <c>desc</c>.</param>
     /// <param name="statuses">Restricts the result to campaigns in these statuses, see <see cref="CampaignStatus"/>.</param>
     /// <param name="scheduled">When <see langword="true"/>, includes scheduled campaigns.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The campaigns of the account.</returns>
+    /// <returns>The requested page of campaigns.</returns>
     Task<IReadOnlyList<Campaign>> GetAllAsync(
         int? limit = null,
         int? offset = null,

@@ -6,6 +6,14 @@ All notable changes to this project are documented here. The format follows
 
 ## [Unreleased]
 
+## [0.2.1]
+
+### Fixed
+
+- `Blacklist.GetAllAsync` returned only the first 100 entries; it now reads every page.
+- Document that `AddressBooks.GetAllAsync` and `Campaigns.GetAllAsync` return the first 100 records when
+  no `limit` is given, and that the campaign `limit` cannot exceed 100.
+
 ## [0.2.0]
 
 ### Added
@@ -57,6 +65,7 @@ First release. The library was rewritten from scratch; it shares no code and no 
 - Documentation split into pages under `docs/`, linked with absolute URLs so the package READMEs read
   correctly on nuget.org.
 
-[Unreleased]: https://github.com/gberikov/SendPulser/compare/0.2.0...HEAD
+[Unreleased]: https://github.com/gberikov/SendPulser/compare/0.2.1...HEAD
+[0.2.1]: https://github.com/gberikov/SendPulser/compare/0.2.0...0.2.1
 [0.2.0]: https://github.com/gberikov/SendPulser/compare/0.1.0...0.2.0
 [0.1.0]: https://github.com/gberikov/SendPulser/releases/tag/0.1.0

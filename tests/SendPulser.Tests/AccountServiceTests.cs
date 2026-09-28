@@ -1,3 +1,5 @@
+using System.Globalization;
+using System.Text.Json;
 using SendPulser.Tests.Infrastructure;
 
 namespace SendPulser.Tests;
@@ -79,6 +81,41 @@ public class BlacklistServiceTests
 
         Assert.Equal(["a@x.com", "b@x.com"], await client.Blacklist.GetAllAsync());
         await Assert.ThrowsAsync<ArgumentException>(() => client.Blacklist.AddAsync([]));
+    }
+
+    [Theory]
+    [InlineData(250, new[] { "?offset=0", "?offset=100", "?offset=200" })]
+    [InlineData(100, new[] { "?offset=0", "?offset=100" })]
+    [InlineData(0, new[] { "?offset=0" })]
+    public async Task Reads_every_blacklist_page(int total, string[] expectedQueries)
+    {
+        var (client, handler) = TestClient.Create();
+        using var _ = client;
+        var emails = Enumerable.Range(0, total).Select(i => $"user{i}@x.com").ToArray();
+        foreach (var query in expectedQueries)
+        {
+            var offset = int.Parse(query["?offset=".Length..], CultureInfo.InvariantCulture);
+            handler.RespondWith(JsonSerializer.Serialize(emails.Skip(offset).Take(100)));
+        }
+
+        var result = await client.Blacklist.GetAllAsync();
+
+        Assert.Equal(emails, result);
+        Assert.Equal(expectedQueries, handler.Requests.Select(r => r.Query));
+    }
+
+    [Fact]
+    public async Task Stops_paging_the_blacklist_when_the_offset_is_ignored()
+    {
+        var (client, handler) = TestClient.Create();
+        using var _ = client;
+        var page = JsonSerializer.Serialize(Enumerable.Range(0, 100).Select(i => $"user{i}@x.com"));
+        handler.RespondWith(page).RespondWith(page);
+
+        var result = await client.Blacklist.GetAllAsync();
+
+        Assert.Equal(100, result.Count);
+        Assert.Equal(2, handler.Requests.Count);
     }
 }
 
